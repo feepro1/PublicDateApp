@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/registerNavGraph"
+    app:startDestination="@id/registerFragment">
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.main.register.presentation.ui.RegisterFragment"
+        android:label="RegisterFragment">
+
+        <deepLink app:uri="swapLike://register" />
+    </fragment>
+</navigation>
