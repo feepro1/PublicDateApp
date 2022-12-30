@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Assertions
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
-//todo change unit tests
+//todo add new unit tests
 class LoginUseCaseTest {
 
     private val loginRepository = mock<LoginRepository>()
@@ -28,7 +28,7 @@ class LoginUseCaseTest {
         val loginUseCase = LoginUseCase(loginRepository = loginRepository)
         val result = loginUseCase.execute(loginData)
 
-        Assertions.assertEquals(true, result)
+        Assertions.assertEquals(true, result.data)
     }
 
     @Test /** If username is shorter than 3 chars, it's too short */
@@ -99,7 +99,7 @@ class LoginUseCaseTest {
         Assertions.assertTrue(result)
     }
 
-    @Test /** If password is shorter than 5 chars, it's too short */
+    @Test /** If password does not consist a capital letter */
     fun `test invalid login, password does not consist a capital letter`() = runBlocking {
         val loginData = LoginData(
             username = "sq312sff",
@@ -124,11 +124,11 @@ class LoginUseCaseTest {
             email = "somegmail.com"
         )
         Mockito.`when`(loginRepository.login(loginData)).thenReturn(Resource.Error(
-            exception = EmailException("Email does not consist @"), data = false)
+            exception = EmailException("Email does not consist '@'"), data = false)
         )
         val loginUseCase = LoginUseCase(loginRepository = loginRepository)
         val executeResult = loginUseCase.execute(loginData)
-        val result = executeResult.exception?.message == "Email does not consist @"
+        val result = executeResult.exception?.message == "Email does not consist '@'"
 
         Assertions.assertTrue(result)
     }
