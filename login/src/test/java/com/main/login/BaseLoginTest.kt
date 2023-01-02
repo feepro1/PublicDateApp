@@ -2,8 +2,10 @@ package com.main.login
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.main.core.Resource
 import com.main.core.dispatchers.DispatchersList
 import com.main.core.state.InputTextState
+import com.main.login.data.entities.LoginData
 import com.main.login.presentation.communication.LoginCommunication
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.test.StandardTestDispatcher

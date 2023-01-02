@@ -15,10 +15,6 @@ sealed class InputTextState {
             textInputLayout.error = errorMessage
             textInputLayout.isErrorEnabled = errorEnabled
         }
-
-        override fun toString(): String {
-            return "errorMessage: $errorMessage"
-        }
     }
 
     class ShowError(errorMessage: String): AbstractError(errorMessage, true)

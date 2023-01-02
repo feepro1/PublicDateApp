@@ -1,22 +1,19 @@
-package com.main.login.domain.usecase
+package com.main.login.domain.firebase
 
 import com.main.core.Resource
 import com.main.core.exception.EmailException
 import com.main.core.exception.PasswordException
 import com.main.core.exception.UsernameException
 import com.main.login.data.entities.LoginData
-import com.main.login.domain.repository.LoginRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.jupiter.api.Assertions
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
-//todo add new unit tests
-class LoginUseCaseTest {
+class LoginFirebaseRepositoryTest {
 
-    private val loginRepository = mock<LoginRepository>()
-    private val loginUseCase = LoginUseCase(loginRepository)
+    private val loginFirebaseRepository = mock<LoginFirebaseRepository>()
 
     @Test /** If it was successful login */
     fun `test successful login`() = runBlocking {
@@ -25,9 +22,10 @@ class LoginUseCaseTest {
             password = "Qwerty12345",
             email = "some@gmail.com"
         )
-        Mockito.`when`(loginRepository.login(loginData)).thenReturn(Resource.Success(data = true))
-        val result = loginUseCase.execute(loginData)
 
+        Mockito.`when`(loginFirebaseRepository.login(loginData)).thenReturn(Resource.Success(data = true))
+
+        val result = loginFirebaseRepository.login(loginData)
         Assertions.assertEquals(true, result.data)
     }
 
@@ -38,10 +36,10 @@ class LoginUseCaseTest {
             password = "Qwerty12345",
             email = "some@gmail.com"
         )
-        Mockito.`when`(loginRepository.login(loginData)).thenReturn(
+        Mockito.`when`(loginFirebaseRepository.login(loginData)).thenReturn(
             Resource.Error(exception = UsernameException(message = "Username is too short"), data = false)
         )
-        val executeResult = loginUseCase.execute(loginData)
+        val executeResult = loginFirebaseRepository.login(loginData)
         val result = executeResult.exception?.message == "Username is too short"
 
         Assertions.assertTrue(result)
@@ -54,10 +52,10 @@ class LoginUseCaseTest {
             password = "Qwerty12345",
             email = "some@gmail.com"
         )
-        Mockito.`when`(loginRepository.login(loginData)).thenReturn(
+        Mockito.`when`(loginFirebaseRepository.login(loginData)).thenReturn(
             Resource.Error(exception = UsernameException(message = "Username is too long"), data = false)
         )
-        val executeResult = loginUseCase.execute(loginData)
+        val executeResult = loginFirebaseRepository.login(loginData)
         val result = executeResult.exception?.message == "Username is too long"
 
         Assertions.assertTrue(result)
@@ -70,10 +68,10 @@ class LoginUseCaseTest {
             password = "Qwerty12345",
             email = "some@gmail.com"
         )
-        Mockito.`when`(loginRepository.login(loginData)).thenReturn(Resource.Error(
+        Mockito.`when`(loginFirebaseRepository.login(loginData)).thenReturn(Resource.Error(
             exception = UsernameException(message = "Username was not found"), data = false)
         )
-        val executeResult = loginUseCase.execute(loginData)
+        val executeResult = loginFirebaseRepository.login(loginData)
         val result = executeResult.exception?.message == "Username was not found"
 
         Assertions.assertTrue(result)
@@ -86,10 +84,10 @@ class LoginUseCaseTest {
             password = "hSl1",
             email = "some@gmail.com"
         )
-        Mockito.`when`(loginRepository.login(loginData)).thenReturn(Resource.Error(
+        Mockito.`when`(loginFirebaseRepository.login(loginData)).thenReturn(Resource.Error(
             exception = PasswordException(message = "Password is too short"), data = false)
         )
-        val executeResult = loginUseCase.execute(loginData)
+        val executeResult = loginFirebaseRepository.login(loginData)
         val result = executeResult.exception?.message == "Password is too short"
 
         Assertions.assertTrue(result)
@@ -102,10 +100,10 @@ class LoginUseCaseTest {
             password = "sel1423",
             email = "some@gmail.com"
         )
-        Mockito.`when`(loginRepository.login(loginData)).thenReturn(Resource.Error(
+        Mockito.`when`(loginFirebaseRepository.login(loginData)).thenReturn(Resource.Error(
             exception = PasswordException(message = "Password does not consist a capital letter"), data = false)
         )
-        val executeResult = loginUseCase.execute(loginData)
+        val executeResult = loginFirebaseRepository.login(loginData)
         val result = executeResult.exception?.message == "Password does not consist a capital letter"
 
         Assertions.assertTrue(result)
@@ -118,10 +116,10 @@ class LoginUseCaseTest {
             password = "Hhe1312",
             email = "somegmail.com"
         )
-        Mockito.`when`(loginRepository.login(loginData)).thenReturn(Resource.Error(
+        Mockito.`when`(loginFirebaseRepository.login(loginData)).thenReturn(Resource.Error(
             exception = EmailException("Email does not consist '@'"), data = false)
         )
-        val executeResult = loginUseCase.execute(loginData)
+        val executeResult = loginFirebaseRepository.login(loginData)
         val result = executeResult.exception?.message == "Email does not consist '@'"
 
         Assertions.assertTrue(result)
