@@ -54,13 +54,13 @@ interface ObserveLoginErrors {
 }
 
 interface LoginEmailCommunication: Communication.Mutable<InputTextState> {
-    class Base: Communication.Ui<InputTextState>(), LoginEmailCommunication
+    class Base: Communication.Post<InputTextState>(), LoginEmailCommunication
 }
 
 interface LoginUsernameCommunication: Communication.Mutable<InputTextState> {
-    class Base: Communication.Ui<InputTextState>(), LoginUsernameCommunication
+    class Base: Communication.Post<InputTextState>(), LoginUsernameCommunication
 }
 
 interface LoginPasswordCommunication: Communication.Mutable<InputTextState> {
-    class Base: Communication.Ui<InputTextState>(), LoginPasswordCommunication
+    class Base: Communication.Post<InputTextState>(), LoginPasswordCommunication
 }

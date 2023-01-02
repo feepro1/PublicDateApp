@@ -17,7 +17,7 @@ class LoginUseCaseTest {
 
     private val loginRepository = mock<LoginRepository>()
 
-    @Test /** if was successful login */
+    @Test /** If it was successful login */
     fun `test successful login`() = runBlocking {
         val loginData = LoginData(
             username = "somename",

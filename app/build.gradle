@@ -8,6 +8,10 @@ android {
     namespace 'com.main.swaplike'
     compileSdk 33
 
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
+
     defaultConfig {
         applicationId "com.main.swaplike"
         minSdk 21
