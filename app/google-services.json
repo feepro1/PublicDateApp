@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "626224771312",
+    "project_id": "publicdateapp",
+    "storage_bucket": "publicdateapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:626224771312:android:52f97a9088f08eca3f9235",
+        "android_client_info": {
+          "package_name": "com.main.swaplike"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "626224771312-vpt5am4plbl0lu0pfu6hlclfjt2efft9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.main.swaplike",
+            "certificate_hash": "9c45469bdd5cd7a6605a13e2bbb1bfdb2a5fb78a"
+          }
+        },
+        {
+          "client_id": "626224771312-12q9absmikaual7lumr81f80o9uoge8j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDr_ajnu3ZdY--ygT1lJY6kwX3ET6xCfxQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "626224771312-12q9absmikaual7lumr81f80o9uoge8j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

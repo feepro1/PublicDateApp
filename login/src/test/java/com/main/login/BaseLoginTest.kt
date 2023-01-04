@@ -15,19 +15,12 @@ abstract class BaseLoginTest {
 
     protected class TestLoginCommunication : LoginCommunication {
 
-        var usernameError = mutableListOf<InputTextState.ShowError>()
         var passwordError = mutableListOf<InputTextState.ShowError>()
         var emailError = mutableListOf<InputTextState.ShowError>()
 
         override fun manageEmailError(inputTextState: InputTextState) {
             if (inputTextState is InputTextState.ShowError) {
                 emailError.add(inputTextState)
-            }
-        }
-
-        override fun manageUsernameError(inputTextState: InputTextState) {
-            if (inputTextState is InputTextState.ShowError) {
-                usernameError.add(inputTextState)
             }
         }
 
@@ -38,8 +31,6 @@ abstract class BaseLoginTest {
         }
 
         override fun observeLoginEmailError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
-
-        override fun observeLoginUsernameError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
 
         override fun observeLoginPasswordError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
     }

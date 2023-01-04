@@ -6,13 +6,9 @@ interface ManageLoginError {
 
     fun clearEmailError()
 
-    fun clearUsernameError()
-
     fun clearPasswordError()
 
     fun showEmailMessage(exception: ApplicationException)
-
-    fun showUsernameMessage(exception: ApplicationException)
 
     fun showPasswordMessage(exception: ApplicationException)
 }

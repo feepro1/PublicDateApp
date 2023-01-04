@@ -5,7 +5,6 @@ import com.main.login.domain.usecase.LoginUseCase
 import com.main.login.presentation.communication.LoginCommunication
 import com.main.login.presentation.communication.LoginEmailCommunication
 import com.main.login.presentation.communication.LoginPasswordCommunication
-import com.main.login.presentation.communication.LoginUsernameCommunication
 import com.main.login.presentation.viewmodel.LoginViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -29,19 +28,12 @@ class LoginPresentationModule {
     }
 
     @Provides
-    fun provideLoginUsernameCommunication(): LoginUsernameCommunication {
-        return LoginUsernameCommunication.Base()
-    }
-
-    @Provides
     fun provideLoginCommunication(
         loginEmailCommunication: LoginEmailCommunication,
-        loginUsernameCommunication: LoginUsernameCommunication,
         loginPasswordCommunication: LoginPasswordCommunication
     ): LoginCommunication {
         return LoginCommunication.Base(
             loginEmailCommunication = loginEmailCommunication,
-            loginUsernameCommunication = loginUsernameCommunication,
             loginPasswordCommunication = loginPasswordCommunication
         )
     }

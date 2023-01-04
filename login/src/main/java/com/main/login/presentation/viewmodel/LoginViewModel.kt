@@ -39,9 +39,6 @@ class LoginViewModel(
                 is EmailException -> {
                     loginCommunication.manageEmailError(InputTextState.ShowError(result.exception?.message!!))
                 }
-                is UsernameException -> {
-                    loginCommunication.manageUsernameError(InputTextState.ShowError(result.exception?.message!!))
-                }
             }
         }
     }
@@ -49,32 +46,15 @@ class LoginViewModel(
     override fun observeLoginEmailError(owner: LifecycleOwner, observer: Observer<InputTextState>) =
         loginCommunication.observeLoginEmailError(owner, observer)
 
-    override fun observeLoginUsernameError(
-        owner: LifecycleOwner,
-        observer: Observer<InputTextState>
-    ) =
-        loginCommunication.observeLoginUsernameError(owner, observer)
-
-    override fun observeLoginPasswordError(
-        owner: LifecycleOwner,
-        observer: Observer<InputTextState>
-    ) =
+    override fun observeLoginPasswordError(owner: LifecycleOwner, observer: Observer<InputTextState>) =
         loginCommunication.observeLoginPasswordError(owner, observer)
 
-    override fun clearEmailError() =
-        loginCommunication.manageEmailError(InputTextState.ClearError())
+    override fun clearEmailError() = loginCommunication.manageEmailError(InputTextState.ClearError())
 
-    override fun clearUsernameError() =
-        loginCommunication.manageUsernameError(InputTextState.ClearError())
-
-    override fun clearPasswordError() =
-        loginCommunication.managePasswordError(InputTextState.ClearError())
+    override fun clearPasswordError() = loginCommunication.managePasswordError(InputTextState.ClearError())
 
     override fun showEmailMessage(exception: ApplicationException) =
         loginCommunication.manageEmailError(InputTextState.ShowError(exception.message!!))
-
-    override fun showUsernameMessage(exception: ApplicationException) =
-        loginCommunication.manageUsernameError(InputTextState.ShowError(exception.message!!))
 
     override fun showPasswordMessage(exception: ApplicationException) =
         loginCommunication.managePasswordError(InputTextState.ShowError(exception.message!!))

@@ -42,13 +42,8 @@ class LoginFragment : BaseFragment() {
             inputTextState.apply(binding.etPassword, binding.textInputLayoutPassword)
         }
 
-        loginViewModel.observeLoginUsernameError(this) { inputTextState ->
-            inputTextState.apply(binding.etUsername, binding.textInputLayoutUsername)
-        }
-
         binding.btnLogin.setOnClickListener {
             val loginData = LoginData(
-                username = binding.etUsername.text.toString().trim(),
                 password = binding.etPassword.text.toString().trim(),
                 email = binding.etEmail.text.toString().trim()
             )
