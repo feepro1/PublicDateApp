@@ -4,20 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.main.core.base.BaseFragment
-import com.main.login.R
 import com.main.login.data.entities.LoginData
 import com.main.login.databinding.FragmentLoginBinding
 import com.main.login.di.provider.ProvideLoginComponent
 import com.main.login.presentation.viewmodel.LoginViewModel
 import com.main.login.presentation.viewmodel.LoginViewModelFactory
-import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.log
 
 class LoginFragment : BaseFragment() {
     private val binding by lazy { FragmentLoginBinding.inflate(layoutInflater) }
@@ -48,6 +43,10 @@ class LoginFragment : BaseFragment() {
                 email = binding.etEmail.text.toString().trim()
             )
             loginViewModel.login(loginData)
+        }
+
+        binding.tvDoNotHaveAnAccount.setOnClickListener {
+            loginViewModel.navigateToRegister(findNavController())
         }
     }
 

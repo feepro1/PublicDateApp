@@ -4,32 +4,32 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.main.core.dispatchers.DispatchersList
 import com.main.core.exception.ApplicationException
 import com.main.core.exception.EmailException
 import com.main.core.exception.PasswordException
-import com.main.core.exception.UsernameException
 import com.main.core.state.InputTextState
 import com.main.login.data.entities.LoginData
 import com.main.login.domain.exception.ManageLoginError
+import com.main.login.domain.navigation.LoginNavigation
 import com.main.login.domain.usecase.LoginUseCase
 import com.main.login.presentation.communication.LoginCommunication
 import com.main.login.presentation.communication.ObserveLoginErrors
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-//todo null safety
 class LoginViewModel(
     private val loginUseCase: LoginUseCase,
     private val loginCommunication: LoginCommunication,
-    private val dispatchers: DispatchersList
+    private val dispatchers: DispatchersList,
+    private val loginNavigation: LoginNavigation
 ) : ViewModel(), ObserveLoginErrors, ManageLoginError {
 
     fun login(loginData: LoginData) {
         viewModelScope.launch(dispatchers.io()) {
             val result = loginUseCase.execute(loginData)
-            //todo make business logic
             if (result.data == true) {
+                //todo navigate to main fragment
                 return@launch
             }
             when (result.exception) {
@@ -41,6 +41,10 @@ class LoginViewModel(
                 }
             }
         }
+    }
+
+    fun navigateToRegister(navController: NavController) {
+        loginNavigation.navigateToRegisterFragment(navController)
     }
 
     override fun observeLoginEmailError(owner: LifecycleOwner, observer: Observer<InputTextState>) =

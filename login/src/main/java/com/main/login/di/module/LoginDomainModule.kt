@@ -5,6 +5,7 @@ import com.main.login.data.realization.LoginRepositoryImpl
 import com.main.login.data.validation.ValidateLoginData
 import com.main.login.domain.exception.HandleFirebaseLoginException
 import com.main.login.domain.firebase.LoginFirebaseRepository
+import com.main.login.domain.navigation.LoginNavigation
 import com.main.login.domain.repository.LoginRepository
 import com.main.login.domain.usecase.LoginUseCase
 import dagger.Module
@@ -48,5 +49,10 @@ class LoginDomainModule {
     @Provides
     fun provideHandleFirebaseException(): HandleFirebaseLoginException {
         return HandleFirebaseLoginException.Base()
+    }
+
+    @Provides
+    fun provideLoginNavigation(): LoginNavigation {
+        return LoginNavigation.Base()
     }
 }

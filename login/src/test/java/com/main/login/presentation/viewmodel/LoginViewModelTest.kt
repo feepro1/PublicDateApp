@@ -3,19 +3,17 @@ package com.main.login.presentation.viewmodel
 import com.main.core.Resource
 import com.main.core.exception.EmailException
 import com.main.core.exception.PasswordException
-import com.main.login.data.exception.message.LoginExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT
-import com.main.login.data.exception.message.LoginExceptionMessages.PASSWORD_DOES_NOT_CONSIST_A_CAPITAL_LETTER
-import com.main.login.data.exception.message.LoginExceptionMessages.PASSWORD_IS_TOO_SHORT
 import com.main.core.state.InputTextState
 import com.main.login.BaseLoginTest
 import com.main.login.data.entities.LoginData
 import com.main.login.data.exception.message.LoginExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT_UI
 import com.main.login.data.exception.message.LoginExceptionMessages.EMAIL_IS_EMPTY
-import com.main.login.data.exception.message.LoginExceptionMessages.EMAIL_WAS_NOT_FOUND
 import com.main.login.data.exception.message.LoginExceptionMessages.EMAIL_WAS_NOT_FOUND_UI
+import com.main.login.data.exception.message.LoginExceptionMessages.PASSWORD_DOES_NOT_CONSIST_A_CAPITAL_LETTER
 import com.main.login.data.exception.message.LoginExceptionMessages.PASSWORD_IS_EMPTY
-import com.main.login.data.exception.message.LoginExceptionMessages.PASSWORD_IS_INCORRECT
 import com.main.login.data.exception.message.LoginExceptionMessages.PASSWORD_IS_INCORRECT_UI
+import com.main.login.data.exception.message.LoginExceptionMessages.PASSWORD_IS_TOO_SHORT
+import com.main.login.domain.navigation.LoginNavigation
 import com.main.login.domain.repository.LoginRepository
 import com.main.login.domain.usecase.LoginUseCase
 import kotlinx.coroutines.runBlocking
@@ -33,7 +31,8 @@ class LoginViewModelTest: BaseLoginTest() {
     private val loginViewModel = LoginViewModel(
         loginUseCase = loginUseCase,
         loginCommunication = loginCommunication,
-        dispatchers = TestDispatchersList()
+        dispatchers = TestDispatchersList(),
+        loginNavigation = LoginNavigation.Base()
     )
 
     @BeforeEach
