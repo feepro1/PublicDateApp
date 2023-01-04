@@ -1,18 +1,14 @@
-package com.main.register.presentation.ui
+package com.main.register.presentation.ui.start
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.NavOptions
-import androidx.navigation.fragment.findNavController
 import com.main.core.base.BaseFragment
-import com.main.core.navigation.DeepLinks.LOGIN_DEEP_LINK
-import com.main.register.R
-import com.main.register.databinding.FragmentRegisterBinding
+import com.main.register.databinding.FragmentStartRegisterBinding
 
-class RegisterFragment: BaseFragment() {
-    private val binding by lazy { FragmentRegisterBinding.inflate(layoutInflater) }
+class StartRegisterFragment : BaseFragment() {
+    private val binding by lazy { FragmentStartRegisterBinding.inflate(layoutInflater) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
