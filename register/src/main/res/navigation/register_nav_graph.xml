@@ -2,13 +2,20 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/registerNavGraph"
-    app:startDestination="@id/registerFragment">
+    app:startDestination="@id/startRegisterFragment">
 
     <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.main.register.presentation.ui.RegisterFragment"
-        android:label="RegisterFragment">
+        android:id="@+id/startRegisterFragment"
+        android:name="com.main.register.presentation.ui.start.StartRegisterFragment">
 
-        <deepLink app:uri="swapLike://register" />
+        <deepLink app:uri="swapLike://startRegister"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/finishRegisterFragment"
+        android:name="com.main.register.presentation.ui.finish.FinishRegisterFragment">
+
+        <deepLink app:uri="swapLike://finishRegister"/>
+    </fragment>
+
 </navigation>
