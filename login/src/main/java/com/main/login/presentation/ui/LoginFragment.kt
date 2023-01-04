@@ -1,12 +1,14 @@
 package com.main.login.presentation.ui
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.main.core.base.BaseFragment
+import com.main.core.state.ApplicationTextWatcher
 import com.main.login.data.entities.LoginData
 import com.main.login.databinding.FragmentLoginBinding
 import com.main.login.di.provider.ProvideLoginComponent
@@ -19,6 +21,13 @@ class LoginFragment : BaseFragment() {
     @Inject
     lateinit var loginViewModelFactory: LoginViewModelFactory
     private val loginViewModel: LoginViewModel by activityViewModels { loginViewModelFactory }
+
+    private val emailWatcher = object : ApplicationTextWatcher() {
+        override fun afterTextChanged(s: Editable?) = loginViewModel.clearEmailError()
+    }
+    private val passwordWatcher = object : ApplicationTextWatcher() {
+        override fun afterTextChanged(s: Editable?) = loginViewModel.clearPasswordError()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,4 +59,15 @@ class LoginFragment : BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.etPassword.addTextChangedListener(passwordWatcher)
+        binding.etEmail.addTextChangedListener(emailWatcher)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.etPassword.removeTextChangedListener(passwordWatcher)
+        binding.etEmail.removeTextChangedListener(emailWatcher)
+    }
 }
