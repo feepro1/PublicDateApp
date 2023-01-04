@@ -3,28 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragments.authentication.login.LoginFragment">
+    android:layout_height="match_parent">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutEmail"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:hint="@string/email"
         app:endIconMode="clear_text"
         app:helperTextTextColor="@color/red_200"
         app:layout_constraintEnd_toEndOf="@+id/btnLogin"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/btnLogin"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutUsername"
+        app:layout_constraintTop_toBottomOf="@+id/tvSignIn"
         app:startIconDrawable="@drawable/icon_email">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
             android:singleLine="true"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -48,29 +48,7 @@
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutUsername"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:hint="@string/username"
-        app:endIconMode="clear_text"
-        app:helperTextTextColor="@color/red_200"
-        app:layout_constraintEnd_toEndOf="@+id/btnLogin"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/btnLogin"
-        app:layout_constraintTop_toBottomOf="@+id/tvSignIn"
-        app:startIconDrawable="@drawable/icon_username">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etUsername"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:inputType="textPassword"
             android:singleLine="true"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -100,7 +78,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="7dp"
         android:layout_marginEnd="40dp"
         android:background="@drawable/background_for_button_login"
         android:paddingTop="10dp"
@@ -119,7 +97,7 @@
         android:id="@+id/tvSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="25dp"
         android:text="@string/sign_in"
         android:textColor="@color/black"
         android:textSize="50sp"
@@ -132,10 +110,11 @@
         android:id="@+id/tvDoNotHaveAnAccount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="@string/do_not_have_an_account"
         android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/btnLogin"
         app:layout_constraintStart_toStartOf="@+id/btnLogin"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPassword" />
