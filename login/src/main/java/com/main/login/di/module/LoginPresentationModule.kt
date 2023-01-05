@@ -38,6 +38,7 @@ class LoginPresentationModule {
             loginPasswordCommunication = loginPasswordCommunication
         )
     }
+
     @Provides
     fun provideLoginViewModelFactory(
         loginUseCase: LoginUseCase,

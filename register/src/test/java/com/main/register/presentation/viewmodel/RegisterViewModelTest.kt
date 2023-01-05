@@ -15,6 +15,7 @@ import com.main.register.data.exception.message.RegisterExceptionMessages.PASSWO
 import com.main.register.data.exception.message.RegisterExceptionMessages.PASSWORD_DOES_NOT_CONSIST_A_CAPITAL_LETTER
 import com.main.register.data.exception.message.RegisterExceptionMessages.PASSWORD_IS_EMPTY
 import com.main.register.data.exception.message.RegisterExceptionMessages.PASSWORD_IS_TOO_SHORT
+import com.main.register.domain.navigation.RegisterNavigation
 import com.main.register.domain.repository.RegisterRepository
 import com.main.register.domain.usecase.RegisterUseCase
 import kotlinx.coroutines.runBlocking
