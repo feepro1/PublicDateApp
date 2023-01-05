@@ -60,7 +60,7 @@ class RegisterUseCaseTest {
     @Test /** If email bad format (if it does not consist '@') */
     fun `test invalid register, email is incorrect`() = runBlocking {
         val registerData = RegisterData(
-            email = "", password = "Qwerty12345",
+            email = "somename", password = "Qwerty12345",
             confirmPassword = "Qwerty12345", avatar = byteArrayOf(),
             firstName = "Max", lastName = "Pit",
         )
@@ -125,23 +125,6 @@ class RegisterUseCaseTest {
         Assertions.assertTrue(result)
     }
 
-    @Test /** if passwords do not match */
-    fun `test invalid register, passwords do not match`() = runBlocking {
-        val registerData = RegisterData(
-            email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatar = byteArrayOf(),
-            firstName = "Max", lastName = "Pit",
-        )
-
-        Mockito.`when`(registerRepository.register(registerData)).thenReturn(
-            Resource.Error(false, ConfirmPasswordException(PASSWORDS_DO_NOT_MATCH))
-        )
-        val executeResult = registerUseCase.execute(registerData)
-        val result = executeResult.exception?.message == PASSWORDS_DO_NOT_MATCH
-
-        Assertions.assertTrue(result)
-    }
-
     @Test /** If confirm password is empty */
     fun `test invalid register, confirm password is empty`() = runBlocking {
         val registerData = RegisterData(
@@ -155,6 +138,23 @@ class RegisterUseCaseTest {
         )
         val executeResult = registerUseCase.execute(registerData)
         val result = executeResult.exception?.message == CONFIRM_PASSWORD_IS_EMPTY
+
+        Assertions.assertTrue(result)
+    }
+
+    @Test /** if passwords do not match */
+    fun `test invalid register, passwords do not match`() = runBlocking {
+        val registerData = RegisterData(
+            email = "some@gmail.com", password = "Qwerty12345",
+            confirmPassword = "Qwerty1234", avatar = byteArrayOf(),
+            firstName = "Max", lastName = "Pit",
+        )
+
+        Mockito.`when`(registerRepository.register(registerData)).thenReturn(
+            Resource.Error(false, ConfirmPasswordException(PASSWORDS_DO_NOT_MATCH))
+        )
+        val executeResult = registerUseCase.execute(registerData)
+        val result = executeResult.exception?.message == PASSWORDS_DO_NOT_MATCH
 
         Assertions.assertTrue(result)
     }

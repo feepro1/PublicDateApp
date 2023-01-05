@@ -23,7 +23,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
-class LoginViewModelTest: BaseLoginTest() {
+class LoginViewModelTest : BaseLoginTest() {
 
     private val loginRepository = mock<LoginRepository>()
     private val loginUseCase = LoginUseCase(loginRepository)
@@ -47,7 +47,8 @@ class LoginViewModelTest: BaseLoginTest() {
 
         loginViewModel.login(loginData)
 
-        val result = loginCommunication.emailError.isEmpty() && loginCommunication.passwordError.isEmpty()
+        val result = loginCommunication.emailError.isEmpty() &&
+                loginCommunication.passwordError.isEmpty()
         Assertions.assertTrue(result)
     }
 
