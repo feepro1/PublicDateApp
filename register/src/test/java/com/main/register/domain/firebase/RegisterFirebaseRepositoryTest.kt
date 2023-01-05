@@ -15,7 +15,7 @@ class RegisterFirebaseRepositoryTest {
     private val registerFirebaseRepository = mock<RegisterFirebaseRepository>()
 
     @Test /** If it was successful register */
-    fun `test successful register`() {
+    fun `test successful register`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
             confirmPassword = "Qwerty12345", avatar = byteArrayOf(),
