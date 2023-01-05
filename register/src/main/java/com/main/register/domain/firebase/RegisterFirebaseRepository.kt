@@ -1,7 +1,9 @@
 package com.main.register.domain.firebase
 
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.main.core.Resource
+import com.main.register.data.database.FirebaseUserStorageRepository
 import com.main.register.data.entities.RegisterData
 import com.main.register.domain.exception.HandleFirebaseRegisterException
 import kotlinx.coroutines.tasks.await
@@ -11,16 +13,17 @@ interface RegisterFirebaseRepository {
     suspend fun register(registerData: RegisterData): Resource<Boolean>
 
     class Base(
-        private val firebaseAuth: FirebaseAuth,
-        private val handleFirebaseRegisterException: HandleFirebaseRegisterException
+        private val firebase: Firebase,
+        private val handleFirebaseRegisterException: HandleFirebaseRegisterException,
+        private val firebaseUserStorageRepository: FirebaseUserStorageRepository
     ): RegisterFirebaseRepository {
 
         override suspend fun register(registerData: RegisterData): Resource<Boolean> {
             //todo make register logic
-            val task = firebaseAuth.createUserWithEmailAndPassword(registerData.email, registerData.password)
+            val task = firebase.auth.createUserWithEmailAndPassword(registerData.email, registerData.password)
             return try {
                 task.await()
-                Resource.Success(true)
+                firebaseUserStorageRepository.addUser(registerData)
             } catch (e: Exception) {
                 handleFirebaseRegisterException.handle(task.exception ?: Exception())
             }

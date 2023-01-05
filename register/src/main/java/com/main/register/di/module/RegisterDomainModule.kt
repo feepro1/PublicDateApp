@@ -1,6 +1,9 @@
 package com.main.register.di.module
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.initialize
+import com.main.register.data.database.FirebaseUserStorageRepository
 import com.main.register.data.realization.RegisterRepositoryImpl
 import com.main.register.data.validation.ValidateRegisterData
 import com.main.register.domain.exception.HandleFirebaseRegisterException
@@ -32,18 +35,20 @@ class RegisterDomainModule {
 
     @Provides
     fun provideRegisterFirebaseRepository(
-        firebaseAuth: FirebaseAuth,
-        handleFirebaseRegisterException: HandleFirebaseRegisterException
+        firebase: Firebase,
+        handleFirebaseRegisterException: HandleFirebaseRegisterException,
+        firebaseUserStorageRepository: FirebaseUserStorageRepository
     ): RegisterFirebaseRepository {
         return RegisterFirebaseRepository.Base(
-            firebaseAuth = firebaseAuth,
-            handleFirebaseRegisterException = handleFirebaseRegisterException
+            firebase = firebase,
+            handleFirebaseRegisterException = handleFirebaseRegisterException,
+            firebaseUserStorageRepository = firebaseUserStorageRepository
         )
     }
 
     @Provides
-    fun provideFirebaseAuth(): FirebaseAuth {
-        return FirebaseAuth.getInstance()
+    fun provideFirebaseAuth(): Firebase {
+        return Firebase
     }
 
     @Provides
