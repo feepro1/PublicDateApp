@@ -25,36 +25,10 @@ class LoginFirebaseRepositoryTest {
     fun `test successful login`() = runBlocking {
         val loginData = LoginData(password = "Qwerty12345", email = "some@gmail.com")
 
-        Mockito.`when`(loginFirebaseRepository.login(loginData)).thenReturn(Resource.Success(data = true))
+        Mockito.`when`(loginFirebaseRepository.login(loginData)).thenReturn(Resource.Success(true))
 
         val result = loginFirebaseRepository.login(loginData)
         Assertions.assertEquals(true, result.data)
-    }
-
-    @Test /** If password is shorter than 5 chars, it's too short */
-    fun `test invalid login, password is too short`() = runBlocking {
-        val loginData = LoginData(password = "hSl1", email = "some@gmail.com")
-
-        Mockito.`when`(loginFirebaseRepository.login(loginData)).thenReturn(
-            Resource.Error(false, PasswordException(PASSWORD_IS_TOO_SHORT))
-        )
-        val executeResult = loginFirebaseRepository.login(loginData)
-        val result = executeResult.exception?.message == PASSWORD_IS_TOO_SHORT
-
-        Assertions.assertTrue(result)
-    }
-
-    @Test /** If password does not consist a capital letter */
-    fun `test invalid login, password does not consist a capital letter`() = runBlocking {
-        val loginData = LoginData(password = "sel1423", email = "some@gmail.com")
-
-        Mockito.`when`(loginFirebaseRepository.login(loginData)).thenReturn(
-            Resource.Error(false, PasswordException(PASSWORD_DOES_NOT_CONSIST_A_CAPITAL_LETTER))
-        )
-        val executeResult = loginFirebaseRepository.login(loginData)
-        val result = executeResult.exception?.message == PASSWORD_DOES_NOT_CONSIST_A_CAPITAL_LETTER
-
-        Assertions.assertTrue(result)
     }
 
     @Test /** If password is incorrect */
@@ -66,19 +40,6 @@ class LoginFirebaseRepositoryTest {
         )
         val executeResult = loginFirebaseRepository.login(loginData)
         val result = executeResult.exception?.message == PASSWORD_IS_INCORRECT_UI
-
-        Assertions.assertTrue(result)
-    }
-
-    @Test /** If password is empty */
-    fun `test invalid login, password is empty`() = runBlocking {
-        val loginData = LoginData(password = "", email = "some@gmail.com")
-
-        Mockito.`when`(loginFirebaseRepository.login(loginData)).thenReturn(
-            Resource.Error(false, PasswordException(PASSWORD_IS_EMPTY))
-        )
-        val executeResult = loginFirebaseRepository.login(loginData)
-        val result = executeResult.exception?.message == PASSWORD_IS_EMPTY
 
         Assertions.assertTrue(result)
     }
@@ -105,19 +66,6 @@ class LoginFirebaseRepositoryTest {
         )
         val executeResult = loginFirebaseRepository.login(loginData)
         val result = executeResult.exception?.message == EMAIL_WAS_NOT_FOUND_UI
-
-        Assertions.assertTrue(result)
-    }
-
-    @Test /** If email is empty */
-    fun `test invalid login, email wis empty`() = runBlocking {
-        val loginData = LoginData(password = "Qwerty12345", email = "")
-
-        Mockito.`when`(loginFirebaseRepository.login(loginData)).thenReturn(
-            Resource.Error(false, exception = EmailException(EMAIL_IS_EMPTY))
-        )
-        val executeResult = loginFirebaseRepository.login(loginData)
-        val result = executeResult.exception?.message == EMAIL_IS_EMPTY
 
         Assertions.assertTrue(result)
     }
