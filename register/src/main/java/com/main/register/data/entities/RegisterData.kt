@@ -1,12 +1,12 @@
 package com.main.register.data.entities
 
 data class RegisterData(
-    val email: String,
-    val password: String,
-    val confirmPassword: String,
-    val avatar: ByteArray,
-    val firstName: String,
-    val lastName: String
+    val email: String = "",
+    val password: String = "",
+    val confirmPassword: String = "",
+    val avatar: ByteArray = byteArrayOf(),
+    val firstName: String = "",
+    val lastName: String = ""
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

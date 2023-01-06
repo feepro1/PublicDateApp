@@ -9,11 +9,18 @@ interface RegisterNavigation {
 
     fun navigateToLoginFragment(navController: NavController)
 
+    fun navigateToFinishRegisterFragment(navController: NavController)
+
     class Base: RegisterNavigation {
 
         override fun navigateToLoginFragment(navController: NavController) {
             val navOptions = NavOptions.Builder().setPopUpTo(R.id.registerNavGraph, true).build()
+
             navController.navigate(DeepLinks.LOGIN_DEEP_LINK, navOptions)
+        }
+
+        override fun navigateToFinishRegisterFragment(navController: NavController) {
+            navController.navigate(DeepLinks.FINISH_REGISTER_DEEP_LINK)
         }
     }
 }

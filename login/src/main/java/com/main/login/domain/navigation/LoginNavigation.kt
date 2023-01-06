@@ -2,6 +2,7 @@ package com.main.login.domain.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
 import com.main.core.navigation.DeepLinks.FINISH_REGISTER_DEEP_LINK
 import com.main.core.navigation.DeepLinks.START_REGISTER_DEEP_LINK
 import com.main.login.R

@@ -55,7 +55,7 @@ class LoginFragment : BaseFragment() {
         }
 
         binding.tvDoNotHaveAnAccount.setOnClickListener {
-            loginViewModel.navigateToRegister(findNavController())
+            loginViewModel.navigateToStartRegisterFragment(findNavController())
         }
     }
 

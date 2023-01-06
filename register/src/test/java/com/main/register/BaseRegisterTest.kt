@@ -48,15 +48,15 @@ abstract class BaseRegisterTest {
             }
         }
 
-        override fun observeLoginEmailError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
+        override fun observeRegisterEmailError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
 
-        override fun observeLoginPasswordError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
+        override fun observeRegisterPasswordError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
 
-        override fun observeLoginConfirmPasswordError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
+        override fun observeRegisterConfirmPasswordError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
 
-        override fun observeLoginFirstNameError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
+        override fun observeRegisterFirstNameError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
 
-        override fun observeLoginLastNameError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
+        override fun observeRegisterLastNameError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
     }
 
     protected class TestDispatchersList(

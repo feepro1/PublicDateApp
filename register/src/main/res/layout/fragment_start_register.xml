@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Theme.SwapLike"
+    android:theme="@style/Theme.SwapLike"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -16,9 +16,9 @@
         android:text="@string/have_an_account"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/btnRegister"
-        app:layout_constraintStart_toStartOf="@+id/btnRegister"
-        app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
+        app:layout_constraintEnd_toEndOf="@+id/btnNext"
+        app:layout_constraintStart_toStartOf="@+id/btnNext"
+        app:layout_constraintTop_toBottomOf="@+id/btnNext" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutConfirmPassword"
@@ -29,9 +29,9 @@
         android:hint="@string/confirm_password"
         app:endIconMode="password_toggle"
         app:helperTextTextColor="@color/red_200"
-        app:layout_constraintEnd_toEndOf="@+id/btnRegister"
+        app:layout_constraintEnd_toEndOf="@+id/btnNext"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/btnRegister"
+        app:layout_constraintStart_toStartOf="@+id/btnNext"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail"
         app:startIconDrawable="@drawable/icon_password">
 
@@ -52,9 +52,9 @@
         android:hint="@string/email"
         app:endIconMode="clear_text"
         app:helperTextTextColor="@color/red_200"
-        app:layout_constraintEnd_toEndOf="@+id/btnRegister"
+        app:layout_constraintEnd_toEndOf="@+id/btnNext"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/btnRegister"
+        app:layout_constraintStart_toStartOf="@+id/btnNext"
         app:layout_constraintTop_toBottomOf="@+id/tvSignUp"
         app:startIconDrawable="@drawable/icon_email">
 
@@ -75,9 +75,9 @@
         android:hint="@string/password"
         app:endIconMode="password_toggle"
         app:helperTextTextColor="@color/red_200"
-        app:layout_constraintEnd_toEndOf="@+id/btnRegister"
+        app:layout_constraintEnd_toEndOf="@+id/btnNext"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/btnRegister"
+        app:layout_constraintStart_toStartOf="@+id/btnNext"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail"
         app:startIconDrawable="@drawable/icon_password">
 
@@ -90,7 +90,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnRegister"
+        android:id="@+id/btnNext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"

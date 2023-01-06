@@ -33,13 +33,15 @@ class RegisterPresentationModule {
         registerConfirmPasswordCommunication: RegisterConfirmPasswordCommunication,
         registerFirstNameCommunication: RegisterFirstNameCommunication,
         registerLastNameCommunication: RegisterLastNameCommunication,
+        registerRegisterDataCommunication: RegisterRegisterDataCommunication
     ): RegisterCommunication {
         return RegisterCommunication.Base(
             registerEmailCommunication = registerEmailCommunication,
             registerPasswordCommunication = registerPasswordCommunication,
             registerConfirmPasswordCommunication = registerConfirmPasswordCommunication,
             registerFirstNameCommunication = registerFirstNameCommunication,
-            registerLastNameCommunication = registerLastNameCommunication
+            registerLastNameCommunication = registerLastNameCommunication,
+            registerRegisterDataCommunication
         )
     }
 
@@ -66,6 +68,11 @@ class RegisterPresentationModule {
     @Provides
     fun provideRegisterLastNameCommunication(): RegisterLastNameCommunication {
         return RegisterLastNameCommunication.Base()
+    }
+
+    @Provides
+    fun provideRegisterRegisterDataCommunication(): RegisterRegisterDataCommunication {
+        return RegisterRegisterDataCommunication.Base()
     }
 
     @Provides
