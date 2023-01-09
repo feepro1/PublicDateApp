@@ -9,6 +9,7 @@ import com.main.core.dispatchers.DispatchersList
 import com.main.core.exception.*
 import com.main.core.state.InputTextState
 import com.main.register.data.entities.RegisterData
+import com.main.register.data.validation.ValidateStartRegisterData
 import com.main.register.domain.exception.ManageRegisterCommunications
 import com.main.register.domain.navigation.RegisterNavigation
 import com.main.register.domain.usecase.RegisterUseCase
@@ -18,10 +19,11 @@ import com.main.register.presentation.communication.ValueRegisterCommunications
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(
-    val registerUseCase: RegisterUseCase,
-    val registerCommunication: RegisterCommunication,
-    val dispatchers: DispatchersList,
-    val registerNavigation: RegisterNavigation
+    private val registerUseCase: RegisterUseCase,
+    private val registerCommunication: RegisterCommunication,
+    private val dispatchers: DispatchersList,
+    private val registerNavigation: RegisterNavigation,
+    private val validateStartRegisterData: ValidateStartRegisterData
 ) : ViewModel(), ObserveRegisterCommunications, ManageRegisterCommunications, ValueRegisterCommunications<RegisterData> {
 
     fun register(registerData: RegisterData) {
@@ -32,15 +34,6 @@ class RegisterViewModel(
                 return@launch
             }
             when (result.exception) {
-                is PasswordException -> {
-                    registerCommunication.managePasswordError(InputTextState.ShowError(result.exception?.message!!))
-                }
-                is EmailException -> {
-                    registerCommunication.manageEmailError(InputTextState.ShowError(result.exception?.message!!))
-                }
-                is ConfirmPasswordException -> {
-                    registerCommunication.manageConfirmPasswordError(InputTextState.ShowError(result.exception?.message!!))
-                }
                 is FirstNameException -> {
                     registerCommunication.manageFirstNameError(InputTextState.ShowError(result.exception?.message!!))
                 }
@@ -49,6 +42,26 @@ class RegisterViewModel(
                 }
             }
         }
+    }
+
+    fun validStartRegisterData(registerData: RegisterData): Boolean {
+        val result = validateStartRegisterData.valid(registerData)
+        if (result.data == true) {
+            //todo navigate to main fragment
+            return true
+        }
+        when (result.exception) {
+            is PasswordException -> {
+                registerCommunication.managePasswordError(InputTextState.ShowError(result.exception?.message!!))
+            }
+            is EmailException -> {
+                registerCommunication.manageEmailError(InputTextState.ShowError(result.exception?.message!!))
+            }
+            is ConfirmPasswordException -> {
+                registerCommunication.manageConfirmPasswordError(InputTextState.ShowError(result.exception?.message!!))
+            }
+        }
+        return false
     }
 
     fun navigateToLoginFragment(navController: NavController) {
@@ -73,7 +86,6 @@ class RegisterViewModel(
 
     override fun observeRegisterLastNameError(owner: LifecycleOwner, observer: Observer<InputTextState>) =
         registerCommunication.observeRegisterFirstNameError(owner, observer)
-
 
     override fun clearEmailError() = registerCommunication.manageEmailError(InputTextState.ClearError())
 

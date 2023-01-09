@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.main.core.base.BaseFragment
 import com.main.core.exception.FirstNameException
 import com.main.core.state.ApplicationTextWatcher
@@ -15,6 +18,8 @@ import com.main.register.databinding.FragmentStartRegisterBinding
 import com.main.register.di.provider.ProvideRegisterComponent
 import com.main.register.presentation.viewmodel.RegisterViewModel
 import com.main.register.presentation.viewmodel.RegisterViewModelFactory
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class StartRegisterFragment : BaseFragment() {
@@ -32,6 +37,7 @@ class StartRegisterFragment : BaseFragment() {
     private val confirmPasswordWatcher = object : ApplicationTextWatcher() {
         override fun afterTextChanged(s: Editable?) = registerViewModel.clearConfirmPasswordError()
     }
+    private val firebase = Firebase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,14 +61,16 @@ class StartRegisterFragment : BaseFragment() {
         }
 
         binding.btnNext.setOnClickListener {
-            registerViewModel.mapRegisterData(
-                RegisterData(
-                    email = binding.etEmail.text.toString().trim(),
-                    password = binding.etPassword.text.toString().trim(),
-                    confirmPassword = binding.etConfirmPassword.text.toString().trim()
-                )
+            val registerData = RegisterData(
+                email = binding.etEmail.text.toString().trim(),
+                password = binding.etPassword.text.toString().trim(),
+                confirmPassword = binding.etConfirmPassword.text.toString().trim()
             )
-            registerViewModel.navigateToFinishRegisterFragment(findNavController())
+            val result = registerViewModel.validStartRegisterData(registerData)
+            if (result) {
+                registerViewModel.mapRegisterData(registerData)
+                registerViewModel.navigateToFinishRegisterFragment(findNavController())
+            }
         }
 
         binding.tvHaveAnAccount.setOnClickListener {

@@ -18,7 +18,7 @@ class RegisterFirebaseRepositoryTest {
     fun `test successful register`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatar = byteArrayOf(),
+            confirmPassword = "Qwerty12345", avatarUrl = byteArrayOf(),
             firstName = "Max", lastName = "Pit",
         )
         Mockito.`when`(registerFirebaseRepository.register(registerData)).thenReturn(Resource.Success(true))
@@ -31,7 +31,7 @@ class RegisterFirebaseRepositoryTest {
     fun `test invalid register, email is incorrect`() = runBlocking {
         val registerData = RegisterData(
             email = "somename", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatar = byteArrayOf(),
+            confirmPassword = "Qwerty12345", avatarUrl = byteArrayOf(),
             firstName = "Max", lastName = "Pit",
         )
 

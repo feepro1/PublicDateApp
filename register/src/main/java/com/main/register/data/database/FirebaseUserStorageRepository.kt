@@ -20,7 +20,9 @@ interface FirebaseUserStorageRepository {
 
         override suspend fun addUser(registerData: RegisterData): Resource<Boolean> {
             val uid = firebase.auth.currentUser?.uid.toString()
-            val task = firebase.firestore.collection(COLLECTION_USERS).document(uid).set(registerData)
+            val task = firebase.firestore.collection(COLLECTION_USERS).document(uid).set(
+                registerData.mapToRegisterDataForDatabase()
+            )
             return try {
                 task.await()
                 Resource.Success(true)
@@ -38,5 +40,4 @@ interface FirebaseUserStorageRepository {
     companion object {
         const val COLLECTION_USERS = "users"
     }
-
 }

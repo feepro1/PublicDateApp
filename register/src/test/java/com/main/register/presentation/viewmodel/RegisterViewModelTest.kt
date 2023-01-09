@@ -5,7 +5,6 @@ import com.main.core.exception.*
 import com.main.core.state.InputTextState
 import com.main.register.BaseRegisterTest
 import com.main.register.data.entities.RegisterData
-import com.main.register.data.exception.message.RegisterExceptionMessages
 import com.main.register.data.exception.message.RegisterExceptionMessages.CONFIRM_PASSWORD_IS_EMPTY
 import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT_UI
 import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_IS_EMPTY
@@ -50,7 +49,7 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test successful login`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatar = byteArrayOf(),
+            confirmPassword = "Qwerty12345", avatarUrl = byteArrayOf(),
             firstName = "Max", lastName = "Pit",
         )
 
@@ -65,7 +64,7 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, email is empty`() = runBlocking {
         val registerData = RegisterData(
             email = "", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatar = byteArrayOf(),
+            confirmPassword = "Qwerty12345", avatarUrl = byteArrayOf(),
             firstName = "Max", lastName = "Pit",
         )
 
@@ -83,7 +82,7 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, email is incorrect`() = runBlocking {
         val registerData = RegisterData(
             email = "somename", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatar = byteArrayOf(),
+            confirmPassword = "Qwerty12345", avatarUrl = byteArrayOf(),
             firstName = "Max", lastName = "Pit",
         )
         val expected = InputTextState.ShowError(EMAIL_ADDRESS_IS_INCORRECT_UI)
@@ -100,7 +99,7 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, password is empty`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "",
-            confirmPassword = "Qwerty12345", avatar = byteArrayOf(),
+            confirmPassword = "Qwerty12345", avatarUrl = byteArrayOf(),
             firstName = "Max", lastName = "Pit",
         )
         val expected = InputTextState.ShowError(PASSWORD_IS_EMPTY)
@@ -117,7 +116,7 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, confirm password is empty`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "", avatar = byteArrayOf(),
+            confirmPassword = "", avatarUrl = byteArrayOf(),
             firstName = "Max", lastName = "Pit",
         )
         val expected = InputTextState.ShowError(CONFIRM_PASSWORD_IS_EMPTY)
@@ -134,7 +133,7 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, password is too short`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "hSl1",
-            confirmPassword = "hSl1", avatar = byteArrayOf(),
+            confirmPassword = "hSl1", avatarUrl = byteArrayOf(),
             firstName = "Max", lastName = "Pit",
         )
         val expected = InputTextState.ShowError(PASSWORD_IS_TOO_SHORT)
@@ -151,7 +150,7 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, password does not consist a capital letter`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "qwerty",
-            confirmPassword = "qwerty", avatar = byteArrayOf(),
+            confirmPassword = "qwerty", avatarUrl = byteArrayOf(),
             firstName = "Max", lastName = "Pit",
         )
         val expected = InputTextState.ShowError(PASSWORD_DOES_NOT_CONSIST_A_CAPITAL_LETTER)
@@ -169,7 +168,7 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, passwords do not match`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "Qwerty1234", avatar = byteArrayOf(),
+            confirmPassword = "Qwerty1234", avatarUrl = byteArrayOf(),
             firstName = "Max", lastName = "Pit",
         )
         val expected = InputTextState.ShowError(PASSWORDS_DO_NOT_MATCH)
@@ -186,7 +185,7 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, first name is empty`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatar = byteArrayOf(),
+            confirmPassword = "Qwerty12345", avatarUrl = byteArrayOf(),
             firstName = "", lastName = "Pit",
         )
         val expected = InputTextState.ShowError(FIRST_NAME_IS_EMPTY)
@@ -203,7 +202,7 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, last name is empty`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatar = byteArrayOf(),
+            confirmPassword = "Qwerty12345", avatarUrl = byteArrayOf(),
             firstName = "Max", lastName = "",
         )
         val expected = InputTextState.ShowError(LAST_NAME_IS_EMPTY)

@@ -1,6 +1,7 @@
 package com.main.register.di.module
 
 import com.main.core.dispatchers.DispatchersList
+import com.main.register.data.validation.ValidateStartRegisterData
 import com.main.register.domain.navigation.RegisterNavigation
 import com.main.register.domain.usecase.RegisterUseCase
 import com.main.register.presentation.communication.*
@@ -16,13 +17,15 @@ class RegisterPresentationModule {
         registerUseCase: RegisterUseCase,
         registerCommunication: RegisterCommunication,
         dispatchers: DispatchersList,
-        registerNavigation: RegisterNavigation
+        registerNavigation: RegisterNavigation,
+        validateStartRegisterData: ValidateStartRegisterData
     ): RegisterViewModelFactory {
         return RegisterViewModelFactory(
             registerUseCase = registerUseCase,
             registerCommunication = registerCommunication,
             dispatchers = dispatchers,
-            registerNavigation = registerNavigation
+            registerNavigation = registerNavigation,
+            validateStartRegisterData = validateStartRegisterData
         )
     }
 

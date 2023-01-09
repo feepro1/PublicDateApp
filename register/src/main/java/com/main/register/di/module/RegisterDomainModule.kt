@@ -1,11 +1,9 @@
 package com.main.register.di.module
 
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.ktx.initialize
 import com.main.register.data.database.FirebaseUserStorageRepository
 import com.main.register.data.realization.RegisterRepositoryImpl
-import com.main.register.data.validation.ValidateRegisterData
+import com.main.register.data.validation.ValidateFinishRegisterData
 import com.main.register.domain.exception.HandleFirebaseRegisterException
 import com.main.register.domain.firebase.RegisterFirebaseRepository
 import com.main.register.domain.navigation.RegisterNavigation
@@ -25,11 +23,11 @@ class RegisterDomainModule {
     @Provides
     fun provideRegisterRepository(
         registerFirebaseRepository: RegisterFirebaseRepository,
-        validateRegisterData: ValidateRegisterData
+        validateFinishRegisterData: ValidateFinishRegisterData
     ): RegisterRepository {
         return RegisterRepositoryImpl(
             registerFirebaseRepository = registerFirebaseRepository,
-            validateRegisterData = validateRegisterData
+            validateFinishRegisterData = validateFinishRegisterData
         )
     }
 

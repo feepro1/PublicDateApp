@@ -23,6 +23,7 @@ interface RegisterFirebaseRepository {
             val task = firebase.auth.createUserWithEmailAndPassword(registerData.email, registerData.password)
             return try {
                 task.await()
+                firebase.auth.currentUser?.sendEmailVerification()
                 firebaseUserStorageRepository.addUser(registerData)
             } catch (e: Exception) {
                 handleFirebaseRegisterException.handle(task.exception ?: Exception())
