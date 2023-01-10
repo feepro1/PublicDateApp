@@ -43,7 +43,7 @@ class LoginViewModel(
         }
     }
 
-    fun navigateToRegister(navController: NavController) {
+    fun navigateToStartRegisterFragment(navController: NavController) {
         loginNavigation.navigateToRegisterFragment(navController)
     }
 

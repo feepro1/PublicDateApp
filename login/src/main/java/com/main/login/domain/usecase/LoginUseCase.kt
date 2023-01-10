@@ -4,7 +4,9 @@ import com.main.core.Resource
 import com.main.login.data.entities.LoginData
 import com.main.login.domain.repository.LoginRepository
 
-class LoginUseCase(val loginRepository: LoginRepository) {
+class LoginUseCase(
+    private val loginRepository: LoginRepository
+) {
 
     suspend fun execute(loginData: LoginData): Resource<Boolean> {
         return loginRepository.login(loginData)

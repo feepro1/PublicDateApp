@@ -6,4 +6,8 @@ class EmailException(message: String): ApplicationException(message)
 
 class PasswordException(message: String): ApplicationException(message)
 
-class UsernameException(message: String): ApplicationException(message)
+class FirstNameException(message: String): ApplicationException(message)
+
+class LastNameException(message: String): ApplicationException(message)
+
+class ConfirmPasswordException(message: String): ApplicationException(message)

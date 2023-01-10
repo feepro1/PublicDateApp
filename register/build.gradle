@@ -40,9 +40,14 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
     implementation "androidx.fragment:fragment-ktx:1.5.5"
-    //Testing
+    //Unit Testing
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    implementation 'org.mockito:mockito-core:4.9.0'
+    implementation 'org.mockito.kotlin:mockito-kotlin:4.0.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
+    //Ui Testing
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
     //Dagger
     implementation 'com.google.dagger:dagger:2.44.2'
@@ -52,6 +57,10 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
     implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
     implementation "androidx.fragment:fragment-ktx:1.5.5"
+    //Firebase
+    implementation platform('com.google.firebase:firebase-bom:31.1.1')
+    implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.1'
     //Modules
     implementation project(path: ':core')
 }

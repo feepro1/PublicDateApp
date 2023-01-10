@@ -23,7 +23,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
-class LoginViewModelTest: BaseLoginTest() {
+class LoginViewModelTest : BaseLoginTest() {
 
     private val loginRepository = mock<LoginRepository>()
     private val loginUseCase = LoginUseCase(loginRepository)
@@ -43,22 +43,19 @@ class LoginViewModelTest: BaseLoginTest() {
 
     @Test /** If was successful login */
     fun `test successful login`() = runBlocking {
-        val loginData = LoginData(
-            password = "Qwerty12345",
-            email = "some@gmail.com"
-        )
+        val loginData = LoginData(password = "Qwerty12345", email = "some@gmail.com")
+
         loginViewModel.login(loginData)
 
-        val result = loginCommunication.emailError.isEmpty() && loginCommunication.passwordError.isEmpty()
+        val result = loginCommunication.emailError.isEmpty() &&
+                loginCommunication.passwordError.isEmpty()
         Assertions.assertTrue(result)
     }
 
     @Test /** If password is shorter than 5 chars, it's too short */
     fun `test invalid login, password is too short`() = runBlocking {
-        val loginData = LoginData(
-            password = "hSl1",
-            email = "some@gmail.com"
-        )
+        val loginData = LoginData(password = "hSl1", email = "some@gmail.com")
+
         val expected = InputTextState.ShowError(PASSWORD_IS_TOO_SHORT)
         val resourceData = Resource.Error(false, PasswordException(PASSWORD_IS_TOO_SHORT))
 
@@ -71,10 +68,8 @@ class LoginViewModelTest: BaseLoginTest() {
 
     @Test /** If password does not consist a capital letter */
     fun `test invalid login, password does not consist a capital letter`() = runBlocking {
-        val loginData = LoginData(
-            password = "sel1423",
-            email = "some@gmail.com"
-        )
+        val loginData = LoginData(password = "sel1423", email = "some@gmail.com")
+
         val expected = InputTextState.ShowError(PASSWORD_DOES_NOT_CONSIST_A_CAPITAL_LETTER)
         val resourceData = Resource.Error(false, PasswordException(PASSWORD_DOES_NOT_CONSIST_A_CAPITAL_LETTER))
 
@@ -87,10 +82,8 @@ class LoginViewModelTest: BaseLoginTest() {
 
     @Test /** If password is incorrect */
     fun `test invalid login, password is incorrect`() = runBlocking {
-        val loginData = LoginData(
-            password = "Qwerty1234",
-            email = "some@gmail.com"
-        )
+        val loginData = LoginData(password = "Qwerty1234", email = "some@gmail.com")
+
         val expected = InputTextState.ShowError(PASSWORD_IS_INCORRECT_UI)
         val resourceData = Resource.Error(false, PasswordException(PASSWORD_IS_INCORRECT_UI))
 
@@ -103,10 +96,8 @@ class LoginViewModelTest: BaseLoginTest() {
 
     @Test /** If password is empty */
     fun `test invalid login, password is empty`() = runBlocking {
-        val loginData = LoginData(
-            password = "",
-            email = "some@gmail.com"
-        )
+        val loginData = LoginData(password = "", email = "some@gmail.com")
+
         val expected = InputTextState.ShowError(PASSWORD_IS_EMPTY)
         val resourceData = Resource.Error(false, PasswordException(PASSWORD_IS_EMPTY))
 
@@ -119,10 +110,8 @@ class LoginViewModelTest: BaseLoginTest() {
 
     @Test /** If email bad format (if it does not consist '@') */
     fun `test invalid login, email is incorrect`() = runBlocking {
-        val loginData = LoginData(
-            password = "Hhe1312",
-            email = "somegmail.com"
-        )
+        val loginData = LoginData(password = "Hhe1312", email = "somegmail.com")
+
         val expected = InputTextState.ShowError(EMAIL_ADDRESS_IS_INCORRECT_UI)
         val resourceData = Resource.Error(false, EmailException(EMAIL_ADDRESS_IS_INCORRECT_UI))
 
@@ -135,10 +124,8 @@ class LoginViewModelTest: BaseLoginTest() {
 
     @Test /** If email was not found no server */
     fun `test invalid login, email was not found`() = runBlocking {
-        val loginData = LoginData(
-            password = "Qwerty12345",
-            email = "somegmail132.com"
-        )
+        val loginData = LoginData(password = "Qwerty12345", email = "somegmail132.com")
+
         val expected = InputTextState.ShowError(EMAIL_WAS_NOT_FOUND_UI)
         val resourceData = Resource.Error(false, EmailException(EMAIL_WAS_NOT_FOUND_UI))
 
@@ -151,10 +138,7 @@ class LoginViewModelTest: BaseLoginTest() {
 
     @Test /** If email is empty */
     fun `test invalid login, email wis empty`() = runBlocking {
-        val loginData = LoginData(
-            password = "Qwerty12345",
-            email = ""
-        )
+        val loginData = LoginData(password = "Qwerty12345", email = "")
         val expected = InputTextState.ShowError(EMAIL_IS_EMPTY)
         val resourceData = Resource.Error(false, EmailException(EMAIL_IS_EMPTY))
 
