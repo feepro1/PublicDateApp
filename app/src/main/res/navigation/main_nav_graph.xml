@@ -6,6 +6,6 @@
 
     <include app:graph="@navigation/login_nav_graph" />
 
-    <include app:graph="@navigation/register_nav_graph" />
+    <include app:graph="@navigation/dating_nav_graph" />
 
 </navigation>

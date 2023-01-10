@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/registerNavGraph"
+    app:startDestination="@id/datingFragment">
+
+    <fragment
+        android:id="@+id/datingFragment"
+        android:name="com.main.dating.presentation.ui.DatingFragment"
+        android:label="DatingFragment">
+
+        <deepLink app:uri="swapLike://dating" />
+    </fragment>
+</navigation>
