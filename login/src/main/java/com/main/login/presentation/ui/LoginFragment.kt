@@ -29,6 +29,11 @@ class LoginFragment : BaseFragment() {
         override fun afterTextChanged(s: Editable?) = loginViewModel.clearPasswordError()
     }
 
+    override fun onStart() {
+        super.onStart()
+        loginViewModel.checkIsUserSignedIn(findNavController())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,7 +56,7 @@ class LoginFragment : BaseFragment() {
                 password = binding.etPassword.text.toString().trim(),
                 email = binding.etEmail.text.toString().trim()
             )
-            loginViewModel.login(loginData)
+            loginViewModel.login(loginData, findNavController())
         }
 
         binding.tvDoNotHaveAnAccount.setOnClickListener {

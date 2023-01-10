@@ -5,6 +5,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.main.core.dispatchers.DispatchersList
 import com.main.core.exception.ApplicationException
 import com.main.core.exception.EmailException
@@ -17,6 +19,7 @@ import com.main.login.domain.usecase.LoginUseCase
 import com.main.login.presentation.communication.LoginCommunication
 import com.main.login.presentation.communication.ObserveLoginErrors
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginViewModel(
     private val loginUseCase: LoginUseCase,
@@ -25,12 +28,13 @@ class LoginViewModel(
     private val loginNavigation: LoginNavigation
 ) : ViewModel(), ObserveLoginErrors, ManageLoginError {
 
-    fun login(loginData: LoginData) {
+    fun login(loginData: LoginData, navController: NavController) {
         viewModelScope.launch(dispatchers.io()) {
             val result = loginUseCase.execute(loginData)
             if (result.data == true) {
-                //todo navigate to main fragment
-                return@launch
+                withContext(dispatchers.ui()) {
+                    loginNavigation.navigateToDatingFragment(navController)
+                }
             }
             when (result.exception) {
                 is PasswordException -> {
@@ -40,6 +44,12 @@ class LoginViewModel(
                     loginCommunication.manageEmailError(InputTextState.ShowError(result.exception?.message!!))
                 }
             }
+        }
+    }
+
+    fun checkIsUserSignedIn(navController: NavController) {
+        if (Firebase.auth.currentUser != null && Firebase.auth.currentUser?.isEmailVerified == true) {
+            loginNavigation.navigateToDatingFragment(navController)
         }
     }
 

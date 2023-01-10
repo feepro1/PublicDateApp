@@ -5,12 +5,8 @@ import com.main.core.exception.EmailException
 import com.main.core.exception.PasswordException
 import com.main.login.data.entities.LoginData
 import com.main.login.data.exception.message.LoginExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT_UI
-import com.main.login.data.exception.message.LoginExceptionMessages.EMAIL_IS_EMPTY
 import com.main.login.data.exception.message.LoginExceptionMessages.EMAIL_WAS_NOT_FOUND_UI
-import com.main.login.data.exception.message.LoginExceptionMessages.PASSWORD_DOES_NOT_CONSIST_A_CAPITAL_LETTER
-import com.main.login.data.exception.message.LoginExceptionMessages.PASSWORD_IS_EMPTY
 import com.main.login.data.exception.message.LoginExceptionMessages.PASSWORD_IS_INCORRECT_UI
-import com.main.login.data.exception.message.LoginExceptionMessages.PASSWORD_IS_TOO_SHORT
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.jupiter.api.Assertions

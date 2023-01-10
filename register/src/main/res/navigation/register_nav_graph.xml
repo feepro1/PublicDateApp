@@ -8,14 +8,14 @@
         android:id="@+id/startRegisterFragment"
         android:name="com.main.register.presentation.ui.start.StartRegisterFragment">
 
-        <deepLink app:uri="swapLike://startRegister"/>
+        <deepLink app:uri="swapLike://register/start"/>
     </fragment>
 
     <fragment
         android:id="@+id/finishRegisterFragment"
         android:name="com.main.register.presentation.ui.finish.FinishRegisterFragment">
 
-        <deepLink app:uri="swapLike://finishRegister"/>
+        <deepLink app:uri="swapLike://register/finish"/>
     </fragment>
 
 </navigation>
