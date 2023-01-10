@@ -5,6 +5,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.main.core.dispatchers.DispatchersList
 import com.main.core.exception.*
 import com.main.core.state.InputTextState
@@ -29,10 +31,6 @@ class RegisterViewModel(
     fun register(registerData: RegisterData) {
         viewModelScope.launch(dispatchers.io()) {
             val result = registerUseCase.execute(registerData)
-            if (result.data == true) {
-                //todo navigate to main fragment
-                return@launch
-            }
             when (result.exception) {
                 is FirstNameException -> {
                     registerCommunication.manageFirstNameError(InputTextState.ShowError(result.exception?.message!!))
@@ -41,6 +39,12 @@ class RegisterViewModel(
                     registerCommunication.manageLastNameError(InputTextState.ShowError(result.exception?.message!!))
                 }
             }
+        }
+    }
+
+    fun checkIsUserConfirmedEmail() {
+        if (Firebase.auth.currentUser != null && Firebase.auth.currentUser?.isEmailVerified == true) {
+
         }
     }
 

@@ -37,6 +37,11 @@ class FinishRegisterFragment : BaseFragment() {
         override fun afterTextChanged(s: Editable?) = registerViewModel.clearLastNameError()
     }
 
+    override fun onStart() {
+        super.onStart()
+        registerViewModel.checkIsUserConfirmedEmail()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,

@@ -37,7 +37,11 @@ class StartRegisterFragment : BaseFragment() {
     private val confirmPasswordWatcher = object : ApplicationTextWatcher() {
         override fun afterTextChanged(s: Editable?) = registerViewModel.clearConfirmPasswordError()
     }
-    private val firebase = Firebase
+
+    override fun onStart() {
+        super.onStart()
+        registerViewModel.checkIsUserConfirmedEmail()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
