@@ -19,7 +19,6 @@ interface RegisterFirebaseRepository {
     ): RegisterFirebaseRepository {
 
         override suspend fun register(registerData: RegisterData): Resource<Boolean> {
-            //todo make register logic
             val task = firebase.auth.createUserWithEmailAndPassword(registerData.email, registerData.password)
             return try {
                 task.await()

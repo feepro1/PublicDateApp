@@ -2,7 +2,7 @@ package com.main.register
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.main.core.dispatchers.DispatchersList
+import com.main.core.DispatchersList
 import com.main.core.state.InputTextState
 import com.main.register.data.entities.RegisterData
 import com.main.register.presentation.communication.RegisterCommunication

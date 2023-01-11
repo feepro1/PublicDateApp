@@ -3,8 +3,10 @@ package com.main.register.data.exception.message
 object RegisterExceptionMessages {
     //Firebase
     const val EMAIL_ADDRESS_IS_INCORRECT = "The email address is badly formatted."
+    const val EMAIL_ADDRESS_IS_BUSY = "The email address is already in use by another account."
     //Firebase UI
     const val EMAIL_ADDRESS_IS_INCORRECT_UI = "The email address is incorrect"
+    const val EMAIL_ADDRESS_IS_BUSY_UI = "The email address is busy"
     //Application
     const val PASSWORD_IS_TOO_SHORT = "Password is too short"
     const val PASSWORD_DOES_NOT_CONSIST_A_CAPITAL_LETTER = "Password does not consist a capital letter"

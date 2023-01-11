@@ -2,7 +2,7 @@ package com.main.register.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.main.core.dispatchers.DispatchersList
+import com.main.core.DispatchersList
 import com.main.register.data.validation.ValidateStartRegisterData
 import com.main.register.domain.navigation.RegisterNavigation
 import com.main.register.domain.usecase.RegisterUseCase

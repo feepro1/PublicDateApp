@@ -7,9 +7,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.main.core.dispatchers.DispatchersList
+import com.main.core.DispatchersList
 import com.main.core.exception.*
 import com.main.core.state.InputTextState
+import com.main.core.toast.showColorToast
+import com.main.register.R
 import com.main.register.data.entities.RegisterData
 import com.main.register.data.validation.ValidateStartRegisterData
 import com.main.register.domain.exception.ManageRegisterCommunications
@@ -19,6 +21,7 @@ import com.main.register.presentation.communication.ObserveRegisterCommunication
 import com.main.register.presentation.communication.RegisterCommunication
 import com.main.register.presentation.communication.ValueRegisterCommunications
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class RegisterViewModel(
     private val registerUseCase: RegisterUseCase,
@@ -28,9 +31,12 @@ class RegisterViewModel(
     private val validateStartRegisterData: ValidateStartRegisterData
 ) : ViewModel(), ObserveRegisterCommunications, ManageRegisterCommunications, ValueRegisterCommunications<RegisterData> {
 
-    fun register(registerData: RegisterData) {
+    fun register(registerData: RegisterData, navController: NavController, showToast: () -> (Unit)) {
         viewModelScope.launch(dispatchers.io()) {
             val result = registerUseCase.execute(registerData)
+            if (result.data == true) {
+                withContext(dispatchers.ui()) { showToast.invoke() }
+            }
             when (result.exception) {
                 is FirstNameException -> {
                     registerCommunication.manageFirstNameError(InputTextState.ShowError(result.exception?.message!!))
@@ -38,21 +44,25 @@ class RegisterViewModel(
                 is LastNameException -> {
                     registerCommunication.manageLastNameError(InputTextState.ShowError(result.exception?.message!!))
                 }
+                is EmailException -> {
+                    registerCommunication.manageEmailError(InputTextState.ShowError(result.exception?.message!!))
+                    withContext(dispatchers.ui()) { navController.popBackStack() }
+                }
             }
         }
     }
 
-    fun checkIsUserConfirmedEmail() {
+    fun checkIsUserConfirmedEmail(navController: NavController) {
         if (Firebase.auth.currentUser != null && Firebase.auth.currentUser?.isEmailVerified == true) {
-
+            registerNavigation.navigateToDatingFragment(navController)
         }
     }
 
-    fun validStartRegisterData(registerData: RegisterData): Boolean {
+    fun validStartRegisterData(registerData: RegisterData, navController: NavController){
         val result = validateStartRegisterData.valid(registerData)
         if (result.data == true) {
-            //todo navigate to main fragment
-            return true
+            mapRegisterData(registerData)
+            registerNavigation.navigateToFinishRegisterFragment(navController)
         }
         when (result.exception) {
             is PasswordException -> {
@@ -65,15 +75,10 @@ class RegisterViewModel(
                 registerCommunication.manageConfirmPasswordError(InputTextState.ShowError(result.exception?.message!!))
             }
         }
-        return false
     }
 
     fun navigateToLoginFragment(navController: NavController) {
         registerNavigation.navigateToLoginFragment(navController)
-    }
-
-    fun navigateToFinishRegisterFragment(navController: NavController) {
-        registerNavigation.navigateToFinishRegisterFragment(navController)
     }
 
     override fun observeRegisterEmailError(owner: LifecycleOwner, observer: Observer<InputTextState>) =
@@ -90,6 +95,10 @@ class RegisterViewModel(
 
     override fun observeRegisterLastNameError(owner: LifecycleOwner, observer: Observer<InputTextState>) =
         registerCommunication.observeRegisterFirstNameError(owner, observer)
+
+    override fun observeMotionToastText(owner: LifecycleOwner, observer: Observer<String>) {
+        registerCommunication.observeMotionToastText(owner, observer)
+    }
 
     override fun clearEmailError() = registerCommunication.manageEmailError(InputTextState.ClearError())
 
@@ -120,7 +129,7 @@ class RegisterViewModel(
         registerCommunication.manageRegisterData(registerData = registerData)
     }
 
-    override fun valueRegisterData(): RegisterData? {
-        return registerCommunication.valueRegisterData()
-    }
+    override fun mapMotionToastText(text: String) = registerCommunication.manageMotionToastText(text)
+
+    override fun valueRegisterData() = registerCommunication.valueRegisterData()
 }

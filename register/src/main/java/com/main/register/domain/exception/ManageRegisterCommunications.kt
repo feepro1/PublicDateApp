@@ -26,4 +26,6 @@ interface ManageRegisterCommunications {
     fun showLastNameMessage(exception: ApplicationException)
 
     fun mapRegisterData(registerData: RegisterData)
+
+    fun mapMotionToastText(text: String)
 }
