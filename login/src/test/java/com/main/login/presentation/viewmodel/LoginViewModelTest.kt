@@ -1,5 +1,6 @@
 package com.main.login.presentation.viewmodel
 
+import androidx.navigation.NavController
 import com.main.core.Resource
 import com.main.core.exception.EmailException
 import com.main.core.exception.PasswordException
@@ -34,6 +35,7 @@ class LoginViewModelTest : BaseLoginTest() {
         dispatchers = TestDispatchersList(),
         loginNavigation = LoginNavigation.Base()
     )
+    private val mockNavController = mock<NavController>()
 
     @BeforeEach
     fun setUp() {
@@ -45,7 +47,7 @@ class LoginViewModelTest : BaseLoginTest() {
     fun `test successful login`() = runBlocking {
         val loginData = LoginData(password = "Qwerty12345", email = "some@gmail.com")
 
-        loginViewModel.login(loginData)
+        loginViewModel.login(loginData, mockNavController)
 
         val result = loginCommunication.emailError.isEmpty() &&
                 loginCommunication.passwordError.isEmpty()
@@ -60,7 +62,7 @@ class LoginViewModelTest : BaseLoginTest() {
         val resourceData = Resource.Error(false, PasswordException(PASSWORD_IS_TOO_SHORT))
 
         Mockito.`when`(loginRepository.login(loginData)).thenReturn(resourceData)
-        loginViewModel.login(loginData)
+        loginViewModel.login(loginData, mockNavController)
 
         val actual = loginCommunication.passwordError.first()
         Assertions.assertEquals(expected.errorMessage, actual.errorMessage)
@@ -74,7 +76,7 @@ class LoginViewModelTest : BaseLoginTest() {
         val resourceData = Resource.Error(false, PasswordException(PASSWORD_DOES_NOT_CONSIST_A_CAPITAL_LETTER))
 
         Mockito.`when`(loginRepository.login(loginData)).thenReturn(resourceData)
-        loginViewModel.login(loginData)
+        loginViewModel.login(loginData, mockNavController)
 
         val actual = loginCommunication.passwordError.first()
         Assertions.assertEquals(expected.errorMessage, actual.errorMessage)
@@ -88,7 +90,7 @@ class LoginViewModelTest : BaseLoginTest() {
         val resourceData = Resource.Error(false, PasswordException(PASSWORD_IS_INCORRECT_UI))
 
         Mockito.`when`(loginRepository.login(loginData)).thenReturn(resourceData)
-        loginViewModel.login(loginData)
+        loginViewModel.login(loginData, mockNavController)
 
         val actual = loginCommunication.passwordError.first()
         Assertions.assertEquals(expected.errorMessage, actual.errorMessage)
@@ -102,7 +104,7 @@ class LoginViewModelTest : BaseLoginTest() {
         val resourceData = Resource.Error(false, PasswordException(PASSWORD_IS_EMPTY))
 
         Mockito.`when`(loginRepository.login(loginData)).thenReturn(resourceData)
-        loginViewModel.login(loginData)
+        loginViewModel.login(loginData, mockNavController)
 
         val actual = loginCommunication.passwordError.first()
         Assertions.assertEquals(expected.errorMessage, actual.errorMessage)
@@ -116,7 +118,7 @@ class LoginViewModelTest : BaseLoginTest() {
         val resourceData = Resource.Error(false, EmailException(EMAIL_ADDRESS_IS_INCORRECT_UI))
 
         Mockito.`when`(loginRepository.login(loginData)).thenReturn(resourceData)
-        loginViewModel.login(loginData)
+        loginViewModel.login(loginData, mockNavController)
 
         val actual = loginCommunication.emailError.first()
         Assertions.assertEquals(expected.errorMessage, actual.errorMessage)
@@ -130,7 +132,7 @@ class LoginViewModelTest : BaseLoginTest() {
         val resourceData = Resource.Error(false, EmailException(EMAIL_WAS_NOT_FOUND_UI))
 
         Mockito.`when`(loginRepository.login(loginData)).thenReturn(resourceData)
-        loginViewModel.login(loginData)
+        loginViewModel.login(loginData, mockNavController)
 
         val actual = loginCommunication.emailError.first()
         Assertions.assertEquals(expected.errorMessage, actual.errorMessage)
@@ -143,7 +145,7 @@ class LoginViewModelTest : BaseLoginTest() {
         val resourceData = Resource.Error(false, EmailException(EMAIL_IS_EMPTY))
 
         Mockito.`when`(loginRepository.login(loginData)).thenReturn(resourceData)
-        loginViewModel.login(loginData)
+        loginViewModel.login(loginData, mockNavController)
 
         val actual = loginCommunication.emailError.first()
         Assertions.assertEquals(expected.errorMessage, actual.errorMessage)
