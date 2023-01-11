@@ -1,5 +1,7 @@
 package com.main.register.presentation.viewmodel
 
+import androidx.navigation.NavController
+import com.main.core.ManageImageRepository
 import com.main.core.Resource
 import com.main.core.exception.*
 import com.main.core.state.InputTextState
@@ -35,8 +37,11 @@ class RegisterViewModelTest : BaseRegisterTest() {
         registerCommunication = registerCommunication,
         dispatchers = TestDispatchersList(),
         registerNavigation = RegisterNavigation.Base(),
-        validateStartRegisterData = ValidateStartRegisterData.Base()
+        validateStartRegisterData = ValidateStartRegisterData.Base(),
+        manageImageRepository = ManageImageRepository.Base()
     )
+
+    private val mockNavController = mock<NavController>()
 
     @BeforeEach
     fun setUp() {
@@ -51,11 +56,11 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test successful login`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatarUrl = "",
+            confirmPassword = "Qwerty12345", avatar = null,
             firstName = "Max", lastName = "Pit",
         )
 
-        registerViewModel.register(registerData)
+        registerViewModel.register(registerData, mockNavController) {}
 
         val result = registerCommunication.emailError.isEmpty() &&
                 registerCommunication.passwordError.isEmpty()
@@ -66,7 +71,7 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, email is empty`() = runBlocking {
         val registerData = RegisterData(
             email = "", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatarUrl = "",
+            confirmPassword = "Qwerty12345", avatar = null,
             firstName = "Max", lastName = "Pit",
         )
 
@@ -74,7 +79,7 @@ class RegisterViewModelTest : BaseRegisterTest() {
         val resourceData = Resource.Error(false, EmailException(EMAIL_IS_EMPTY))
 
         Mockito.`when`(registerRepository.register(registerData)).thenReturn(resourceData)
-        registerViewModel.validStartRegisterData((registerData))
+        registerViewModel.validStartRegisterData(registerData, mockNavController)
 
         val actual = registerCommunication.emailError.first()
         Assertions.assertEquals(expected.errorMessage, actual.errorMessage)
@@ -84,14 +89,14 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, email is incorrect`() = runBlocking {
         val registerData = RegisterData(
             email = "somename", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatarUrl = "",
+            confirmPassword = "Qwerty12345", avatar = null,
             firstName = "Max", lastName = "Pit",
         )
         val expected = InputTextState.ShowError(EMAIL_ADDRESS_IS_INCORRECT_UI)
         val resourceData = Resource.Error(false, EmailException(EMAIL_ADDRESS_IS_INCORRECT_UI))
 
         Mockito.`when`(registerRepository.register(registerData)).thenReturn(resourceData)
-        registerViewModel.validStartRegisterData(registerData)
+        registerViewModel.validStartRegisterData(registerData, mockNavController)
 
         val actual = registerCommunication.emailError.first()
         Assertions.assertEquals(expected.errorMessage, actual.errorMessage)
@@ -101,14 +106,14 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, password is empty`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "",
-            confirmPassword = "Qwerty12345", avatarUrl = "",
+            confirmPassword = "Qwerty12345", avatar = null,
             firstName = "Max", lastName = "Pit",
         )
         val expected = InputTextState.ShowError(PASSWORD_IS_EMPTY)
         val resourceData = Resource.Error(false, PasswordException(PASSWORD_IS_EMPTY))
 
         Mockito.`when`(registerRepository.register(registerData)).thenReturn(resourceData)
-        registerViewModel.validStartRegisterData(registerData)
+        registerViewModel.validStartRegisterData(registerData, mockNavController)
 
         val actual = registerCommunication.passwordError.first()
         Assertions.assertEquals(expected.errorMessage, actual.errorMessage)
@@ -118,14 +123,14 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, confirm password is empty`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "", avatarUrl = "",
+            confirmPassword = "", avatar = null,
             firstName = "Max", lastName = "Pit",
         )
         val expected = InputTextState.ShowError(CONFIRM_PASSWORD_IS_EMPTY)
         val resourceData = Resource.Error(false, ConfirmPasswordException(CONFIRM_PASSWORD_IS_EMPTY))
 
         Mockito.`when`(registerRepository.register(registerData)).thenReturn(resourceData)
-        registerViewModel.validStartRegisterData(registerData)
+        registerViewModel.validStartRegisterData(registerData, mockNavController)
 
         val actual = registerCommunication.confirmPasswordError.first()
         Assertions.assertEquals(expected.errorMessage, actual.errorMessage)
@@ -135,14 +140,14 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, password is too short`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "hSl1",
-            confirmPassword = "hSl1", avatarUrl = "",
+            confirmPassword = "hSl1", avatar = null,
             firstName = "Max", lastName = "Pit",
         )
         val expected = InputTextState.ShowError(PASSWORD_IS_TOO_SHORT)
         val resourceData = Resource.Error(false, PasswordException(PASSWORD_IS_TOO_SHORT))
 
         Mockito.`when`(registerRepository.register(registerData)).thenReturn(resourceData)
-        registerViewModel.validStartRegisterData(registerData)
+        registerViewModel.validStartRegisterData(registerData, mockNavController)
 
         val actual = registerCommunication.passwordError.first()
         Assertions.assertEquals(expected.errorMessage, actual.errorMessage)
@@ -152,7 +157,7 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, password does not consist a capital letter`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "qwerty",
-            confirmPassword = "qwerty", avatarUrl = "",
+            confirmPassword = "qwerty", avatar = null,
             firstName = "Max", lastName = "Pit",
         )
         val expected = InputTextState.ShowError(PASSWORD_DOES_NOT_CONSIST_A_CAPITAL_LETTER)
@@ -160,7 +165,7 @@ class RegisterViewModelTest : BaseRegisterTest() {
             false, PasswordException(PASSWORD_DOES_NOT_CONSIST_A_CAPITAL_LETTER)
         )
         Mockito.`when`(registerRepository.register(registerData)).thenReturn(resourceData)
-        registerViewModel.validStartRegisterData(registerData)
+        registerViewModel.validStartRegisterData(registerData, mockNavController)
 
         val actual = registerCommunication.passwordError.first()
         Assertions.assertEquals(expected.errorMessage, actual.errorMessage)
@@ -170,14 +175,14 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, passwords do not match`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "Qwerty1234", avatarUrl = "",
+            confirmPassword = "Qwerty1234", avatar = null,
             firstName = "Max", lastName = "Pit",
         )
         val expected = InputTextState.ShowError(PASSWORDS_DO_NOT_MATCH)
         val resourceData = Resource.Error(false, ConfirmPasswordException(PASSWORDS_DO_NOT_MATCH))
 
         Mockito.`when`(registerRepository.register(registerData)).thenReturn(resourceData)
-        registerViewModel.validStartRegisterData(registerData)
+        registerViewModel.validStartRegisterData(registerData, mockNavController)
 
         val actual = registerCommunication.confirmPasswordError.first()
         Assertions.assertEquals(expected.errorMessage, actual.errorMessage)
@@ -187,14 +192,14 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, first name is empty`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatarUrl = "",
+            confirmPassword = "Qwerty12345", avatar = null,
             firstName = "", lastName = "Pit",
         )
         val expected = InputTextState.ShowError(FIRST_NAME_IS_EMPTY)
         val resourceData = Resource.Error(false, FirstNameException(FIRST_NAME_IS_EMPTY))
 
         Mockito.`when`(registerRepository.register(registerData)).thenReturn(resourceData)
-        registerViewModel.register(registerData)
+        registerViewModel.register(registerData, mockNavController) {}
 
         val actual = registerCommunication.firstNameError.first()
         Assertions.assertEquals(expected.errorMessage, actual.errorMessage)
@@ -204,14 +209,14 @@ class RegisterViewModelTest : BaseRegisterTest() {
     fun `test invalid register, last name is empty`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatarUrl = "",
+            confirmPassword = "Qwerty12345", avatar = null,
             firstName = "Max", lastName = "",
         )
         val expected = InputTextState.ShowError(LAST_NAME_IS_EMPTY)
         val resourceData = Resource.Error(false, LastNameException(LAST_NAME_IS_EMPTY))
 
         Mockito.`when`(registerRepository.register(registerData)).thenReturn(resourceData)
-        registerViewModel.register(registerData)
+        registerViewModel.register(registerData, mockNavController) {}
 
         val actual = registerCommunication.lastNameError.first()
         Assertions.assertEquals(expected.errorMessage, actual.errorMessage)

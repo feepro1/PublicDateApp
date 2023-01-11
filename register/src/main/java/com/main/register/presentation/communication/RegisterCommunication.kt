@@ -20,37 +20,38 @@ interface RegisterCommunication : ObserveRegisterCommunications, ValueRegisterCo
 
     fun manageRegisterData(registerData: RegisterData)
 
+    fun manageMotionToastText(text: String)
+
     class Base(
         private val registerEmailCommunication: RegisterEmailCommunication,
         private val registerPasswordCommunication: RegisterPasswordCommunication,
         private val registerConfirmPasswordCommunication: RegisterConfirmPasswordCommunication,
         private val registerFirstNameCommunication: RegisterFirstNameCommunication,
         private val registerLastNameCommunication: RegisterLastNameCommunication,
-        private val registerRegisterDataCommunication: RegisterRegisterDataCommunication
+        private val registerRegisterDataCommunication: RegisterRegisterDataCommunication,
+        private val registerMotionToastTextCommunication: RegisterMotionToastTextCommunication
     ): RegisterCommunication {
-        override fun manageEmailError(inputTextState: InputTextState) {
+
+        override fun manageEmailError(inputTextState: InputTextState) =
             registerEmailCommunication.map(inputTextState)
-        }
 
-        override fun managePasswordError(inputTextState: InputTextState) {
+        override fun managePasswordError(inputTextState: InputTextState) =
             registerPasswordCommunication.map(inputTextState)
-        }
 
-        override fun manageConfirmPasswordError(inputTextState: InputTextState) {
+        override fun manageConfirmPasswordError(inputTextState: InputTextState) =
             registerConfirmPasswordCommunication.map(inputTextState)
-        }
 
-        override fun manageFirstNameError(inputTextState: InputTextState) {
+        override fun manageFirstNameError(inputTextState: InputTextState) =
             registerFirstNameCommunication.map(inputTextState)
-        }
 
-        override fun manageLastNameError(inputTextState: InputTextState) {
+        override fun manageLastNameError(inputTextState: InputTextState) =
             registerLastNameCommunication.map(inputTextState)
-        }
 
-        override fun manageRegisterData(registerData: RegisterData) {
+        override fun manageRegisterData(registerData: RegisterData) =
             registerRegisterDataCommunication.map(registerData)
-        }
+
+        override fun manageMotionToastText(text: String) =
+            registerMotionToastTextCommunication.map(text)
 
         override fun observeRegisterEmailError(owner: LifecycleOwner, observer: Observer<InputTextState>) {
             registerEmailCommunication.observe(owner, observer)
@@ -72,11 +73,11 @@ interface RegisterCommunication : ObserveRegisterCommunications, ValueRegisterCo
             registerLastNameCommunication.observe(owner, observer)
         }
 
-        override fun valueRegisterData(): RegisterData? {
-            return registerRegisterDataCommunication.value()
+        override fun observeMotionToastText(owner: LifecycleOwner, observer: Observer<String>) {
+            registerMotionToastTextCommunication.observe(owner, observer)
         }
 
-
+        override fun valueRegisterData() = registerRegisterDataCommunication.value()
     }
 }
 
@@ -91,6 +92,8 @@ interface ObserveRegisterCommunications {
     fun observeRegisterFirstNameError(owner: LifecycleOwner, observer: Observer<InputTextState>)
 
     fun observeRegisterLastNameError(owner: LifecycleOwner, observer: Observer<InputTextState>)
+
+    fun observeMotionToastText(owner: LifecycleOwner, observer: Observer<String>)
 }
 
 interface ValueRegisterCommunications<T> {
@@ -119,4 +122,8 @@ interface RegisterLastNameCommunication: Communication.Mutable<InputTextState> {
 
 interface RegisterRegisterDataCommunication: Communication.Mutable<RegisterData> {
     class Base: Communication.Post<RegisterData>(), RegisterRegisterDataCommunication
+}
+
+interface RegisterMotionToastTextCommunication: Communication.Mutable<String> {
+    class Base: Communication.SinglePost<String>(), RegisterMotionToastTextCommunication
 }

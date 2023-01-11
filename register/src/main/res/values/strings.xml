@@ -12,4 +12,5 @@
     <string name="last_name">Last Name</string>
     <string name="choose_image">Choose Image</string>
     <string name="lets_start_dating">Let\'s start dating</string>
+    <string name="sent_email_verification">Sent email verification to your email</string>
 </resources>

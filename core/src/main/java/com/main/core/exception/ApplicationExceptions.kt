@@ -11,3 +11,5 @@ class FirstNameException(message: String): ApplicationException(message)
 class LastNameException(message: String): ApplicationException(message)
 
 class ConfirmPasswordException(message: String): ApplicationException(message)
+
+class FirebaseStorageException(message: String): ApplicationException(message)

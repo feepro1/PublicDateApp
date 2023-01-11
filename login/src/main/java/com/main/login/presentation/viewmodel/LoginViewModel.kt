@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.main.core.dispatchers.DispatchersList
+import com.main.core.DispatchersList
 import com.main.core.exception.ApplicationException
 import com.main.core.exception.EmailException
 import com.main.core.exception.PasswordException

@@ -2,7 +2,7 @@ package com.main.register
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.main.core.dispatchers.DispatchersList
+import com.main.core.DispatchersList
 import com.main.core.state.InputTextState
 import com.main.register.data.entities.RegisterData
 import com.main.register.presentation.communication.RegisterCommunication
@@ -54,6 +54,10 @@ abstract class BaseRegisterTest {
             this.registerData.add(registerData)
         }
 
+        override fun manageMotionToastText(text: String) {
+            TODO("Not yet implemented")
+        }
+
         override fun observeRegisterEmailError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
 
         override fun observeRegisterPasswordError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
@@ -63,6 +67,9 @@ abstract class BaseRegisterTest {
         override fun observeRegisterFirstNameError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
 
         override fun observeRegisterLastNameError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
+        override fun observeMotionToastText(owner: LifecycleOwner, observer: Observer<String>) {
+            TODO("Not yet implemented")
+        }
 
         override fun valueRegisterData(): RegisterData? {
            return registerData.first()

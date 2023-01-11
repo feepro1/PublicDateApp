@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Theme.SwapLike"
+    android:theme="@style/Theme.SwapLike"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="@+id/btnRegister"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/btnRegister"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/tvChooseImage"
         app:startIconDrawable="@drawable/icon_username">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -119,25 +119,34 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/ivUserAvatar"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="5dp"
+        android:src="@drawable/default_user_avatar"
         app:layout_constraintEnd_toEndOf="@+id/tvSignUp"
         app:layout_constraintStart_toStartOf="@+id/tvSignUp"
-        app:layout_constraintTop_toBottomOf="@+id/tvSignUp"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintTop_toBottomOf="@+id/tvSignUp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvChooseImage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="@string/choose_image"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintEnd_toEndOf="@+id/ivUserAvatar"
+        app:layout_constraintStart_toStartOf="@+id/ivUserAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/ivUserAvatar" />
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@null"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_back"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

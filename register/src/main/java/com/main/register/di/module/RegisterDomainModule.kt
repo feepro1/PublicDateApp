@@ -1,6 +1,7 @@
 package com.main.register.di.module
 
 import com.google.firebase.ktx.Firebase
+import com.main.core.ManageImageRepository
 import com.main.register.data.database.FirebaseUserStorageRepository
 import com.main.register.data.realization.RegisterRepositoryImpl
 import com.main.register.data.validation.ValidateFinishRegisterData
@@ -59,4 +60,8 @@ class RegisterDomainModule {
         return RegisterNavigation.Base()
     }
 
+    @Provides
+    fun provideManageRepository(): ManageImageRepository {
+        return ManageImageRepository.Base()
+    }
 }

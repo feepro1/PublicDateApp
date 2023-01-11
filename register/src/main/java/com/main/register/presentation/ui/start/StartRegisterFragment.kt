@@ -40,7 +40,7 @@ class StartRegisterFragment : BaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        registerViewModel.checkIsUserConfirmedEmail()
+        registerViewModel.checkIsUserConfirmedEmail(findNavController())
     }
 
     override fun onCreateView(
@@ -70,11 +70,7 @@ class StartRegisterFragment : BaseFragment() {
                 password = binding.etPassword.text.toString().trim(),
                 confirmPassword = binding.etConfirmPassword.text.toString().trim()
             )
-            val result = registerViewModel.validStartRegisterData(registerData)
-            if (result) {
-                registerViewModel.mapRegisterData(registerData)
-                registerViewModel.navigateToFinishRegisterFragment(findNavController())
-            }
+            registerViewModel.validStartRegisterData(registerData, findNavController())
         }
 
         binding.tvHaveAnAccount.setOnClickListener {

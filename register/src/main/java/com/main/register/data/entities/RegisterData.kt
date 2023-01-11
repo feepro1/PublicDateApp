@@ -1,10 +1,12 @@
 package com.main.register.data.entities
 
+import android.graphics.Bitmap
+
 data class RegisterData(
     val email: String = "",
     val password: String = "",
     val confirmPassword: String = "",
-    val avatarUrl: String = "",
+    val avatar: Bitmap? = null,
     val firstName: String = "",
     val lastName: String = ""
 ) {
@@ -17,7 +19,7 @@ data class RegisterData(
         if (email != other.email) return false
         if (password != other.password) return false
         if (confirmPassword != other.confirmPassword) return false
-        if (avatarUrl != other.avatarUrl) return false
+        if (avatar != other.avatar) return false
         if (firstName != other.firstName) return false
         if (lastName != other.lastName) return false
 
@@ -28,7 +30,7 @@ data class RegisterData(
         var result = email.hashCode()
         result = 31 * result + password.hashCode()
         result = 31 * result + confirmPassword.hashCode()
-        result = 31 * result + avatarUrl.hashCode()
+        result = 31 * result + avatar.hashCode()
         result = 31 * result + firstName.hashCode()
         result = 31 * result + lastName.hashCode()
         return result
@@ -38,8 +40,7 @@ data class RegisterData(
         return RegisterDataForDatabase(
             email = email,
             firstName = firstName,
-            lastName = lastName,
-            avatarUrl = avatarUrl
+            lastName = lastName
         )
     }
 }

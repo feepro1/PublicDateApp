@@ -2,7 +2,7 @@ package com.main.login.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.main.core.dispatchers.DispatchersList
+import com.main.core.DispatchersList
 import com.main.login.domain.navigation.LoginNavigation
 import com.main.login.domain.usecase.LoginUseCase
 import com.main.login.presentation.communication.LoginCommunication

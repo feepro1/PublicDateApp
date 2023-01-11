@@ -1,6 +1,7 @@
 package com.main.register.di.module
 
-import com.main.core.dispatchers.DispatchersList
+import com.main.core.DispatchersList
+import com.main.core.ManageImageRepository
 import com.main.register.data.validation.ValidateStartRegisterData
 import com.main.register.domain.navigation.RegisterNavigation
 import com.main.register.domain.usecase.RegisterUseCase
@@ -18,14 +19,16 @@ class RegisterPresentationModule {
         registerCommunication: RegisterCommunication,
         dispatchers: DispatchersList,
         registerNavigation: RegisterNavigation,
-        validateStartRegisterData: ValidateStartRegisterData
+        validateStartRegisterData: ValidateStartRegisterData,
+        manageImageRepository: ManageImageRepository
     ): RegisterViewModelFactory {
         return RegisterViewModelFactory(
             registerUseCase = registerUseCase,
             registerCommunication = registerCommunication,
             dispatchers = dispatchers,
             registerNavigation = registerNavigation,
-            validateStartRegisterData = validateStartRegisterData
+            validateStartRegisterData = validateStartRegisterData,
+            manageImageRepository = manageImageRepository
         )
     }
 
@@ -36,7 +39,8 @@ class RegisterPresentationModule {
         registerConfirmPasswordCommunication: RegisterConfirmPasswordCommunication,
         registerFirstNameCommunication: RegisterFirstNameCommunication,
         registerLastNameCommunication: RegisterLastNameCommunication,
-        registerRegisterDataCommunication: RegisterRegisterDataCommunication
+        registerRegisterDataCommunication: RegisterRegisterDataCommunication,
+        registerMotionToastTextCommunication: RegisterMotionToastTextCommunication
     ): RegisterCommunication {
         return RegisterCommunication.Base(
             registerEmailCommunication = registerEmailCommunication,
@@ -44,7 +48,8 @@ class RegisterPresentationModule {
             registerConfirmPasswordCommunication = registerConfirmPasswordCommunication,
             registerFirstNameCommunication = registerFirstNameCommunication,
             registerLastNameCommunication = registerLastNameCommunication,
-            registerRegisterDataCommunication
+            registerRegisterDataCommunication = registerRegisterDataCommunication,
+            registerMotionToastTextCommunication = registerMotionToastTextCommunication
         )
     }
 
@@ -76,6 +81,11 @@ class RegisterPresentationModule {
     @Provides
     fun provideRegisterRegisterDataCommunication(): RegisterRegisterDataCommunication {
         return RegisterRegisterDataCommunication.Base()
+    }
+
+    @Provides
+    fun provideRegisterMotionToastCommunication(): RegisterMotionToastTextCommunication{
+        return RegisterMotionToastTextCommunication.Base()
     }
 
     @Provides
