@@ -13,9 +13,7 @@ class RegisterRepositoryImpl(
 
     override suspend fun register(registerData: RegisterData): Resource<Boolean> {
         val validResult = validateFinishRegisterData.valid(registerData)
-        if (validResult.data == false) {
-            return validResult
-        }
+        if (validResult.data == false) return validResult
         return registerFirebaseRepository.register(registerData)
     }
 }

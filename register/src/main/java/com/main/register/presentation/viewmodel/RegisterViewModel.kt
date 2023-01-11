@@ -1,5 +1,8 @@
 package com.main.register.presentation.viewmodel
 
+import android.content.Intent
+import android.util.Log
+import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -8,6 +11,7 @@ import androidx.navigation.NavController
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.main.core.DispatchersList
+import com.main.core.ManageImageRepository
 import com.main.core.exception.*
 import com.main.core.state.InputTextState
 import com.main.core.toast.showColorToast
@@ -28,7 +32,8 @@ class RegisterViewModel(
     private val registerCommunication: RegisterCommunication,
     private val dispatchers: DispatchersList,
     private val registerNavigation: RegisterNavigation,
-    private val validateStartRegisterData: ValidateStartRegisterData
+    private val validateStartRegisterData: ValidateStartRegisterData,
+    private val manageImageRepository: ManageImageRepository
 ) : ViewModel(), ObserveRegisterCommunications, ManageRegisterCommunications, ValueRegisterCommunications<RegisterData> {
 
     fun register(registerData: RegisterData, navController: NavController, showToast: () -> (Unit)) {
@@ -75,6 +80,10 @@ class RegisterViewModel(
                 registerCommunication.manageConfirmPasswordError(InputTextState.ShowError(result.exception?.message!!))
             }
         }
+    }
+
+    fun onClickChooseImage(launcher: ActivityResultLauncher<Intent>) {
+        manageImageRepository.onClickChooseImage(launcher)
     }
 
     fun navigateToLoginFragment(navController: NavController) {

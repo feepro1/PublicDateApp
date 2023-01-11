@@ -17,7 +17,7 @@ class FirebaseUserStorageRepositoryTest {
     fun `test successful add user to database`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatarUrl = "",
+            confirmPassword = "Qwerty12345", avatar = null,
             firstName = "Max", lastName = "Pit",
         )
 

@@ -28,7 +28,7 @@ class RegisterUseCaseTest {
     fun `test successful register`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatarUrl = "",
+            confirmPassword = "Qwerty12345", avatar = null,
             firstName = "Max", lastName = "Pit",
         )
 
@@ -44,7 +44,7 @@ class RegisterUseCaseTest {
     fun `test invalid register, email is empty`() = runBlocking {
         val registerData = RegisterData(
             email = "", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatarUrl = "",
+            confirmPassword = "Qwerty12345", avatar = null,
             firstName = "Max", lastName = "Pit",
         )
 
@@ -61,7 +61,7 @@ class RegisterUseCaseTest {
     fun `test invalid register, email is incorrect`() = runBlocking {
         val registerData = RegisterData(
             email = "somename", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatarUrl = "",
+            confirmPassword = "Qwerty12345", avatar = null,
             firstName = "Max", lastName = "Pit",
         )
 
@@ -78,7 +78,7 @@ class RegisterUseCaseTest {
     fun `test invalid register, password is empty`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "",
-            confirmPassword = "Qwerty12345", avatarUrl = "",
+            confirmPassword = "Qwerty12345", avatar = null,
             firstName = "Max", lastName = "Pit",
         )
 
@@ -95,7 +95,7 @@ class RegisterUseCaseTest {
     fun `test invalid register, password is too short`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "hSl1",
-            confirmPassword = "hSl1", avatarUrl = "",
+            confirmPassword = "hSl1", avatar = null,
             firstName = "Max", lastName = "Pit",
         )
 
@@ -112,7 +112,7 @@ class RegisterUseCaseTest {
     fun `test invalid register, password does not consist a capital letter`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "qwerty",
-            confirmPassword = "qwerty", avatarUrl = "",
+            confirmPassword = "qwerty", avatar = null,
             firstName = "Max", lastName = "Pit",
         )
 
@@ -129,7 +129,7 @@ class RegisterUseCaseTest {
     fun `test invalid register, confirm password is empty`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "", avatarUrl = "",
+            confirmPassword = "", avatar = null,
             firstName = "Max", lastName = "Pit",
         )
 
@@ -146,7 +146,7 @@ class RegisterUseCaseTest {
     fun `test invalid register, passwords do not match`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "Qwerty1234", avatarUrl = "",
+            confirmPassword = "Qwerty1234", avatar = null,
             firstName = "Max", lastName = "Pit",
         )
 
@@ -163,7 +163,7 @@ class RegisterUseCaseTest {
     fun `test invalid register, first name is empty`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatarUrl = "",
+            confirmPassword = "Qwerty12345", avatar = null,
             firstName = "", lastName = "Pit",
         )
 
@@ -180,7 +180,7 @@ class RegisterUseCaseTest {
     fun `test invalid register, last name is empty`() = runBlocking {
         val registerData = RegisterData(
             email = "some@gmail.com", password = "Qwerty12345",
-            confirmPassword = "Qwerty12345", avatarUrl = "",
+            confirmPassword = "Qwerty12345", avatar = null,
             firstName = "Max", lastName = "",
         )
 

@@ -3,6 +3,7 @@ package com.main.register.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.main.core.DispatchersList
+import com.main.core.ManageImageRepository
 import com.main.register.data.validation.ValidateStartRegisterData
 import com.main.register.domain.navigation.RegisterNavigation
 import com.main.register.domain.usecase.RegisterUseCase
@@ -13,7 +14,8 @@ class RegisterViewModelFactory(
     private val registerCommunication: RegisterCommunication,
     private val dispatchers: DispatchersList,
     private val registerNavigation: RegisterNavigation,
-    private val validateStartRegisterData: ValidateStartRegisterData
+    private val validateStartRegisterData: ValidateStartRegisterData,
+    private val manageImageRepository: ManageImageRepository
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -22,7 +24,8 @@ class RegisterViewModelFactory(
             registerCommunication = registerCommunication,
             dispatchers = dispatchers,
             registerNavigation = registerNavigation,
-            validateStartRegisterData = validateStartRegisterData
+            validateStartRegisterData = validateStartRegisterData,
+            manageImageRepository = manageImageRepository
         ) as T
     }
 }
