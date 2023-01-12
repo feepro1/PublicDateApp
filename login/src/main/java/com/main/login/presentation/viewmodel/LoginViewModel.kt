@@ -28,9 +28,13 @@ class LoginViewModel(
     private val loginNavigation: LoginNavigation
 ) : ViewModel(), ObserveLoginErrors, ManageLoginError {
 
-    fun login(loginData: LoginData, navController: NavController) {
+    fun login(loginData: LoginData, navController: NavController, showToast: () -> (Unit)) {
         viewModelScope.launch(dispatchers.io()) {
             val result = loginUseCase.execute(loginData)
+            if (Firebase.auth.currentUser?.isEmailVerified == false) {
+                withContext(dispatchers.ui()) { showToast.invoke() }
+                return@launch
+            }
             if (result.data == true) {
                 withContext(dispatchers.ui()) {
                     loginNavigation.navigateToDatingFragment(navController)
@@ -63,6 +67,9 @@ class LoginViewModel(
     override fun observeLoginPasswordError(owner: LifecycleOwner, observer: Observer<InputTextState>) =
         loginCommunication.observeLoginPasswordError(owner, observer)
 
+    override fun observeLoginMotionToastText(owner: LifecycleOwner, observer: Observer<String>) =
+        loginCommunication.observeLoginMotionToastText(owner, observer)
+
     override fun clearEmailError() = loginCommunication.manageEmailError(InputTextState.ClearError())
 
     override fun clearPasswordError() = loginCommunication.managePasswordError(InputTextState.ClearError())
@@ -72,4 +79,6 @@ class LoginViewModel(
 
     override fun showPasswordMessage(exception: ApplicationException) =
         loginCommunication.managePasswordError(InputTextState.ShowError(exception.message!!))
+
+    override fun manageMotionToastText(text: String) = loginCommunication.manageMotionToastText(text)
 }

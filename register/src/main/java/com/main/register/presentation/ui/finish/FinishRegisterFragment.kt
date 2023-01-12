@@ -15,7 +15,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.main.core.base.BaseFragment
 import com.main.core.state.ApplicationTextWatcher
-import com.main.core.toast.showColorToast
+import com.main.core.toast.showInfoColorToast
 import com.main.register.R
 import com.main.register.data.entities.RegisterData
 import com.main.register.databinding.FragmentFinishRegisterBinding
@@ -54,7 +54,7 @@ class FinishRegisterFragment : BaseFragment() {
         (requireActivity().applicationContext as ProvideRegisterComponent).provideRegisterComponent().inject(this)
 
         registerViewModel.observeMotionToastText(this) { text ->
-            showColorToast(this, text)
+            showInfoColorToast(this, text)
         }
 
         registerViewModel.observeRegisterFirstNameError(this) { inputTextState ->
@@ -74,7 +74,7 @@ class FinishRegisterFragment : BaseFragment() {
                     avatar = (binding.ivUserAvatar.drawable).toBitmap()
                 ) ?: RegisterData(),
                 findNavController()
-            ) { showColorToast(this, getString(R.string.sent_email_verification)) }
+            ) { showInfoColorToast(this, getString(R.string.sent_email_verification)) }
         }
 
         binding.ivUserAvatar.setOnClickListener {
