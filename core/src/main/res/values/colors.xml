@@ -12,4 +12,6 @@
     <color name="orange">#FFA800</color>
     <color name="red_200">#FF0000</color>
     <color name="red_100">#FF5100</color>
+    <color name="light_black">#0E0E0E</color>
+    <color name="gray">#989494</color>
 </resources>

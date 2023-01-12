@@ -1,14 +1,12 @@
 package com.main.dating.presentation.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.main.core.base.BaseFragment
-import com.main.dating.R
 import com.main.dating.databinding.FragmentDatingBinding
 
 class DatingFragment : BaseFragment() {
