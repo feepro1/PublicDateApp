@@ -11,4 +11,6 @@ interface ManageLoginError {
     fun showEmailMessage(exception: ApplicationException)
 
     fun showPasswordMessage(exception: ApplicationException)
+
+    fun manageMotionToastText(text: String)
 }

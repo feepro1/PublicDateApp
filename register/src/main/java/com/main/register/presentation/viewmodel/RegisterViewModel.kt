@@ -1,7 +1,6 @@
 package com.main.register.presentation.viewmodel
 
 import android.content.Intent
-import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -14,8 +13,6 @@ import com.main.core.DispatchersList
 import com.main.core.ManageImageRepository
 import com.main.core.exception.*
 import com.main.core.state.InputTextState
-import com.main.core.toast.showColorToast
-import com.main.register.R
 import com.main.register.data.entities.RegisterData
 import com.main.register.data.validation.ValidateStartRegisterData
 import com.main.register.domain.exception.ManageRegisterCommunications

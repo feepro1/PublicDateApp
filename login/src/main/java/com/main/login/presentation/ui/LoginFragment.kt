@@ -9,6 +9,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.main.core.base.BaseFragment
 import com.main.core.state.ApplicationTextWatcher
+import com.main.core.toast.showErrorColorToast
+import com.main.core.toast.showInfoColorToast
+import com.main.login.R
 import com.main.login.data.entities.LoginData
 import com.main.login.databinding.FragmentLoginBinding
 import com.main.login.di.provider.ProvideLoginComponent
@@ -51,12 +54,18 @@ class LoginFragment : BaseFragment() {
             inputTextState.apply(binding.etPassword, binding.textInputLayoutPassword)
         }
 
+        loginViewModel.observeLoginMotionToastText(this) { text ->
+            showErrorColorToast(this, text)
+        }
+
         binding.btnLogin.setOnClickListener {
             val loginData = LoginData(
                 password = binding.etPassword.text.toString().trim(),
                 email = binding.etEmail.text.toString().trim()
             )
-            loginViewModel.login(loginData, findNavController())
+            loginViewModel.login(loginData, findNavController()) {
+                showErrorColorToast(this, getString(R.string.confirm_your_email))
+            }
         }
 
         binding.tvDoNotHaveAnAccount.setOnClickListener {
