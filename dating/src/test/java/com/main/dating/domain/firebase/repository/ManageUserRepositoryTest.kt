@@ -1,4 +1,4 @@
-package com.main.dating.domain.repository
+package com.main.dating.domain.firebase.repository
 
 import com.main.core.Resource
 import kotlinx.coroutines.runBlocking
