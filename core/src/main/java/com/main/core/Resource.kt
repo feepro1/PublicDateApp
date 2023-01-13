@@ -8,8 +8,4 @@ sealed class Resource<T>(
 ) {
     class Success<T>(data: T?) : Resource<T>(data)
     class Error<T>(data: T?, exception: ApplicationException?): Resource<T>(data, exception)
-
-    override fun toString(): String {
-        return "data: $data\nexception:$exception\nmessage:${exception?.message}"
-    }
 }
