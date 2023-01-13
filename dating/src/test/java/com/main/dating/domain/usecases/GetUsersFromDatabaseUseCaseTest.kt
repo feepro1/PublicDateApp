@@ -33,11 +33,11 @@ class GetUsersFromDatabaseUseCaseTest {
 
     @Test
     fun `test failure get users, internet is unavailable`() = runBlocking {
-        val result = getUsersFromDatabaseUseCase.execute()
-
         Mockito.`when`(databaseRepository.getUsers()).thenReturn(
             Resource.Error(emptyList(), NetworkException(INTERNET_IS_UNAVAILABLE))
         )
+
+        val result = getUsersFromDatabaseUseCase.execute()
 
         val assertsResult = result.exception.message == INTERNET_IS_UNAVAILABLE
         Assertions.assertTrue(assertsResult)

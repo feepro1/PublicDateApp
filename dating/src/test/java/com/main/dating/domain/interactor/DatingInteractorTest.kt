@@ -31,48 +31,8 @@ class DatingInteractorTest {
     )
 
     @Test
-    fun `test successful dislike user`() = runBlocking {
-        Mockito.`when`(manageUserRepository.dislikeUser(user)).thenReturn(
-            Resource.Success(true)
-        )
-        val result = dislikeUserUseCase.execute(user)
-
-        Assertions.assertTrue(result.data == true)
-    }
-
-    @Test
-    fun `test failure dislike user, internet is unavailable`() = runBlocking {
-        Mockito.`when`(manageUserRepository.dislikeUser(user)).thenReturn(
-            Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
-        )
-        val result = dislikeUserUseCase.execute(user)
-        val finishResult = result.exception.message == INTERNET_IS_UNAVAILABLE
-
-        Assertions.assertTrue(finishResult)
-    }
-
-    @Test
-    fun `test successful like user`() = runBlocking {
-        Mockito.`when`(manageUserRepository.likeUser(user)).thenReturn(Resource.Success(true))
-        val result = likeUserUseCase.execute(user)
-
-        Assertions.assertTrue(result.data == true)
-    }
-
-    @Test
-    fun `test failure like user, internet is unavailable`() = runBlocking {
-        Mockito.`when`(manageUserRepository.likeUser(user)).thenReturn(
-            Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
-        )
-        val result = likeUserUseCase.execute(user)
-        val finishResult = result.exception.message == INTERNET_IS_UNAVAILABLE
-
-        Assertions.assertTrue(finishResult)
-    }
-
-    @Test
     fun `test successful get users`() = runBlocking {
-        Mockito.`when`(databaseRepository.getUsers()).thenReturn(
+        Mockito.`when`(getUsersFromDatabaseUseCase.execute()).thenReturn(
             Resource.Success(
                 listOf(
                     User(
@@ -82,20 +42,59 @@ class DatingInteractorTest {
                 )
             )
         )
-        val result = getUsersFromDatabaseUseCase.execute()
+        val result = datingInteractor.getUserFromDatabase()
 
         Assertions.assertTrue(result.data.isNotEmpty())
     }
 
     @Test
     fun `test failure get users, internet is unavailable`() = runBlocking {
-        val result = getUsersFromDatabaseUseCase.execute()
-
-        Mockito.`when`(databaseRepository.getUsers()).thenReturn(
+        Mockito.`when`(getUsersFromDatabaseUseCase.execute()).thenReturn(
             Resource.Error(emptyList(), NetworkException(INTERNET_IS_UNAVAILABLE))
         )
+        val result = datingInteractor.getUserFromDatabase()
 
         val assertsResult = result.exception.message == INTERNET_IS_UNAVAILABLE
         Assertions.assertTrue(assertsResult)
+    }
+
+    @Test
+    fun `test successful like user`() = runBlocking {
+        Mockito.`when`(likeUserUseCase.execute(user)).thenReturn(Resource.Success(true))
+        val result = datingInteractor.likeUser(user)
+
+        Assertions.assertTrue(result.data == true)
+    }
+
+    @Test
+    fun `test failure like user, internet is unavailable`() = runBlocking {
+        Mockito.`when`(likeUserUseCase.execute(user)).thenReturn(
+            Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
+        )
+        val result = datingInteractor.likeUser(user)
+        val finishResult = result.exception.message == INTERNET_IS_UNAVAILABLE
+
+        Assertions.assertTrue(finishResult)
+    }
+
+    @Test
+    fun `test successful dislike user`() = runBlocking {
+        Mockito.`when`(dislikeUserUseCase.execute(user)).thenReturn(
+            Resource.Success(true)
+        )
+        val result = datingInteractor.dislikeUser(user)
+
+        Assertions.assertTrue(result.data == true)
+    }
+
+    @Test
+    fun `test failure dislike user, internet is unavailable`() = runBlocking {
+        Mockito.`when`(dislikeUserUseCase.execute(user)).thenReturn(
+            Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
+        )
+        val result = datingInteractor.dislikeUser(user)
+        val finishResult = result.exception.message == INTERNET_IS_UNAVAILABLE
+
+        Assertions.assertTrue(finishResult)
     }
 }
