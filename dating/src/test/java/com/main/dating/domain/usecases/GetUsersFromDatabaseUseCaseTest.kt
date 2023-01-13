@@ -42,5 +42,4 @@ class GetUsersFromDatabaseUseCaseTest {
         val assertsResult = result.exception.message == INTERNET_IS_UNAVAILABLE
         Assertions.assertTrue(assertsResult)
     }
-
 }

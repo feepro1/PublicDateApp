@@ -29,7 +29,7 @@ class DislikeUserUseCaseTest {
     }
 
     @Test
-    fun `test failure like user, internet is unavailable`() = runBlocking {
+    fun `test failure dislike user, internet is unavailable`() = runBlocking {
         Mockito.`when`(manageUserRepository.dislikeUser(user)).thenReturn(
             Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
         )
@@ -38,5 +38,4 @@ class DislikeUserUseCaseTest {
 
         Assertions.assertTrue(finishResult)
     }
-
 }
