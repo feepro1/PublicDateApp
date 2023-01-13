@@ -1,10 +1,9 @@
-package com.main.dating.domain.usecase
+package com.main.dating.domain.usecases
 
 import com.main.core.Resource
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
