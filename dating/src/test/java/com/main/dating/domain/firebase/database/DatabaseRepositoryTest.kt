@@ -1,9 +1,12 @@
 package com.main.dating.domain.firebase.database
 
 import com.main.core.Resource
+import com.main.core.exception.NetworkException
+import com.main.dating.data.entities.User
+import com.main.dating.data.exception.message.DatingExceptionMessages.INTERNET_IS_UNAVAILABLE
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
@@ -20,18 +23,11 @@ class DatabaseRepositoryTest {
     @Test
     fun `test successful get users`() = runBlocking {
         Mockito.`when`(databaseRepository.getUsers()).thenReturn(
-            Resource.Success(
-                listOf(
-                    User(
-                        firstName = "Vadym", lastName = "Hrynyk",
-                        avatarUrl = "https://some", email = "vadwwxz@mail.com"
-                    )
-                )
-            )
+            Resource.Success(users)
         )
         val result = databaseRepository.getUsers()
 
-        Assertions.assertTrue(result.data.isNotEmpty())
+        Assertions.assertTrue(result.data?.isNotEmpty() == true)
     }
 
     @Test
@@ -42,8 +38,7 @@ class DatabaseRepositoryTest {
 
         val result = databaseRepository.getUsers()
 
-        val assertsResult = result.exception.message == INTERNET_IS_UNAVAILABLE
+        val assertsResult = result.exception?.message == INTERNET_IS_UNAVAILABLE
         Assertions.assertTrue(assertsResult)
     }
-
 }

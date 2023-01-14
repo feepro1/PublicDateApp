@@ -1,9 +1,17 @@
 package com.main.dating.domain.interactor
 
 import com.main.core.Resource
+import com.main.core.exception.NetworkException
+import com.main.dating.data.entities.User
+import com.main.dating.data.exception.message.DatingExceptionMessages.INTERNET_IS_UNAVAILABLE
+import com.main.dating.domain.firebase.database.DatabaseRepository
+import com.main.dating.domain.firebase.repository.ManageUserRepository
+import com.main.dating.domain.usecases.DislikeUserUseCase
+import com.main.dating.domain.usecases.GetUsersFromDatabaseUseCase
+import com.main.dating.domain.usecases.LikeUserUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
@@ -42,9 +50,9 @@ class DatingInteractorTest {
                 )
             )
         )
-        val result = datingInteractor.getUserFromDatabase()
+        val result = datingInteractor.getUsersFromDatabase()
 
-        Assertions.assertTrue(result.data.isNotEmpty())
+        Assertions.assertTrue(result.data?.isNotEmpty() == true)
     }
 
     @Test
@@ -52,9 +60,9 @@ class DatingInteractorTest {
         Mockito.`when`(getUsersFromDatabaseUseCase.execute()).thenReturn(
             Resource.Error(emptyList(), NetworkException(INTERNET_IS_UNAVAILABLE))
         )
-        val result = datingInteractor.getUserFromDatabase()
+        val result = datingInteractor.getUsersFromDatabase()
 
-        val assertsResult = result.exception.message == INTERNET_IS_UNAVAILABLE
+        val assertsResult = result.exception?.message == INTERNET_IS_UNAVAILABLE
         Assertions.assertTrue(assertsResult)
     }
 
@@ -72,7 +80,7 @@ class DatingInteractorTest {
             Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
         )
         val result = datingInteractor.likeUser(user)
-        val finishResult = result.exception.message == INTERNET_IS_UNAVAILABLE
+        val finishResult = result.exception?.message == INTERNET_IS_UNAVAILABLE
 
         Assertions.assertTrue(finishResult)
     }
@@ -93,7 +101,7 @@ class DatingInteractorTest {
             Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
         )
         val result = datingInteractor.dislikeUser(user)
-        val finishResult = result.exception.message == INTERNET_IS_UNAVAILABLE
+        val finishResult = result.exception?.message == INTERNET_IS_UNAVAILABLE
 
         Assertions.assertTrue(finishResult)
     }

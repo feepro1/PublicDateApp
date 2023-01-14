@@ -71,7 +71,7 @@ abstract class BaseRegisterTest {
             TODO("Not yet implemented")
         }
 
-        override fun valueRegisterData(): RegisterData? {
+        override fun valueRegisterData(): RegisterData {
            return registerData.first()
         }
     }

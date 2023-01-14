@@ -1,9 +1,12 @@
 package com.main.dating.domain.firebase.repository
 
 import com.main.core.Resource
+import com.main.core.exception.NetworkException
+import com.main.dating.data.entities.User
+import com.main.dating.data.exception.message.DatingExceptionMessages.INTERNET_IS_UNAVAILABLE
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
@@ -29,7 +32,7 @@ class ManageUserRepositoryTest {
             Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
         )
         val result = manageUserRepository.likeUser(user)
-        val finishResult = result.exception.message == INTERNET_IS_UNAVAILABLE
+        val finishResult = result.exception?.message == INTERNET_IS_UNAVAILABLE
 
         Assertions.assertTrue(finishResult)
     }
@@ -50,7 +53,7 @@ class ManageUserRepositoryTest {
             Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
         )
         val result = manageUserRepository.dislikeUser(user)
-        val finishResult = result.exception.message == INTERNET_IS_UNAVAILABLE
+        val finishResult = result.exception?.message == INTERNET_IS_UNAVAILABLE
 
         Assertions.assertTrue(finishResult)
     }

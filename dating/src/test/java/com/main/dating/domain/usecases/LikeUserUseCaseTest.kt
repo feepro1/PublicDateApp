@@ -1,9 +1,13 @@
 package com.main.dating.domain.usecases
 
 import com.main.core.Resource
+import com.main.core.exception.NetworkException
+import com.main.dating.data.entities.User
+import com.main.dating.data.exception.message.DatingExceptionMessages.INTERNET_IS_UNAVAILABLE
+import com.main.dating.domain.firebase.repository.ManageUserRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
@@ -33,7 +37,7 @@ class LikeUserUseCaseTest {
             Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
         )
         val result = likeUserUseCase.execute(user)
-        val finishResult = result.exception.message == INTERNET_IS_UNAVAILABLE
+        val finishResult = result.exception?.message == INTERNET_IS_UNAVAILABLE
 
         Assertions.assertTrue(finishResult)
     }

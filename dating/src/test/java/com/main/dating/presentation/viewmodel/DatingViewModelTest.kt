@@ -1,13 +1,24 @@
 package com.main.dating.presentation.viewmodel
 
 import com.main.core.Resource
+import com.main.core.exception.NetworkException
+import com.main.dating.BaseDatingTest
+import com.main.dating.data.entities.User
+import com.main.dating.data.exception.message.DatingExceptionMessages.INTERNET_IS_UNAVAILABLE
+import com.main.dating.domain.firebase.database.DatabaseRepository
+import com.main.dating.domain.firebase.repository.ManageUserRepository
+import com.main.dating.domain.interactor.DatingInteractor
+import com.main.dating.domain.usecases.DislikeUserUseCase
+import com.main.dating.domain.usecases.GetUsersFromDatabaseUseCase
+import com.main.dating.domain.usecases.LikeUserUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
-class DatingViewModelTest {
+class DatingViewModelTest : BaseDatingTest() {
 
     private val manageUserRepository = mock<ManageUserRepository>()
     private val databaseRepository = mock<DatabaseRepository>()
@@ -36,6 +47,12 @@ class DatingViewModelTest {
         dispatchers = TestDispatchersList()
     )
 
+    @BeforeEach
+    fun setUp() {
+        datingCommunication.users.clear()
+        datingCommunication.motionToastError.clear()
+    }
+
     @Test
     fun `test successful get users`() = runBlocking {
         Mockito.`when`(datingInteractor.getUsersFromDatabase()).thenReturn(
@@ -50,7 +67,7 @@ class DatingViewModelTest {
         )
         datingViewModel.getUsersFromDatabase()
 
-        Assertions.assertTrue(datingCommunication.users.isEmpty())
+        Assertions.assertTrue(datingCommunication.users.isNotEmpty())
     }
 
     @Test
