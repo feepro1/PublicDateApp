@@ -4,7 +4,7 @@ import com.main.core.Resource
 import com.main.core.exception.NetworkException
 import com.main.dating.data.entities.User
 import com.main.dating.data.exception.message.DatingExceptionMessages.INTERNET_IS_UNAVAILABLE
-import com.main.dating.domain.firebase.database.DatabaseRepository
+import com.main.dating.data.realization.firebase.database.DatabaseRepository
 import com.main.dating.domain.firebase.repository.ManageUserRepository
 import com.main.dating.domain.usecases.DislikeUserUseCase
 import com.main.dating.domain.usecases.GetUsersFromDatabaseUseCase

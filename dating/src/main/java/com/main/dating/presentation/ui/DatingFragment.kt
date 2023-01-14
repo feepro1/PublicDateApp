@@ -8,6 +8,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.main.core.base.BaseFragment
 import com.main.dating.databinding.FragmentDatingBinding
+import com.main.dating.di.provider.ProvideDatingComponent
 
 class DatingFragment : BaseFragment() {
     private val binding by lazy { FragmentDatingBinding.inflate(layoutInflater) }
@@ -19,6 +20,7 @@ class DatingFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (requireActivity().applicationContext as ProvideDatingComponent).provideDatingComponent().inject(this)
 
         binding.button.setOnClickListener {
             Firebase.auth.signOut()
