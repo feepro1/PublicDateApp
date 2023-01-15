@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.bumptech.glide.Glide
 import com.main.dating.R
 import com.main.dating.data.entities.User
 import com.main.dating.databinding.ItemCardStackViewBinding
@@ -24,6 +25,7 @@ class SwipeCardAdapter(
             binding.fabLike.setOnClickListener { manageUserClickListener.clickLike(user) }
             binding.fabDislike.setOnClickListener { manageUserClickListener.clickDislike(user) }
             binding.tvUsername.text = usernameUi.mapUsername(user.firstName, user.lastName)
+            Glide.with(itemView).load(user.avatarUrl).into(binding.ivUserAvatar)
         }
     }
 
