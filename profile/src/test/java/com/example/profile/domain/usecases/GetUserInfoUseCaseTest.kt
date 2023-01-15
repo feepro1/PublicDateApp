@@ -20,9 +20,9 @@ class GetUserInfoUseCaseTest {
         Mockito.`when`(getUserInfoRepository.receiveUserInfo()).thenReturn(
             Resource.Success(UserInfo())
         )
-        val userInfo = getUserInfoUseCase.execute()
+        val result = getUserInfoUseCase.execute()
 
-        Assertions.assertTrue(userInfo.data != null)
+        Assertions.assertTrue(result.data != null)
     }
 
     @Test
@@ -30,8 +30,8 @@ class GetUserInfoUseCaseTest {
         Mockito.`when`(getUserInfoRepository.receiveUserInfo()).thenReturn(
             Resource.Error(null, NetworkException(INTERNET_IS_UNAVAILABLE))
         )
-        val userInfo = getUserInfoUseCase.execute()
+        val result = getUserInfoUseCase.execute()
 
-        Assertions.assertTrue(userInfo.exception?.message == INTERNET_IS_UNAVAILABLE)
+        Assertions.assertTrue(result.exception?.message == INTERNET_IS_UNAVAILABLE)
     }
 }
