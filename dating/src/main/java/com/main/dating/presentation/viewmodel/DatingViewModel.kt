@@ -27,6 +27,10 @@ class DatingViewModel(
     private val provideAnimationsSettings: ProvideAnimationsSettings
 ) : ViewModel(), ObserveDatingCommunications, ManageCommunication, ValueDatingCommunications {
 
+    init {
+        getUsersFromDatabase()
+    }
+
     fun getUsersFromDatabase() {
         viewModelScope.launch(dispatchers.io()) {
             val result = datingInteractor.getUsersFromDatabase()

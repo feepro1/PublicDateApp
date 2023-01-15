@@ -2,6 +2,7 @@ package com.main.dating.di.modules
 
 import com.main.dating.domain.ManageDirection
 import com.main.dating.domain.ProvideAnimationsSettings
+import com.main.dating.domain.exception.DatingHandleException
 import com.main.dating.domain.firebase.database.DatabaseRepository
 import com.main.dating.domain.firebase.repository.ManageUserRepository
 import com.main.dating.domain.interactor.DatingInteractor
@@ -56,5 +57,10 @@ class DatingDomainModule {
     @Provides
     fun provideAnimationsSettings(): ProvideAnimationsSettings {
         return ProvideAnimationsSettings.Base()
+    }
+
+    @Provides
+    fun provideDatingHandleException(): DatingHandleException {
+        return DatingHandleException.Base()
     }
 }
