@@ -54,9 +54,7 @@ abstract class BaseRegisterTest {
             this.registerData.add(registerData)
         }
 
-        override fun manageMotionToastText(text: String) {
-            TODO("Not yet implemented")
-        }
+        override fun manageMotionToastText(text: String) = Unit
 
         override fun observeRegisterEmailError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
 
@@ -67,11 +65,9 @@ abstract class BaseRegisterTest {
         override fun observeRegisterFirstNameError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
 
         override fun observeRegisterLastNameError(owner: LifecycleOwner, observer: Observer<InputTextState>) = Unit
-        override fun observeMotionToastText(owner: LifecycleOwner, observer: Observer<String>) {
-            TODO("Not yet implemented")
-        }
+        override fun observeMotionToastText(owner: LifecycleOwner, observer: Observer<String>) = Unit
 
-        override fun valueRegisterData(): RegisterData? {
+        override fun valueRegisterData(): RegisterData {
            return registerData.first()
         }
     }

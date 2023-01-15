@@ -8,7 +8,8 @@ data class RegisterData(
     val confirmPassword: String = "",
     val avatar: Bitmap? = null,
     val firstName: String = "",
-    val lastName: String = ""
+    val lastName: String = "",
+    val uid: String = ""
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -40,7 +41,8 @@ data class RegisterData(
         return RegisterDataForDatabase(
             email = email,
             firstName = firstName,
-            lastName = lastName
+            lastName = lastName,
+            uid = uid
         )
     }
 }

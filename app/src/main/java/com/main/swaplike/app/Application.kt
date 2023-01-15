@@ -2,6 +2,12 @@ package com.main.swaplike.app
 
 import android.app.Application
 import com.google.firebase.FirebaseApp
+import com.main.dating.di.component.DaggerDatingComponent
+import com.main.dating.di.component.DatingComponent
+import com.main.dating.di.modules.DatingDataModule
+import com.main.dating.di.modules.DatingDomainModule
+import com.main.dating.di.modules.DatingPresentationModule
+import com.main.dating.di.provider.ProvideDatingComponent
 import com.main.login.di.component.DaggerLoginComponent
 import com.main.login.di.component.LoginComponent
 import com.main.login.di.module.LoginDataModule
@@ -15,7 +21,7 @@ import com.main.register.di.module.RegisterDomainModule
 import com.main.register.di.module.RegisterPresentationModule
 import com.main.register.di.provider.ProvideRegisterComponent
 
-class Application : Application(), ProvideLoginComponent, ProvideRegisterComponent {
+class Application : Application(), ProvideLoginComponent, ProvideRegisterComponent, ProvideDatingComponent {
 
     private val loginComponent by lazy {
         DaggerLoginComponent
@@ -35,13 +41,20 @@ class Application : Application(), ProvideLoginComponent, ProvideRegisterCompone
             .build()
     }
 
-    override fun provideLoginComponent(): LoginComponent {
-        return loginComponent
+    private val datingComponent by lazy {
+        DaggerDatingComponent
+            .builder()
+            .datingPresentationModule(DatingPresentationModule())
+            .datingDomainModule(DatingDomainModule())
+            .datingDataModule(DatingDataModule())
+            .build()
     }
 
-    override fun provideRegisterComponent(): RegisterComponent {
-        return registerComponent
-    }
+    override fun provideLoginComponent(): LoginComponent = loginComponent
+
+    override fun provideRegisterComponent(): RegisterComponent = registerComponent
+
+    override fun provideDatingComponent(): DatingComponent = datingComponent
 
     override fun onCreate() {
         super.onCreate()

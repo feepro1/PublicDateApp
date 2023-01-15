@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:hint="@string/last_name"
-        app:endIconMode="password_toggle"
+        app:endIconMode="clear_text"
         app:helperTextTextColor="@color/red_200"
         app:layout_constraintEnd_toEndOf="@+id/btnRegister"
         app:layout_constraintHorizontal_bias="0.0"

@@ -31,7 +31,7 @@ class RegisterViewModel(
     private val registerNavigation: RegisterNavigation,
     private val validateStartRegisterData: ValidateStartRegisterData,
     private val manageImageRepository: ManageImageRepository
-) : ViewModel(), ObserveRegisterCommunications, ManageRegisterCommunications, ValueRegisterCommunications<RegisterData> {
+) : ViewModel(), ObserveRegisterCommunications, ManageRegisterCommunications, ValueRegisterCommunications {
 
     fun register(registerData: RegisterData, navController: NavController, showToast: () -> (Unit)) {
         viewModelScope.launch(dispatchers.io()) {
