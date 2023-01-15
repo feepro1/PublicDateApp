@@ -5,7 +5,9 @@ import com.main.core.exception.NetworkException
 import com.main.dating.BaseDatingTest
 import com.main.dating.data.entities.User
 import com.main.dating.data.exception.message.DatingExceptionMessages.INTERNET_IS_UNAVAILABLE
-import com.main.dating.data.realization.firebase.database.DatabaseRepository
+import com.main.dating.domain.ManageDirection
+import com.main.dating.domain.ProvideAnimationsSettings
+import com.main.dating.domain.firebase.database.DatabaseRepository
 import com.main.dating.domain.firebase.repository.ManageUserRepository
 import com.main.dating.domain.interactor.DatingInteractor
 import com.main.dating.domain.usecases.DislikeUserUseCase
@@ -44,7 +46,9 @@ class DatingViewModelTest : BaseDatingTest() {
     private val datingViewModel = DatingViewModel(
         datingInteractor = datingInteractor,
         datingCommunication = datingCommunication,
-        dispatchers = TestDispatchersList()
+        dispatchers = TestDispatchersList(),
+        manageDirection = ManageDirection.Base(),
+        provideAnimationsSettings = ProvideAnimationsSettings.Base()
     )
 
     @BeforeEach
