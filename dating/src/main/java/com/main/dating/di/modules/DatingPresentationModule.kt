@@ -1,9 +1,12 @@
 package com.main.dating.di.modules
 
 import com.main.core.DispatchersList
+import com.main.dating.domain.ManageDirection
+import com.main.dating.domain.ProvideAnimationsSettings
 import com.main.dating.domain.interactor.DatingInteractor
 import com.main.dating.presentation.communication.DatingCommunication
 import com.main.dating.presentation.communication.DatingMotionToastCommunication
+import com.main.dating.presentation.communication.DatingUserCommunication
 import com.main.dating.presentation.communication.DatingUsersCommunication
 import com.main.dating.presentation.viewmodel.DatingViewModelFactory
 import dagger.Module
@@ -16,23 +19,29 @@ class DatingPresentationModule {
     fun provideDatingViewModelFactory(
         datingInteractor: DatingInteractor,
         datingCommunication: DatingCommunication,
-        dispatchers: DispatchersList
+        dispatchers: DispatchersList,
+        manageDirection: ManageDirection,
+        provideAnimationsSettings: ProvideAnimationsSettings
     ): DatingViewModelFactory {
         return DatingViewModelFactory(
             datingInteractor = datingInteractor,
             datingCommunication = datingCommunication,
-            dispatchers = dispatchers
+            dispatchers = dispatchers,
+            manageDirection = manageDirection,
+            provideAnimationsSettings = provideAnimationsSettings
         )
     }
 
     @Provides
     fun provideDatingCommunication(
         datingMotionToastCommunication: DatingMotionToastCommunication,
-        datingUsersCommunication: DatingUsersCommunication
+        datingUsersCommunication: DatingUsersCommunication,
+        datingUserCommunication: DatingUserCommunication
     ): DatingCommunication {
         return DatingCommunication.Base(
             datingMotionToastCommunication = datingMotionToastCommunication,
-            datingUsersCommunication = datingUsersCommunication
+            datingUsersCommunication = datingUsersCommunication,
+            datingUserCommunication = datingUserCommunication
         )
     }
 
@@ -44,6 +53,11 @@ class DatingPresentationModule {
     @Provides
     fun provideDatingUsersCommunication(): DatingUsersCommunication {
         return DatingUsersCommunication.Base()
+    }
+
+    @Provides
+    fun provideDatingUserCommunication(): DatingUserCommunication {
+        return DatingUserCommunication.Base()
     }
 
     @Provides

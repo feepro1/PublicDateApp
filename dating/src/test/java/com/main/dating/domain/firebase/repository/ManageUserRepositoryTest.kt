@@ -5,8 +5,8 @@ import com.main.core.exception.NetworkException
 import com.main.dating.data.entities.User
 import com.main.dating.data.exception.message.DatingExceptionMessages.INTERNET_IS_UNAVAILABLE
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions
 import org.junit.Test
+import org.junit.jupiter.api.Assertions
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 

@@ -6,7 +6,7 @@ import com.main.core.communication.Communication
 import com.main.core.state.InputTextState
 import com.main.register.data.entities.RegisterData
 
-interface RegisterCommunication : ObserveRegisterCommunications, ValueRegisterCommunications<RegisterData> {
+interface RegisterCommunication : ObserveRegisterCommunications, ValueRegisterCommunications {
 
     fun manageEmailError(inputTextState: InputTextState)
 
@@ -96,8 +96,8 @@ interface ObserveRegisterCommunications {
     fun observeMotionToastText(owner: LifecycleOwner, observer: Observer<String>)
 }
 
-interface ValueRegisterCommunications<T> {
-    fun valueRegisterData(): T?
+interface ValueRegisterCommunications {
+    fun valueRegisterData(): RegisterData?
 }
 
 interface RegisterEmailCommunication: Communication.Mutable<InputTextState> {

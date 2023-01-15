@@ -7,10 +7,10 @@ import com.main.dating.domain.firebase.repository.ManageUserRepository
 class ManageUserRepositoryImpl : ManageUserRepository {
 
     override suspend fun likeUser(user: User): Resource<Boolean> {
-        TODO("Not yet implemented")
+        return Resource.Success(true)
     }
 
     override suspend fun dislikeUser(user: User): Resource<Boolean> {
-        TODO("Not yet implemented")
+        return Resource.Success(true)
     }
 }

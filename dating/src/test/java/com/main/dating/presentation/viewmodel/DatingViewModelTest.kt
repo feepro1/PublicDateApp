@@ -12,8 +12,8 @@ import com.main.dating.domain.usecases.DislikeUserUseCase
 import com.main.dating.domain.usecases.GetUsersFromDatabaseUseCase
 import com.main.dating.domain.usecases.LikeUserUseCase
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions
 import org.junit.Test
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito
 import org.mockito.kotlin.mock

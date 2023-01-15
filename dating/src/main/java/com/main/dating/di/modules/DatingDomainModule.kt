@@ -1,5 +1,7 @@
 package com.main.dating.di.modules
 
+import com.main.dating.domain.ManageDirection
+import com.main.dating.domain.ProvideAnimationsSettings
 import com.main.dating.domain.firebase.database.DatabaseRepository
 import com.main.dating.domain.firebase.repository.ManageUserRepository
 import com.main.dating.domain.interactor.DatingInteractor
@@ -44,5 +46,15 @@ class DatingDomainModule {
         manageUserRepository: ManageUserRepository
     ): DislikeUserUseCase {
         return DislikeUserUseCase(manageUserRepository = manageUserRepository)
+    }
+
+    @Provides
+    fun provideManageDirection(): ManageDirection {
+        return ManageDirection.Base()
+    }
+
+    @Provides
+    fun provideAnimationsSettings(): ProvideAnimationsSettings {
+        return ProvideAnimationsSettings.Base()
     }
 }
