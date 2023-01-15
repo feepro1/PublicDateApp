@@ -15,12 +15,7 @@ import com.main.dating.presentation.UsernameUi
 class SwipeCardAdapter(
     private val manageUserClickListener: ManageUserClickListener
 ) : RecyclerView.Adapter<SwipeCardAdapter.SwipeCardViewHolder>(), ManageCardStackView, UsernameUi {
-   val users = mutableListOf(
-        User("Hello", "World", "dsajkdas", "dasdas"),
-        User("Hello1", "World", "dsajkdas", "dasdas"),
-        User("Hello2", "World", "dsajkdas", "dasdas"),
-        User("Hello3", "World", "dsajkdas", "dasdas")
-    )
+   val users = mutableListOf<User>()
 
     class SwipeCardViewHolder(item: View): ViewHolder(item) {
         private val binding by lazy { ItemCardStackViewBinding.bind(item) }
