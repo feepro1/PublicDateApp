@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:theme="@style/Theme.SwapLike">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -38,5 +38,120 @@
 
         </com.google.android.material.bottomappbar.BottomAppBar>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivUserAvatar"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/etFirstName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="First name"
+                        android:inputType="textPersonName" />
+
+                    <EditText
+                        android:id="@+id/etLastName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="Last name"
+                        android:inputType="textPersonName" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvAge"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="#F1F1F1"
+                android:gravity="center_vertical"
+                android:paddingStart="5dp"
+                android:text="Age: unknow"
+                android:textSize="24sp" />
+
+            <SeekBar
+                android:id="@+id/sbAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:backgroundTint="#9F9F9F" />
+
+            <EditText
+                android:id="@+id/etEmal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="Email"
+                android:inputType="textPersonName"
+                android:paddingStart="5dp" />
+
+            <EditText
+                android:id="@+id/etCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:hint="City"
+                android:inputType="textPersonName"
+                android:paddingStart="5dp" />
+
+            <EditText
+                android:id="@+id/etRegion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="Region"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/etAboutMe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="About me"
+                android:inputType="textPersonName" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
