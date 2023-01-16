@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,6 +15,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.profile.databinding.FragmentProfileBinding
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.main.core.base.BaseFragment
 import com.main.core.toast.showErrorColorToast
 import com.main.profile.data.entities.UserInfoLocal
@@ -31,6 +34,14 @@ class ProfileFragment : BaseFragment() {
     private val profileViewModel: ProfileViewModel by activityViewModels { profileViewModelFactory }
     private var launcher by Delegates.notNull<ActivityResultLauncher<Intent>>()
 
+    private val seekBarListener = object : SeekBar.OnSeekBarChangeListener {
+        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            binding.tvAge.text = "Age: $progress"
+        }
+        override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
+        override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -41,6 +52,8 @@ class ProfileFragment : BaseFragment() {
         (requireActivity().applicationContext as ProvideProfileComponent).provideProfileComponent().inject(this)
 
         binding.mainBottomNavigationView.menu.getItem(2).isChecked = true
+
+        profileViewModel.receiveUserInfo()
 
         binding.mainBottomNavigationView.setOnItemSelectedListener { menuItem ->
             profileViewModel.manageMenuItem(menuItem, findNavController())
@@ -54,6 +67,8 @@ class ProfileFragment : BaseFragment() {
             showErrorColorToast(this, text)
         }
 
+        binding.sbAge.setOnSeekBarChangeListener(seekBarListener)
+
         profileViewModel.observeUserInfo(this) { userInfo ->
             binding.etFirstName.setText(userInfo.firstName)
             binding.etLastName.setText(userInfo.lastName)
@@ -62,7 +77,8 @@ class ProfileFragment : BaseFragment() {
             binding.etRegion.setText(userInfo.region)
             binding.etAboutMe.setText(userInfo.aboutMe)
             Glide.with(this).load(userInfo.avatarUrl).into(binding.ivUserAvatar)
-            binding.tvAge.text = "Age: ${userInfo.age}"
+            binding.tvAge.text = "Age: ${userInfo?.age ?: "unknow"}"
+            binding.sbAge.progress = userInfo.age ?: 0
         }
 
         binding.btnSave.setOnClickListener {
@@ -71,10 +87,11 @@ class ProfileFragment : BaseFragment() {
                 lastName = binding.etLastName.text.toString().trim(),
                 avatar = (binding.ivUserAvatar.drawable).toBitmap(),
                 email = binding.etEmal.text.toString().trim(),
-                age = 1,
+                age = binding.sbAge.progress,
                 city = binding.etCity.text.toString().trim(),
                 region = binding.etRegion.text.toString().trim(),
-                aboutMe = binding.etAboutMe.text.toString().trim()
+                aboutMe = binding.etAboutMe.text.toString().trim(),
+                uid = Firebase.auth.currentUser?.uid.toString()
             )
             profileViewModel.saveUserInfo(userInfoLocal)
         }

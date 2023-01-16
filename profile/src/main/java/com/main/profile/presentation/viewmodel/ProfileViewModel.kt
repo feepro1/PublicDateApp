@@ -1,6 +1,7 @@
 package com.main.profile.presentation.viewmodel
 
 import android.content.Intent
+import android.util.Log
 import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.LifecycleOwner
@@ -31,17 +32,14 @@ class ProfileViewModel(
     private val manageImageRepository: ManageImageRepository
 ) : ViewModel(), ObserveProfileCommunications, ValueProfileCommunication {
 
-    init {
-        receiveUserInfo()
-    }
-
     fun receiveUserInfo() {
         viewModelScope.launch(dispatchers.io()) {
             val result = getUserInfoUseCase.execute()
             if (result.data == null) {
+                val message = result.exception?.message.toString()
                 when (result.exception) {
                     is NetworkException -> {
-                        profileCommunication.manageMotionToastText(INTERNET_IS_UNAVAILABLE)
+                        profileCommunication.manageMotionToastText(message)
                     }
                 }
             }
@@ -53,10 +51,11 @@ class ProfileViewModel(
         viewModelScope.launch(dispatchers.io()) {
             val result = saveUserInfoUseCase.execute(userInfoLocal)
             if (result.data == true) return@launch
+            val message = result.exception?.message.toString()
 
             when (result.exception) {
                 is NetworkException -> {
-                    profileCommunication.manageMotionToastText(INTERNET_IS_UNAVAILABLE)
+                    profileCommunication.manageMotionToastText(message)
                 }
             }
         }
