@@ -13,3 +13,5 @@ class LastNameException(message: String): ApplicationException(message)
 class ConfirmPasswordException(message: String): ApplicationException(message)
 
 class NetworkException(message: String): ApplicationException(message)
+
+class DefaultException(message: String): ApplicationException(message)

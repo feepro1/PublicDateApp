@@ -1,14 +1,17 @@
 package com.example.profile.presentation.viewmodel
 
 import com.example.profile.BaseProfileTest
+import com.main.core.ManageImageRepository
+import com.main.core.Resource
+import com.main.core.exception.NetworkException
 import com.main.profile.data.entities.UserInfo
+import com.main.profile.data.entities.UserInfoLocal
 import com.main.profile.data.exception.message.ProfileExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.profile.domain.firebase.GetUserInfoRepository
 import com.main.profile.domain.firebase.SaveUserInfoRepository
+import com.main.profile.domain.navigation.ProfileNavigation
 import com.main.profile.domain.usecases.GetUserInfoUseCase
 import com.main.profile.domain.usecases.SaveUserInfoUseCase
-import com.main.core.Resource
-import com.main.core.exception.NetworkException
 import com.main.profile.presentation.viewmodel.ProfileViewModel
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -28,7 +31,9 @@ class ProfileViewModelTest : BaseProfileTest() {
         getUserInfoUseCase = getUserInfoUseCase,
         saveUserInfoUseCase = saveUserInfoUseCase,
         dispatchers = TestDispatchersList(),
-        profileCommunication = profileCommunication
+        profileCommunication = profileCommunication,
+        profileNavigation = ProfileNavigation.Base(),
+        manageImageRepository = ManageImageRepository.Base()
     )
 
     @BeforeEach
@@ -48,10 +53,10 @@ class ProfileViewModelTest : BaseProfileTest() {
 
     @Test
     fun `test successful save user info`() = runBlocking {
-        Mockito.`when`(saveUserInfoUseCase.execute(UserInfo())).thenReturn(
+        Mockito.`when`(saveUserInfoUseCase.execute(UserInfoLocal())).thenReturn(
             Resource.Success(true)
         )
-        profileViewModel.saveUserInfo(UserInfo())
+        profileViewModel.saveUserInfo(UserInfoLocal())
 
         Assertions.assertTrue(profileCommunication.motionToastText.isEmpty())
     }
@@ -69,10 +74,10 @@ class ProfileViewModelTest : BaseProfileTest() {
 
     @Test
     fun `test failure save user info, internet is not available`() = runBlocking {
-        Mockito.`when`(saveUserInfoUseCase.execute(UserInfo())).thenReturn(
+        Mockito.`when`(saveUserInfoUseCase.execute(UserInfoLocal())).thenReturn(
             Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
         )
-        profileViewModel.saveUserInfo(UserInfo())
+        profileViewModel.saveUserInfo(UserInfoLocal())
         val result = profileCommunication.motionToastText.first() == INTERNET_IS_UNAVAILABLE
 
         Assertions.assertTrue(result)

@@ -1,13 +1,14 @@
 package com.main.profile.di.modules
 
+import com.main.core.DispatchersList
+import com.main.core.ManageImageRepository
+import com.main.profile.domain.navigation.ProfileNavigation
 import com.main.profile.domain.usecases.GetUserInfoUseCase
 import com.main.profile.domain.usecases.SaveUserInfoUseCase
 import com.main.profile.presentation.communication.ProfileCommunication
 import com.main.profile.presentation.communication.ProfileMotionToastCommunication
 import com.main.profile.presentation.communication.ProfileUserInfoCommunication
 import com.main.profile.presentation.viewmodel.ProfileViewModelFactory
-import com.main.core.DispatchersList
-import com.main.profile.domain.navigation.ProfileNavigation
 import dagger.Module
 import dagger.Provides
 
@@ -20,14 +21,16 @@ class ProfilePresentationModule {
         saveUserInfoUseCase: SaveUserInfoUseCase,
         dispatchers: DispatchersList,
         profileCommunication: ProfileCommunication,
-        profileNavigation: ProfileNavigation
+        profileNavigation: ProfileNavigation,
+        manageImageRepository: ManageImageRepository
     ): ProfileViewModelFactory {
         return ProfileViewModelFactory(
             getUserInfoUseCase = getUserInfoUseCase,
             saveUserInfoUseCase = saveUserInfoUseCase,
             dispatchers = dispatchers,
             profileCommunication = profileCommunication,
-            profileNavigation = profileNavigation
+            profileNavigation = profileNavigation,
+            manageImageRepository = manageImageRepository
         )
     }
 

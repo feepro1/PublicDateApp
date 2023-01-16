@@ -2,10 +2,10 @@ package com.main.profile.presentation.communication
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.main.profile.data.entities.UserInfo
 import com.main.core.communication.Communication
+import com.main.profile.data.entities.UserInfo
 
-interface ProfileCommunication : ObserveProfileCommunications {
+interface ProfileCommunication : ObserveProfileCommunications, ValueProfileCommunication {
 
     fun manageMotionToastText(text: String)
 
@@ -31,6 +31,10 @@ interface ProfileCommunication : ObserveProfileCommunications {
         override fun observeUserInfo(owner: LifecycleOwner, observer: Observer<UserInfo>) {
             profileUserInfoCommunication.observe(owner, observer)
         }
+
+        override fun valueUserInfo(): UserInfo? {
+            return profileUserInfoCommunication.value()
+        }
     }
 }
 
@@ -39,6 +43,10 @@ interface ObserveProfileCommunications {
     fun observeMotionToastText(owner: LifecycleOwner, observer: Observer<String>)
 
     fun observeUserInfo(owner: LifecycleOwner, observer: Observer<UserInfo>)
+}
+
+interface ValueProfileCommunication {
+    fun valueUserInfo(): UserInfo?
 }
 
 interface ProfileMotionToastCommunication: Communication.Mutable<String> {
