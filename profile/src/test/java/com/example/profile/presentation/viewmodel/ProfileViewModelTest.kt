@@ -1,5 +1,12 @@
-package com.example.profile.presentation
+package com.example.profile.presentation.viewmodel
 
+import com.example.profile.BaseProfileTest
+import com.example.profile.data.entities.UserInfo
+import com.example.profile.data.exception.message.ProfileExceptionMessages.INTERNET_IS_UNAVAILABLE
+import com.example.profile.domain.firebase.GetUserInfoRepository
+import com.example.profile.domain.firebase.SaveUserInfoRepository
+import com.example.profile.domain.usecases.GetUserInfoUseCase
+import com.example.profile.domain.usecases.SaveUserInfoUseCase
 import com.main.core.Resource
 import com.main.core.exception.NetworkException
 import kotlinx.coroutines.runBlocking
@@ -9,9 +16,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
-class ProfileViewModelTest {
+class ProfileViewModelTest : BaseProfileTest() {
 
-    private val profileCommunication = TestCommunication()
+    private val profileCommunication = TestProfileCommunication()
     private val getUserInfoRepository = mock<GetUserInfoRepository>()
     private val getUserInfoUseCase = GetUserInfoUseCase(getUserInfoRepository)
     private val saveUserInfoRepository = mock<SaveUserInfoRepository>()
@@ -19,7 +26,7 @@ class ProfileViewModelTest {
     private val profileViewModel = ProfileViewModel(
         getUserInfoUseCase = getUserInfoUseCase,
         saveUserInfoUseCase = saveUserInfoUseCase,
-        dispatchers = TestDispatchers(),
+        dispatchers = TestDispatchersList(),
         profileCommunication = profileCommunication
     )
 

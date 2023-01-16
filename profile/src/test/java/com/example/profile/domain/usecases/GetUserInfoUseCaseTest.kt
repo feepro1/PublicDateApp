@@ -1,5 +1,8 @@
 package com.example.profile.domain.usecases
 
+import com.example.profile.data.entities.UserInfo
+import com.example.profile.data.exception.message.ProfileExceptionMessages.INTERNET_IS_UNAVAILABLE
+import com.example.profile.domain.firebase.GetUserInfoRepository
 import com.main.core.Resource
 import com.main.core.exception.NetworkException
 import kotlinx.coroutines.runBlocking
