@@ -2,10 +2,12 @@ package com.main.dating.presentation.viewmodel
 
 import android.content.Context
 import android.util.Log
+import android.view.MenuItem
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.main.core.DispatchersList
 import com.main.core.exception.NetworkException
 import com.main.dating.data.entities.User
@@ -13,6 +15,7 @@ import com.main.dating.domain.ManageCommunication
 import com.main.dating.domain.ManageDirection
 import com.main.dating.domain.ProvideAnimationsSettings
 import com.main.dating.domain.interactor.DatingInteractor
+import com.main.dating.domain.navigation.DatingNavigation
 import com.main.dating.presentation.communication.DatingCommunication
 import com.main.dating.presentation.communication.ObserveDatingCommunications
 import com.main.dating.presentation.communication.ValueDatingCommunications
@@ -24,7 +27,8 @@ class DatingViewModel(
     private val datingCommunication: DatingCommunication,
     private val dispatchers: DispatchersList,
     private val manageDirection: ManageDirection,
-    private val provideAnimationsSettings: ProvideAnimationsSettings
+    private val provideAnimationsSettings: ProvideAnimationsSettings,
+    private val datingNavigation: DatingNavigation
 ) : ViewModel(), ObserveDatingCommunications, ManageCommunication, ValueDatingCommunications {
 
     init {
@@ -86,6 +90,13 @@ class DatingViewModel(
 
     fun swipeDislike(cardStackView: CardStackView, layoutManager: CardStackLayoutManager) {
         provideAnimationsSettings.createAnimationsSettingsForDislike(cardStackView, layoutManager)
+    }
+
+    fun manageMenuItem(menuItem: MenuItem, navController: NavController): Boolean {
+        when (menuItem.itemId) {
+            com.main.core.R.id.itemProfile -> datingNavigation.navigateToProfileFragment(navController)
+        }
+        return true
     }
 
     override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) {

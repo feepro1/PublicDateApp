@@ -1,14 +1,15 @@
 package com.example.profile.presentation.viewmodel
 
 import com.example.profile.BaseProfileTest
-import com.example.profile.data.entities.UserInfo
-import com.example.profile.data.exception.message.ProfileExceptionMessages.INTERNET_IS_UNAVAILABLE
-import com.example.profile.domain.firebase.GetUserInfoRepository
-import com.example.profile.domain.firebase.SaveUserInfoRepository
-import com.example.profile.domain.usecases.GetUserInfoUseCase
-import com.example.profile.domain.usecases.SaveUserInfoUseCase
+import com.main.profile.data.entities.UserInfo
+import com.main.profile.data.exception.message.ProfileExceptionMessages.INTERNET_IS_UNAVAILABLE
+import com.main.profile.domain.firebase.GetUserInfoRepository
+import com.main.profile.domain.firebase.SaveUserInfoRepository
+import com.main.profile.domain.usecases.GetUserInfoUseCase
+import com.main.profile.domain.usecases.SaveUserInfoUseCase
 import com.main.core.Resource
 import com.main.core.exception.NetworkException
+import com.main.profile.presentation.viewmodel.ProfileViewModel
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.jupiter.api.Assertions

@@ -1,12 +1,12 @@
 package com.main.swaplike.app
 
 import android.app.Application
-import com.example.profile.di.component.DaggerProfileComponent
-import com.example.profile.di.component.ProfileComponent
-import com.example.profile.di.modules.ProfileDataModule
-import com.example.profile.di.modules.ProfileDomainModule
-import com.example.profile.di.modules.ProfilePresentationModule
-import com.example.profile.di.provider.ProvideProfileComponent
+import com.main.profile.di.component.DaggerProfileComponent
+import com.main.profile.di.component.ProfileComponent
+import com.main.profile.di.modules.ProfileDataModule
+import com.main.profile.di.modules.ProfileDomainModule
+import com.main.profile.di.modules.ProfilePresentationModule
+import com.main.profile.di.provider.ProvideProfileComponent
 import com.google.firebase.FirebaseApp
 import com.main.dating.di.component.DaggerDatingComponent
 import com.main.dating.di.component.DatingComponent

@@ -4,6 +4,7 @@ import com.main.core.DispatchersList
 import com.main.dating.domain.ManageDirection
 import com.main.dating.domain.ProvideAnimationsSettings
 import com.main.dating.domain.interactor.DatingInteractor
+import com.main.dating.domain.navigation.DatingNavigation
 import com.main.dating.presentation.communication.DatingCommunication
 import com.main.dating.presentation.communication.DatingMotionToastCommunication
 import com.main.dating.presentation.communication.DatingUserCommunication
@@ -21,14 +22,16 @@ class DatingPresentationModule {
         datingCommunication: DatingCommunication,
         dispatchers: DispatchersList,
         manageDirection: ManageDirection,
-        provideAnimationsSettings: ProvideAnimationsSettings
+        provideAnimationsSettings: ProvideAnimationsSettings,
+        datingNavigation: DatingNavigation
     ): DatingViewModelFactory {
         return DatingViewModelFactory(
             datingInteractor = datingInteractor,
             datingCommunication = datingCommunication,
             dispatchers = dispatchers,
             manageDirection = manageDirection,
-            provideAnimationsSettings = provideAnimationsSettings
+            provideAnimationsSettings = provideAnimationsSettings,
+            datingNavigation = datingNavigation
         )
     }
 

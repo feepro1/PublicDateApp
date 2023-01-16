@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.main.core.base.BaseFragment
 import com.main.core.toast.showErrorColorToast
+import com.main.dating.R
 import com.main.dating.data.entities.User
 import com.main.dating.databinding.FragmentDatingBinding
 import com.main.dating.di.provider.ProvideDatingComponent
@@ -71,6 +73,10 @@ class DatingFragment : BaseFragment() {
 
         datingViewModel.observeUsersList(this) { users ->
             swipeCardAdapter.mapAll(users)
+        }
+
+        binding.mainBottomNavigationView.setOnItemSelectedListener { menuItem ->
+            datingViewModel.manageMenuItem(menuItem, findNavController())
         }
     }
 }

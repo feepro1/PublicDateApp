@@ -6,6 +6,7 @@ import com.main.dating.domain.exception.DatingDatabaseHandleException
 import com.main.dating.domain.firebase.database.DatabaseRepository
 import com.main.dating.domain.firebase.repository.ManageUserRepository
 import com.main.dating.domain.interactor.DatingInteractor
+import com.main.dating.domain.navigation.DatingNavigation
 import com.main.dating.domain.usecases.DislikeUserUseCase
 import com.main.dating.domain.usecases.GetUsersFromDatabaseUseCase
 import com.main.dating.domain.usecases.LikeUserUseCase
@@ -62,5 +63,10 @@ class DatingDomainModule {
     @Provides
     fun provideDatingHandleException(): DatingDatabaseHandleException {
         return DatingDatabaseHandleException.Base()
+    }
+
+    @Provides
+    fun provideDatingNavigation(): DatingNavigation {
+        return DatingNavigation.Base()
     }
 }

@@ -1,9 +1,10 @@
 package com.example.profile.domain.firebase
 
-import com.example.profile.data.entities.UserInfo
-import com.example.profile.data.exception.message.ProfileExceptionMessages.INTERNET_IS_UNAVAILABLE
+import com.main.profile.data.entities.UserInfo
+import com.main.profile.data.exception.message.ProfileExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.Resource
 import com.main.core.exception.NetworkException
+import com.main.profile.domain.firebase.SaveUserInfoRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.jupiter.api.Assertions

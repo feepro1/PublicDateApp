@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ui.ProfileFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/Theme.SwapLike">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-</FrameLayout>
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/mainBottomAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:backgroundTint="#FFFFFF"
+            app:fabCradleMargin="20dp"
+            app:fabCradleRoundedCornerRadius="20dp"
+            app:fabCradleVerticalOffset="10dp">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/mainBottomNavigationView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:background="@color/white"
+                app:elevation="0dp"
+                app:itemIconTint="@drawable/selector_main_bottom_navigation_icon"
+                app:itemRippleColor="@null"
+                app:itemTextColor="@color/selector_main_bottom_navigation_title"
+                app:menu="@menu/main_bottom_navigation_menu" />
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

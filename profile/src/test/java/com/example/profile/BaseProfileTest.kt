@@ -2,8 +2,8 @@ package com.example.profile
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.example.profile.data.entities.UserInfo
-import com.example.profile.presentation.communication.ProfileCommunication
+import com.main.profile.data.entities.UserInfo
+import com.main.profile.presentation.communication.ProfileCommunication
 import com.main.core.DispatchersList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
