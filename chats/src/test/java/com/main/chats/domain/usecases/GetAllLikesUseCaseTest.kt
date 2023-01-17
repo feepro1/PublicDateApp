@@ -17,7 +17,7 @@ class GetAllLikesUseCaseTest {
 
     @Test
     fun `test successful get all likes`() = runBlocking {
-        Mockito.`when`(likesRepository.getAllChats()).thenReturn(
+        Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
             Resource.Success(listOf(Like()))
         )
         val result = getAllLikesUseCase.execute()
@@ -26,7 +26,7 @@ class GetAllLikesUseCaseTest {
 
     @Test
     fun `test successful get all likes, but likes is empty`() = runBlocking {
-        Mockito.`when`(likesRepository.getAllChats()).thenReturn(
+        Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
             Resource.Success(emptyList())
         )
         val result = getAllLikesUseCase.execute()
@@ -35,7 +35,7 @@ class GetAllLikesUseCaseTest {
 
     @Test
     fun `test failure get all likes, internet is not available`() = runBlocking {
-        Mockito.`when`(likesRepository.getAllChats()).thenReturn(
+        Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
             Resource.Error(emptyList(), NetworkException(INTERNET_IS_UNAVAILABLE))
         )
         val result = getAllLikesUseCase.execute()
