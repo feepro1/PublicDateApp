@@ -1,5 +1,8 @@
 package com.main.chats.domain.usecases
 
+import com.main.chats.data.entities.Chat
+import com.main.chats.data.exception.messages.ChatsExceptionMessages.INTERNET_IS_UNAVAILABLE
+import com.main.chats.domain.firebase.ChatsRepository
 import com.main.core.Resource
 import com.main.core.exception.NetworkException
 import kotlinx.coroutines.runBlocking
@@ -21,7 +24,7 @@ class GetAllChatsUseCaseTest {
             Resource.Success(listOf(Chat()))
         )
         val result = getAllChatsUseCase.execute()
-        Assertions.assertTrue(result.data.isNotEmpty())
+        Assertions.assertTrue(result.data?.isNotEmpty() == true)
     }
 
     @Test
@@ -30,7 +33,7 @@ class GetAllChatsUseCaseTest {
             Resource.Success(emptyList())
         )
         val result = getAllChatsUseCase.execute()
-        Assertions.assertTrue(result.data.isEmpty())
+        Assertions.assertTrue(result.data?.isEmpty() == true)
     }
 
     @Test

@@ -77,6 +77,7 @@ class ProfileViewModel(
     fun manageMenuItem(menuItem: MenuItem, navController: NavController): Boolean {
         when (menuItem.itemId) {
             com.main.core.R.id.itemDating -> profileNavigation.navigateToDatingFragment(navController)
+            com.main.core.R.id.itemChats -> profileNavigation.navigateToChatsFragment(navController)
         }
         return true
     }

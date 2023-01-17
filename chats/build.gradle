@@ -52,6 +52,10 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.44.2'
     kapt 'com.google.dagger:dagger-compiler:2.44.2'
     implementation 'javax.inject:javax.inject:1'
+    //Navigation Component
+    implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
+    implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
+    implementation "androidx.fragment:fragment-ktx:1.5.5"
     //Modules
     implementation project(path: ':core')
 }

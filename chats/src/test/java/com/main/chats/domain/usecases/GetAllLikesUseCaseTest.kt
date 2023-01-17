@@ -1,5 +1,8 @@
 package com.main.chats.domain.usecases
 
+import com.main.chats.data.entities.LikeFromUser
+import com.main.chats.data.exception.messages.ChatsExceptionMessages.INTERNET_IS_UNAVAILABLE
+import com.main.chats.domain.firebase.LikesRepository
 import com.main.core.Resource
 import com.main.core.exception.NetworkException
 import kotlinx.coroutines.runBlocking
@@ -18,10 +21,10 @@ class GetAllLikesUseCaseTest {
     @Test
     fun `test successful get all likes`() = runBlocking {
         Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Success(listOf(Like()))
+            Resource.Success(listOf(LikeFromUser()))
         )
         val result = getAllLikesUseCase.execute()
-        Assertions.assertTrue(result.data.isNotEmpty())
+        Assertions.assertTrue(result.data?.isNotEmpty() == true)
     }
 
     @Test
@@ -30,7 +33,7 @@ class GetAllLikesUseCaseTest {
             Resource.Success(emptyList())
         )
         val result = getAllLikesUseCase.execute()
-        Assertions.assertTrue(result.data.isEmpty())
+        Assertions.assertTrue(result.data?.isEmpty() == true)
     }
 
     @Test

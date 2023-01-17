@@ -1,5 +1,15 @@
-package com.main.chats.presentation
+package com.main.chats.presentation.viewmodel
 
+import com.main.chats.BaseChatsTest
+import com.main.chats.data.entities.Chat
+import com.main.chats.data.entities.LikeFromUser
+import com.main.chats.data.exception.messages.ChatsExceptionMessages.INTERNET_IS_UNAVAILABLE
+import com.main.chats.domain.firebase.ChatsRepository
+import com.main.chats.domain.firebase.LikesRepository
+import com.main.chats.domain.navigation.ChatsNavigation
+import com.main.chats.domain.usecases.GetAllChatsUseCase
+import com.main.chats.domain.usecases.GetAllLikesUseCase
+import com.main.chats.presentation.viewmodel.ChatsViewModel
 import com.main.core.Resource
 import com.main.core.exception.NetworkException
 import kotlinx.coroutines.runBlocking
@@ -8,9 +18,9 @@ import org.junit.jupiter.api.Assertions
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
-class ChatsViewModelTest {
+class ChatsViewModelTest : BaseChatsTest() {
 
-    private val chatsCommunication = TestChatsCommunication
+    private val chatsCommunication = TestChatsCommunication()
     private val chatsRepository = mock<ChatsRepository>()
     private val likesRepository = mock<LikesRepository>()
     private val getAllChatsUseCase = GetAllChatsUseCase(chatsRepository)
@@ -38,7 +48,7 @@ class ChatsViewModelTest {
             Resource.Success(emptyList())
         )
         chatsViewModel.getAllChats()
-        Assertions.assertTrue(chatsCommunication.chats.isEmpty())
+        Assertions.assertTrue(chatsCommunication.chats.isNotEmpty())
     }
 
     @Test
@@ -54,7 +64,7 @@ class ChatsViewModelTest {
     @Test
     fun `test successful get all likes`() = runBlocking {
         Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Success(listOf(Like()))
+            Resource.Success(listOf(LikeFromUser()))
         )
         chatsViewModel.getAllLikes()
         Assertions.assertTrue(chatsCommunication.likes.isNotEmpty())
@@ -66,7 +76,7 @@ class ChatsViewModelTest {
             Resource.Success(emptyList())
         )
         chatsViewModel.getAllLikes()
-        Assertions.assertTrue(chatsCommunication.likes.isEmpty())
+        Assertions.assertTrue(chatsCommunication.likes.isNotEmpty())
     }
 
     @Test

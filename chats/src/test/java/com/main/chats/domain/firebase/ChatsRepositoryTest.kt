@@ -1,5 +1,7 @@
 package com.main.chats.domain.firebase
 
+import com.main.chats.data.entities.Chat
+import com.main.chats.data.exception.messages.ChatsExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.Resource
 import com.main.core.exception.NetworkException
 import kotlinx.coroutines.runBlocking
@@ -18,7 +20,7 @@ class ChatsRepositoryTest {
             Resource.Success(listOf(Chat()))
         )
         val result = chatsRepository.getAllChats()
-        Assertions.assertTrue(result.data.isNotEmpty())
+        Assertions.assertTrue(result.data?.isNotEmpty() == true)
     }
 
     @Test
@@ -27,7 +29,7 @@ class ChatsRepositoryTest {
             Resource.Success(emptyList())
         )
         val result = chatsRepository.getAllChats()
-        Assertions.assertTrue(result.data.isEmpty())
+        Assertions.assertTrue(result.data?.isEmpty() == true)
     }
 
     @Test
