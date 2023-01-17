@@ -1,7 +1,6 @@
 package com.main.profile.presentation.viewmodel
 
 import android.content.Intent
-import android.util.Log
 import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.LifecycleOwner
@@ -14,7 +13,6 @@ import com.main.core.ManageImageRepository
 import com.main.core.exception.NetworkException
 import com.main.profile.data.entities.UserInfo
 import com.main.profile.data.entities.UserInfoLocal
-import com.main.profile.data.exception.message.ProfileExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.profile.domain.navigation.ProfileNavigation
 import com.main.profile.domain.usecases.GetUserInfoUseCase
 import com.main.profile.domain.usecases.SaveUserInfoUseCase
@@ -22,6 +20,7 @@ import com.main.profile.presentation.communication.ObserveProfileCommunications
 import com.main.profile.presentation.communication.ProfileCommunication
 import com.main.profile.presentation.communication.ValueProfileCommunication
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ProfileViewModel(
     private val getUserInfoUseCase: GetUserInfoUseCase,
@@ -47,11 +46,19 @@ class ProfileViewModel(
         }
     }
 
-    fun saveUserInfo(userInfoLocal: UserInfoLocal) {
+    fun saveUserInfo(
+        userInfoLocal: UserInfoLocal,
+        finishSuccessSave: () -> Unit,
+        finishFailureSave: () -> Unit
+    ) {
         viewModelScope.launch(dispatchers.io()) {
             val result = saveUserInfoUseCase.execute(userInfoLocal)
-            if (result.data == true) return@launch
+            if (result.data == true) {
+                withContext(dispatchers.ui()) { finishSuccessSave.invoke() }
+                return@launch
+            }
             val message = result.exception?.message.toString()
+            withContext(dispatchers.ui()) { finishFailureSave.invoke() }
 
             when (result.exception) {
                 is NetworkException -> {

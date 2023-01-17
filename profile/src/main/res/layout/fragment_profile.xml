@@ -114,17 +114,6 @@
                 android:backgroundTint="#9F9F9F" />
 
             <EditText
-                android:id="@+id/etEmal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:autofillHints=""
-                android:ems="10"
-                android:hint="Email"
-                android:inputType="textPersonName"
-                android:paddingStart="5dp" />
-
-            <EditText
                 android:id="@+id/etCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -1,6 +1,9 @@
 package com.main.profile.data.database
 
 import android.graphics.Bitmap
+import android.util.Log
+import com.google.firebase.auth.EmailAuthCredential
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -12,6 +15,7 @@ import com.main.core.exception.DefaultException
 import com.main.profile.data.entities.UserInfo
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
+
 
 interface ProfileFirebaseRepository {
 
@@ -33,10 +37,10 @@ interface ProfileFirebaseRepository {
 
         override suspend fun saveUserInfo(userInfo: UserInfo): Resource<Boolean> {
             val uid = Firebase.auth.currentUser?.uid.toString()
+
             val avatarUrl = Firebase.storage.getReference(REFERENCE_USERS_AVATARS).child(uid).downloadUrl
             avatarUrl.await()
 
-            Firebase.auth.currentUser?.updateEmail(userInfo.email)
             val task = Firebase.firestore.collection(REFERENCE_USERS).document(uid).set(
                 userInfo.copy(avatarUrl = avatarUrl.result.toString())
             )

@@ -1,6 +1,7 @@
 package com.main.profile.presentation.ui
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,11 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.profile.R
 import com.example.profile.databinding.FragmentProfileBinding
+import com.github.razir.progressbutton.bindProgressButton
+import com.github.razir.progressbutton.hideProgress
+import com.github.razir.progressbutton.showProgress
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.main.core.base.BaseFragment
@@ -28,7 +33,6 @@ import kotlin.properties.Delegates
 
 class ProfileFragment : BaseFragment() {
     private val binding by lazy { FragmentProfileBinding.inflate(layoutInflater) }
-
     @Inject
     lateinit var profileViewModelFactory: ProfileViewModelFactory
     private val profileViewModel: ProfileViewModel by activityViewModels { profileViewModelFactory }
@@ -49,10 +53,12 @@ class ProfileFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity().applicationContext as ProvideProfileComponent).provideProfileComponent().inject(this)
+        (requireActivity().applicationContext as ProvideProfileComponent).provideProfileComponent()
+            .inject(this)
 
         binding.mainBottomNavigationView.menu.getItem(2).isChecked = true
 
+        bindProgressButton(binding.btnSave)
         profileViewModel.receiveUserInfo()
 
         binding.mainBottomNavigationView.setOnItemSelectedListener { menuItem ->
@@ -72,7 +78,6 @@ class ProfileFragment : BaseFragment() {
         profileViewModel.observeUserInfo(this) { userInfo ->
             binding.etFirstName.setText(userInfo.firstName)
             binding.etLastName.setText(userInfo.lastName)
-            binding.etEmal.setText(userInfo.email)
             binding.etCity.setText(userInfo.city)
             binding.etRegion.setText(userInfo.region)
             binding.etAboutMe.setText(userInfo.aboutMe)
@@ -86,21 +91,30 @@ class ProfileFragment : BaseFragment() {
                 firstName = binding.etFirstName.text.toString().trim(),
                 lastName = binding.etLastName.text.toString().trim(),
                 avatar = (binding.ivUserAvatar.drawable).toBitmap(),
-                email = binding.etEmal.text.toString().trim(),
+                email = profileViewModel.valueUserInfo()?.email.toString(),
                 age = binding.sbAge.progress,
                 city = binding.etCity.text.toString().trim(),
                 region = binding.etRegion.text.toString().trim(),
                 aboutMe = binding.etAboutMe.text.toString().trim(),
                 uid = Firebase.auth.currentUser?.uid.toString()
             )
-            profileViewModel.saveUserInfo(userInfoLocal)
-        }
-
-        launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == AppCompatActivity.RESULT_OK) {
-                val dataUri = result.data?.data
-                binding.ivUserAvatar.setImageURI(dataUri)
+            profileViewModel.saveUserInfo(
+                userInfoLocal,
+                { binding.btnSave.hideProgress(R.string.submit) },
+                { binding.btnSave.hideProgress(R.string.failure) }
+            )
+            binding.btnSave.showProgress {
+                buttonTextRes = R.string.loading
+                progressColor = Color.WHITE
             }
         }
+
+        launcher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                    val dataUri = result.data?.data
+                    binding.ivUserAvatar.setImageURI(dataUri)
+                }
+            }
     }
 }
