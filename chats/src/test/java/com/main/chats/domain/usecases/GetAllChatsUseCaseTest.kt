@@ -30,7 +30,7 @@ class GetAllChatsUseCaseTest {
             Resource.Success(emptyList())
         )
         val result = getAllChatsUseCase.execute()
-        Assertions.assertTrue(result.data.isNotEmpty())
+        Assertions.assertTrue(result.data.isEmpty())
     }
 
     @Test

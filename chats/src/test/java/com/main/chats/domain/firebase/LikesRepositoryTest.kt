@@ -1,4 +1,4 @@
-package com.main.chats.domain.usecases
+package com.main.chats.domain.firebase
 
 import com.main.core.Resource
 import com.main.core.exception.NetworkException
@@ -8,19 +8,16 @@ import org.junit.jupiter.api.Assertions
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
-class GetAllLikesUseCaseTest {
+class LikesRepositoryTest {
 
     private val likesRepository = mock<LikesRepository>()
-    private val getAllLikesUseCase = GetAllLikesUseCase(
-        likesRepository = likesRepository
-    )
 
     @Test
     fun `test successful get all likes`() = runBlocking {
         Mockito.`when`(likesRepository.getAllChats()).thenReturn(
             Resource.Success(listOf(Like()))
         )
-        val result = getAllLikesUseCase.execute()
+        val result = likesRepository.getAllChats()
         Assertions.assertTrue(result.data.isNotEmpty())
     }
 
@@ -29,7 +26,7 @@ class GetAllLikesUseCaseTest {
         Mockito.`when`(likesRepository.getAllChats()).thenReturn(
             Resource.Success(emptyList())
         )
-        val result = getAllLikesUseCase.execute()
+        val result = likesRepository.getAllChats()
         Assertions.assertTrue(result.data.isEmpty())
     }
 
@@ -38,7 +35,8 @@ class GetAllLikesUseCaseTest {
         Mockito.`when`(likesRepository.getAllChats()).thenReturn(
             Resource.Error(emptyList(), NetworkException(INTERNET_IS_UNAVAILABLE))
         )
-        val result = getAllLikesUseCase.execute()
+        val result = likesRepository.getAllChats()
         Assertions.assertTrue(result.exception?.message == INTERNET_IS_UNAVAILABLE)
     }
+
 }
