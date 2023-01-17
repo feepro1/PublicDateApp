@@ -19,6 +19,7 @@ import com.main.profile.domain.usecases.SaveUserInfoUseCase
 import com.main.profile.presentation.communication.ObserveProfileCommunications
 import com.main.profile.presentation.communication.ProfileCommunication
 import com.main.profile.presentation.communication.ValueProfileCommunication
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -49,12 +50,15 @@ class ProfileViewModel(
     fun saveUserInfo(
         userInfoLocal: UserInfoLocal,
         finishSuccessSave: () -> Unit,
-        finishFailureSave: () -> Unit
+        finishFailureSave: () -> Unit,
+        defaultSave: () -> Unit
     ) {
         viewModelScope.launch(dispatchers.io()) {
             val result = saveUserInfoUseCase.execute(userInfoLocal)
             if (result.data == true) {
                 withContext(dispatchers.ui()) { finishSuccessSave.invoke() }
+                delay(3000)
+                withContext(dispatchers.ui()) { defaultSave.invoke() }
                 return@launch
             }
             val message = result.exception?.message.toString()
@@ -65,6 +69,8 @@ class ProfileViewModel(
                     profileCommunication.manageMotionToastText(message)
                 }
             }
+            delay(3000)
+            withContext(dispatchers.ui()) { defaultSave.invoke() }
         }
     }
 

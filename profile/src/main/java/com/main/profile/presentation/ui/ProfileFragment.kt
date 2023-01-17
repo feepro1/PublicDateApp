@@ -101,7 +101,8 @@ class ProfileFragment : BaseFragment() {
             profileViewModel.saveUserInfo(
                 userInfoLocal,
                 { binding.btnSave.hideProgress(R.string.submit) },
-                { binding.btnSave.hideProgress(R.string.failure) }
+                { binding.btnSave.hideProgress(R.string.failure) },
+                { binding.btnSave.hideProgress(R.string.save) }
             )
             binding.btnSave.showProgress {
                 buttonTextRes = R.string.loading

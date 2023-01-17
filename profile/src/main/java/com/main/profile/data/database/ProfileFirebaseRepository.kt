@@ -1,9 +1,6 @@
 package com.main.profile.data.database
 
 import android.graphics.Bitmap
-import android.util.Log
-import com.google.firebase.auth.EmailAuthCredential
-import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
