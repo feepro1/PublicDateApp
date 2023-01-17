@@ -8,6 +8,12 @@ import com.main.profile.di.modules.ProfileDomainModule
 import com.main.profile.di.modules.ProfilePresentationModule
 import com.main.profile.di.provider.ProvideProfileComponent
 import com.google.firebase.FirebaseApp
+import com.main.chats.di.component.ChatsComponent
+import com.main.chats.di.component.DaggerChatsComponent
+import com.main.chats.di.modules.ChatsDataModule
+import com.main.chats.di.modules.ChatsDomainModule
+import com.main.chats.di.modules.ChatsPresentationModule
+import com.main.chats.di.provider.ProvideChatsComponent
 import com.main.dating.di.component.DaggerDatingComponent
 import com.main.dating.di.component.DatingComponent
 import com.main.dating.di.modules.DatingDataModule
@@ -27,8 +33,8 @@ import com.main.register.di.module.RegisterDomainModule
 import com.main.register.di.module.RegisterPresentationModule
 import com.main.register.di.provider.ProvideRegisterComponent
 
-class Application : Application(), ProvideLoginComponent,
-    ProvideRegisterComponent, ProvideDatingComponent, ProvideProfileComponent {
+class Application : Application(), ProvideLoginComponent, ProvideRegisterComponent,
+    ProvideDatingComponent, ProvideProfileComponent, ProvideChatsComponent {
 
     private val loginComponent by lazy {
         DaggerLoginComponent
@@ -66,6 +72,15 @@ class Application : Application(), ProvideLoginComponent,
             .build()
     }
 
+    private val chatsComponent by lazy {
+        DaggerChatsComponent
+            .builder()
+            .chatsPresentationModule(ChatsPresentationModule())
+            .chatsDomainModule(ChatsDomainModule())
+            .chatsDataModule(ChatsDataModule())
+            .build()
+    }
+
     override fun provideLoginComponent(): LoginComponent = loginComponent
 
     override fun provideRegisterComponent(): RegisterComponent = registerComponent
@@ -73,6 +88,8 @@ class Application : Application(), ProvideLoginComponent,
     override fun provideDatingComponent(): DatingComponent = datingComponent
 
     override fun provideProfileComponent(): ProfileComponent = profileComponent
+
+    override fun provideChatsComponent(): ChatsComponent = chatsComponent
 
     override fun onCreate() {
         super.onCreate()
