@@ -1,6 +1,12 @@
 package com.main.swaplike.app
 
 import android.app.Application
+import com.main.profile.di.component.DaggerProfileComponent
+import com.main.profile.di.component.ProfileComponent
+import com.main.profile.di.modules.ProfileDataModule
+import com.main.profile.di.modules.ProfileDomainModule
+import com.main.profile.di.modules.ProfilePresentationModule
+import com.main.profile.di.provider.ProvideProfileComponent
 import com.google.firebase.FirebaseApp
 import com.main.dating.di.component.DaggerDatingComponent
 import com.main.dating.di.component.DatingComponent
@@ -21,7 +27,8 @@ import com.main.register.di.module.RegisterDomainModule
 import com.main.register.di.module.RegisterPresentationModule
 import com.main.register.di.provider.ProvideRegisterComponent
 
-class Application : Application(), ProvideLoginComponent, ProvideRegisterComponent, ProvideDatingComponent {
+class Application : Application(), ProvideLoginComponent,
+    ProvideRegisterComponent, ProvideDatingComponent, ProvideProfileComponent {
 
     private val loginComponent by lazy {
         DaggerLoginComponent
@@ -50,11 +57,22 @@ class Application : Application(), ProvideLoginComponent, ProvideRegisterCompone
             .build()
     }
 
+    private val profileComponent by lazy {
+        DaggerProfileComponent
+            .builder()
+            .profilePresentationModule(ProfilePresentationModule())
+            .profileDomainModule(ProfileDomainModule())
+            .profileDataModule(ProfileDataModule())
+            .build()
+    }
+
     override fun provideLoginComponent(): LoginComponent = loginComponent
 
     override fun provideRegisterComponent(): RegisterComponent = registerComponent
 
     override fun provideDatingComponent(): DatingComponent = datingComponent
+
+    override fun provideProfileComponent(): ProfileComponent = profileComponent
 
     override fun onCreate() {
         super.onCreate()

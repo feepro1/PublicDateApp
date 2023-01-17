@@ -6,6 +6,7 @@ import com.main.core.DispatchersList
 import com.main.dating.domain.ManageDirection
 import com.main.dating.domain.ProvideAnimationsSettings
 import com.main.dating.domain.interactor.DatingInteractor
+import com.main.dating.domain.navigation.DatingNavigation
 import com.main.dating.presentation.communication.DatingCommunication
 
 class DatingViewModelFactory(
@@ -13,7 +14,8 @@ class DatingViewModelFactory(
     private val datingCommunication: DatingCommunication,
     private val dispatchers: DispatchersList,
     private val manageDirection: ManageDirection,
-    private val provideAnimationsSettings: ProvideAnimationsSettings
+    private val provideAnimationsSettings: ProvideAnimationsSettings,
+    private val datingNavigation: DatingNavigation
 ): ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -22,7 +24,8 @@ class DatingViewModelFactory(
             datingCommunication = datingCommunication,
             dispatchers = dispatchers,
             manageDirection = manageDirection,
-            provideAnimationsSettings = provideAnimationsSettings
+            provideAnimationsSettings = provideAnimationsSettings,
+            datingNavigation = datingNavigation
         ) as T
     }
 }

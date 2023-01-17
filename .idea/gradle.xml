@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/dating" />
             <option value="$PROJECT_DIR$/login" />
+            <option value="$PROJECT_DIR$/profile" />
             <option value="$PROJECT_DIR$/register" />
           </set>
         </option>
