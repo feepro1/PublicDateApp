@@ -37,7 +37,7 @@ class ChatsFragment : Fragment() {
         val tabLayoutNames = resources.getStringArray(R.array.tabLayoutNames).toList()
 
         binding.mainBottomNavigationView.menu.getItem(0).isChecked = true
-        binding.viewpager.adapter = FragmentAdapter(requireActivity(), tabLayoutNames)
+        binding.viewpager.adapter = FragmentAdapter(requireActivity(), tabLayoutNames, chatViewModel)
         binding.mainBottomNavigationView.setOnItemSelectedListener { menuItem ->
             chatViewModel.manageMenuItem(menuItem, findNavController())
         }

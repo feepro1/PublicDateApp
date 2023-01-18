@@ -13,14 +13,18 @@ import com.main.chats.databinding.ItemLikeBinding
 import com.main.chats.domain.ManageLikesAdapterData
 import com.main.core.UsernameUi
 
-class LikesAdapter : RecyclerView.Adapter<LikesAdapter.LikesViewHolder>(), UsernameUi, ManageLikesAdapterData {
+class LikesAdapter(
+    private val likeCLickListener: LikeCLickListener
+) : RecyclerView.Adapter<LikesAdapter.LikesViewHolder>(), UsernameUi, ManageLikesAdapterData {
     private val likes = mutableListOf<LikeFromUser>()
 
     class LikesViewHolder(item: View): ViewHolder(item) {
         private val binding by lazy { ItemLikeBinding.bind(item) }
-        fun bind(likeFromUser: LikeFromUser, usernameUi: UsernameUi) {
+        fun bind(likeFromUser: LikeFromUser, usernameUi: UsernameUi, likeCLickListener: LikeCLickListener) {
             binding.tvUsername.text = usernameUi.mapUsername(likeFromUser.firstName, likeFromUser.lastName)
             Glide.with(itemView).load(likeFromUser.avatarUrl).into(binding.ivUserIcon)
+            binding.ivUserIcon.setOnClickListener { likeCLickListener.iconClick(likeFromUser) }
+            binding.itemChat.setOnClickListener { likeCLickListener.itemClick(likeFromUser) }
         }
     }
 
@@ -30,7 +34,7 @@ class LikesAdapter : RecyclerView.Adapter<LikesAdapter.LikesViewHolder>(), Usern
     }
 
     override fun onBindViewHolder(holder: LikesViewHolder, position: Int) {
-        holder.bind(likes[position], this)
+        holder.bind(likes[position], this, likeCLickListener)
     }
 
     override fun getItemCount() = likes.size
@@ -46,6 +50,13 @@ class LikesAdapter : RecyclerView.Adapter<LikesAdapter.LikesViewHolder>(), Usern
         likes.addAll(newLikes)
         result.dispatchUpdatesTo(this)
     }
+}
+
+interface LikeCLickListener {
+
+    fun iconClick(likeFromUser: LikeFromUser)
+
+    fun itemClick(likeFromUser: LikeFromUser)
 }
 
 class LikeDiffUtilCallback(
