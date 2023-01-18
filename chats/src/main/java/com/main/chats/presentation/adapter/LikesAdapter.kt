@@ -3,15 +3,17 @@ package com.main.chats.presentation.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.main.chats.R
 import com.main.chats.data.entities.LikeFromUser
 import com.main.chats.databinding.ItemLikeBinding
+import com.main.chats.domain.ManageLikesAdapterData
 import com.main.core.UsernameUi
 
-class LikesAdapter : RecyclerView.Adapter<LikesAdapter.LikesViewHolder>(), UsernameUi {
+class LikesAdapter : RecyclerView.Adapter<LikesAdapter.LikesViewHolder>(), UsernameUi, ManageLikesAdapterData {
     private val likes = mutableListOf<LikeFromUser>()
 
     class LikesViewHolder(item: View): ViewHolder(item) {
@@ -32,7 +34,32 @@ class LikesAdapter : RecyclerView.Adapter<LikesAdapter.LikesViewHolder>(), Usern
     }
 
     override fun getItemCount() = likes.size
+
     override fun mapUsername(firstName: String, lastName: String): String {
         return "$firstName $lastName"
     }
+
+    override fun mapAll(newLikes: List<LikeFromUser>) {
+        val diff = LikeDiffUtilCallback(likes, newLikes)
+        val result = DiffUtil.calculateDiff(diff)
+        likes.clear()
+        likes.addAll(newLikes)
+        result.dispatchUpdatesTo(this)
+    }
+}
+
+class LikeDiffUtilCallback(
+    private val oldList: List<LikeFromUser>,
+    private val newList: List<LikeFromUser>
+) : DiffUtil.Callback() {
+
+    override fun getOldListSize() = oldList.size
+
+    override fun getNewListSize() = newList.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+        oldList[oldItemPosition].uid == (newList[newItemPosition]).uid
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+        oldList[oldItemPosition] == newList[newItemPosition]
 }

@@ -12,6 +12,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.main.chats.R
 import com.main.chats.databinding.FragmentChatsBinding
 import com.main.chats.di.provider.ProvideChatsComponent
+import com.main.chats.presentation.adapter.ChatsAdapter
+import com.main.chats.presentation.adapter.FragmentAdapter
+import com.main.chats.presentation.adapter.LikesAdapter
 import com.main.chats.presentation.viewmodel.ChatsViewModel
 import com.main.chats.presentation.viewmodel.ChatsViewModelFactory
 import javax.inject.Inject
@@ -21,7 +24,7 @@ class ChatsFragment : Fragment() {
     @Inject
     lateinit var chatsViewModelFactory: ChatsViewModelFactory
     private val chatViewModel: ChatsViewModel by activityViewModels { chatsViewModelFactory }
-    private val arrayOfNames = arrayOf("Chats", "Likes")
+    private val arrayOfNames = listOf("Chats", "Likes")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +36,7 @@ class ChatsFragment : Fragment() {
         (requireActivity().applicationContext as ProvideChatsComponent).provideChatsComponent().inject(this)
 
         binding.mainBottomNavigationView.menu.getItem(0).isChecked = true
-
+        binding.viewpager.adapter = FragmentAdapter(requireActivity(), arrayOfNames)
         binding.mainBottomNavigationView.setOnItemSelectedListener { menuItem ->
             chatViewModel.manageMenuItem(menuItem, findNavController())
         }
@@ -44,12 +47,7 @@ class ChatsFragment : Fragment() {
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                if (tab?.position == 0) {
-                    binding.viewpager.adapter
-                }
-                if (tab?.position == 1) {
 
-                }
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) = Unit
             override fun onTabReselected(tab: TabLayout.Tab?) = Unit

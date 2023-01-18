@@ -3,15 +3,17 @@ package com.main.chats.presentation.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.main.chats.R
 import com.main.chats.data.entities.Chat
 import com.main.chats.databinding.ItemChatBinding
+import com.main.chats.domain.ManageChatsAdapterData
 import com.main.core.UsernameUi
 
-class ChatsAdapter : RecyclerView.Adapter<ChatsAdapter.ChatsViewHolder>(), UsernameUi {
+class ChatsAdapter : RecyclerView.Adapter<ChatsAdapter.ChatsViewHolder>(), UsernameUi, ManageChatsAdapterData {
     private val chats = mutableListOf<Chat>()
 
     class ChatsViewHolder(item: View): ViewHolder(item) {
@@ -37,4 +39,28 @@ class ChatsAdapter : RecyclerView.Adapter<ChatsAdapter.ChatsViewHolder>(), Usern
     override fun mapUsername(firstName: String, lastName: String): String {
         return "$firstName $lastName"
     }
+
+    override fun mapAll(newChats: List<Chat>) {
+        val diff = ChatDiffUtilCallback(chats, newChats)
+        val result = DiffUtil.calculateDiff(diff)
+        chats.clear()
+        chats.addAll(newChats)
+        result.dispatchUpdatesTo(this)
+    }
+}
+
+class ChatDiffUtilCallback(
+    private val oldList: List<Chat>,
+    private val newList: List<Chat>
+) : DiffUtil.Callback() {
+
+    override fun getOldListSize() = oldList.size
+
+    override fun getNewListSize() = newList.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+        oldList[oldItemPosition].uid == (newList[newItemPosition]).uid
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+        oldList[oldItemPosition] == newList[newItemPosition]
 }
