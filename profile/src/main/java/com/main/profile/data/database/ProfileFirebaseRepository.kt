@@ -37,7 +37,12 @@ interface ProfileFirebaseRepository {
 
             val avatarUrl = Firebase.storage.getReference(REFERENCE_USERS_AVATARS).child(uid).downloadUrl
             avatarUrl.await()
+            val currentData = Firebase.firestore.collection(REFERENCE_USERS).document(uid).get()
+            currentData.await()
+            val result = currentData.result.toObject(UserInfo::class.java)
 
+            val likeFromAnotherUser = result?.likeFromAnotherUser
+            likeFromAnotherUser?.let { userInfo.likeFromAnotherUser.putAll(it) }
             val task = Firebase.firestore.collection(REFERENCE_USERS).document(uid).set(
                 userInfo.copy(avatarUrl = avatarUrl.result.toString())
             )

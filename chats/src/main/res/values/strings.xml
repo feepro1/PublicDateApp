@@ -1,4 +1,7 @@
 <resources>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="tabLayoutNames">
+        <item name="chats">Chats</item>
+        <item name="likes">Likes</item>
+    </string-array>
 </resources>
