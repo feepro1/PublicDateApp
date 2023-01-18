@@ -56,6 +56,11 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
     implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
     implementation "androidx.fragment:fragment-ktx:1.5.5"
+    //Circle Image
+    implementation 'com.github.abdularis:circularimageview:1.0'
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+    kapt 'com.github.bumptech.glide:compiler:4.13.2'
     //Modules
     implementation project(path: ':core')
 }
