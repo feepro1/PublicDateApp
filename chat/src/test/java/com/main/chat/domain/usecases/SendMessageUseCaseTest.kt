@@ -15,10 +15,10 @@ class SendMessageUseCaseTest {
     @Test
     fun `test successful send message`() {
         val message = Message(text = "HelloWorld!")
-        Mockito.`when`(manageMessageRepository.sendMessage(Message(text = "HelloWorld!"))).thenReturn(
+        Mockito.`when`(manageMessageRepository.sendMessage(message)).thenReturn(
             Resource.Success(true)
         )
-        val result = sendMessageUseCase.execute(Message(text = "HelloWorld!"))
+        val result = sendMessageUseCase.execute(message)
         Assertions.assertTrue(result.data == true)
     }
 
