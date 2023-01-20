@@ -1,4 +1,4 @@
-package com.main.dating.presentation
+package com.main.core
 
 interface UsernameUi {
 

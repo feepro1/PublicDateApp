@@ -56,7 +56,7 @@ class ProfileViewModelTest : BaseProfileTest() {
         Mockito.`when`(saveUserInfoUseCase.execute(UserInfoLocal())).thenReturn(
             Resource.Success(true)
         )
-        profileViewModel.saveUserInfo(UserInfoLocal())
+        profileViewModel.saveUserInfo(UserInfoLocal(), {}, {}, {})
 
         Assertions.assertTrue(profileCommunication.motionToastText.isEmpty())
     }
@@ -77,7 +77,7 @@ class ProfileViewModelTest : BaseProfileTest() {
         Mockito.`when`(saveUserInfoUseCase.execute(UserInfoLocal())).thenReturn(
             Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
         )
-        profileViewModel.saveUserInfo(UserInfoLocal())
+        profileViewModel.saveUserInfo(UserInfoLocal(), {}, {}, {})
         val result = profileCommunication.motionToastText.first() == INTERNET_IS_UNAVAILABLE
 
         Assertions.assertTrue(result)
