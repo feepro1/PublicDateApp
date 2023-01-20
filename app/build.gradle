@@ -64,6 +64,9 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
     implementation 'com.google.firebase:firebase-core:21.1.1'
     implementation 'com.google.firebase:firebase-analytics-ktx:21.2.0'
+    //Room
+    kapt "androidx.room:room-compiler:2.5.0"
+    implementation "androidx.room:room-ktx:2.5.0"
     //Modules
     implementation project(path: ':core')
     implementation project(path: ':login')

@@ -32,9 +32,12 @@ import com.main.register.di.module.RegisterDataModule
 import com.main.register.di.module.RegisterDomainModule
 import com.main.register.di.module.RegisterPresentationModule
 import com.main.register.di.provider.ProvideRegisterComponent
+import com.main.swaplike.data.cloud.local.DatingDatabase
 
 class Application : Application(), ProvideLoginComponent, ProvideRegisterComponent,
     ProvideDatingComponent, ProvideProfileComponent, ProvideChatsComponent {
+
+    private val datingDatabase = DatingDatabase.getInstance(applicationContext)
 
     private val loginComponent by lazy {
         DaggerLoginComponent
