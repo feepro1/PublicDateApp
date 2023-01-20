@@ -1,5 +1,6 @@
 package com.main.chat.domain.usecases
 
+import com.main.chat.domain.repository.ManageMessageRepositoryTest
 import com.main.core.Resource
 import com.main.core.exception.NetworkException
 import org.junit.Test
