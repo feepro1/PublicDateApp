@@ -59,6 +59,8 @@ dependencies {
     //Room
     kapt "androidx.room:room-compiler:2.5.0"
     implementation "androidx.room:room-ktx:2.5.0"
+    //Circle Image
+    implementation 'com.github.abdularis:circularimageview:1.0'
     //Modules
     implementation project(path: ':core')
 }
