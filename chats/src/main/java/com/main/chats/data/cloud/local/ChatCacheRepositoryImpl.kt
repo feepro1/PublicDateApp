@@ -1,10 +1,10 @@
 package com.main.chats.data.cloud.local
 
-import kotlinx.coroutines.flow.StateFlow
+import androidx.lifecycle.LiveData
 
 class ChatCacheRepositoryImpl(private val chatsDao: ChatsDao): ChatsCacheRepository {
 
-    override fun getUserChats(): StateFlow<List<ChatCacheModel>> {
+    override fun getUserChats(): LiveData<List<ChatCacheModel>> {
         return chatsDao.getUserChats()
     }
 }

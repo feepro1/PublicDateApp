@@ -10,6 +10,7 @@ interface ReceiveMessageRepository {
     class Base : ReceiveMessageRepository {
 
         override suspend fun receiveMessages(): Resource<List<Message>> {
+
             TODO("Not yet implemented")
         }
     }

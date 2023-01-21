@@ -38,6 +38,7 @@ import com.main.register.di.module.RegisterDataModule
 import com.main.register.di.module.RegisterDomainModule
 import com.main.register.di.module.RegisterPresentationModule
 import com.main.register.di.provider.ProvideRegisterComponent
+import com.main.swaplike.data.cloud.local.DatingDatabase
 
 class Application : Application(), ProvideLoginComponent, ProvideRegisterComponent,
     ProvideDatingComponent, ProvideProfileComponent, ProvideChatsComponent, ProvideChatComponent {
@@ -112,5 +113,6 @@ class Application : Application(), ProvideLoginComponent, ProvideRegisterCompone
     override fun onCreate() {
         super.onCreate()
         FirebaseApp.initializeApp(applicationContext)
+        val database = DatingDatabase.getInstance(applicationContext).chatsDao()
     }
 }
