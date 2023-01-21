@@ -3,6 +3,7 @@ package com.main.chat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.main.chat.data.entities.Message
+import com.main.chat.data.entities.User
 import com.main.chat.presentation.communication.ChatCommunication
 import com.main.core.DispatchersList
 import kotlinx.coroutines.CoroutineDispatcher
@@ -14,6 +15,7 @@ abstract class BaseChatTest {
     protected class TestChatCommunication : ChatCommunication {
         val motionToastError = mutableListOf<String>()
         val messages = mutableListOf<List<Message>>()
+        val user = mutableListOf<User>()
 
         override fun manageMotionToastError(error: String) {
             motionToastError.add(error)
@@ -23,8 +25,13 @@ abstract class BaseChatTest {
             this.messages.add(messages)
         }
 
+        override fun manageUser(user: User) {
+            this.user.add(user)
+        }
+
         override fun observeMessages(owner: LifecycleOwner, observer: Observer<List<Message>>) = Unit
         override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) = Unit
+        override fun valueUser(): User = this.user.first()
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

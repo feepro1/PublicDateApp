@@ -8,6 +8,12 @@ import com.main.profile.di.modules.ProfileDomainModule
 import com.main.profile.di.modules.ProfilePresentationModule
 import com.main.profile.di.provider.ProvideProfileComponent
 import com.google.firebase.FirebaseApp
+import com.main.chat.di.component.ChatComponent
+import com.main.chat.di.component.DaggerChatComponent
+import com.main.chat.di.modules.ChatDataModule
+import com.main.chat.di.modules.ChatDomainModule
+import com.main.chat.di.modules.ChatPresentationModule
+import com.main.chat.di.provider.ProvideChatComponent
 import com.main.chats.di.component.ChatsComponent
 import com.main.chats.di.component.DaggerChatsComponent
 import com.main.chats.di.modules.ChatsDataModule
@@ -32,12 +38,9 @@ import com.main.register.di.module.RegisterDataModule
 import com.main.register.di.module.RegisterDomainModule
 import com.main.register.di.module.RegisterPresentationModule
 import com.main.register.di.provider.ProvideRegisterComponent
-import com.main.swaplike.data.cloud.local.DatingDatabase
 
 class Application : Application(), ProvideLoginComponent, ProvideRegisterComponent,
-    ProvideDatingComponent, ProvideProfileComponent, ProvideChatsComponent {
-
-    private val datingDatabase = DatingDatabase.getInstance(applicationContext)
+    ProvideDatingComponent, ProvideProfileComponent, ProvideChatsComponent, ProvideChatComponent {
 
     private val loginComponent by lazy {
         DaggerLoginComponent
@@ -84,6 +87,15 @@ class Application : Application(), ProvideLoginComponent, ProvideRegisterCompone
             .build()
     }
 
+    private val chatComponent by lazy {
+        DaggerChatComponent
+            .builder()
+            .chatPresentationModule(ChatPresentationModule())
+            .chatDomainModule(ChatDomainModule())
+            .chatDataModule(ChatDataModule())
+            .build()
+    }
+
     override fun provideLoginComponent(): LoginComponent = loginComponent
 
     override fun provideRegisterComponent(): RegisterComponent = registerComponent
@@ -93,6 +105,9 @@ class Application : Application(), ProvideLoginComponent, ProvideRegisterCompone
     override fun provideProfileComponent(): ProfileComponent = profileComponent
 
     override fun provideChatsComponent(): ChatsComponent = chatsComponent
+
+    override fun provideChatComponent(): ChatComponent = chatComponent
+
 
     override fun onCreate() {
         super.onCreate()

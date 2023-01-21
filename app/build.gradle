@@ -74,4 +74,5 @@ dependencies {
     implementation project(path: ':dating')
     implementation project(path: ':profile')
     implementation project(path: ':chats')
+    implementation project(path: ':chat')
 }
