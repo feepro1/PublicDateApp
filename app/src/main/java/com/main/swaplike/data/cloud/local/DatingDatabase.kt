@@ -4,13 +4,16 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.main.chats.data.cloud.local.ChatCacheModel
-import com.main.chats.data.cloud.local.ChatsDao
+import com.main.chat.data.storage.local.MessageCacheModel
+import com.main.chat.data.storage.local.ChatDao
+import com.main.chats.data.storage.local.ChatsCacheModel
+import com.main.chats.data.storage.local.ChatsDao
 
-@Database(entities = [ChatCacheModel::class], version = 1)
+@Database(entities = [ChatsCacheModel::class, MessageCacheModel::class], version = 3)
 abstract class DatingDatabase : RoomDatabase() {
 
     abstract fun chatsDao(): ChatsDao
+    abstract fun chatDao(): ChatDao
 
     companion object {
         private var database: DatingDatabase? = null
