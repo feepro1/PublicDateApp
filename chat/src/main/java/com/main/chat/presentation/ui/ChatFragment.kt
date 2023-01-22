@@ -11,9 +11,10 @@ import com.main.chat.databinding.FragmentChatBinding
 import com.main.chat.di.provider.ProvideChatComponent
 import com.main.chat.presentation.viewmodel.ChatViewModel
 import com.main.chat.presentation.viewmodel.ChatViewModelFactory
+import com.main.core.base.BaseFragment
 import javax.inject.Inject
 
-class ChatFragment : Fragment() {
+class ChatFragment : BaseFragment() {
     private val binding by lazy { FragmentChatBinding.inflate(layoutInflater) }
     @Inject
     lateinit var chatViewModelFactory: ChatViewModelFactory

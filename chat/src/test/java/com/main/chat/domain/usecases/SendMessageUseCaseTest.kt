@@ -1,6 +1,5 @@
 package com.main.chat.domain.usecases
 
-import com.main.chat.data.entities.Message
 import com.main.chat.data.exception.messages.ChatExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.chat.data.exception.messages.ChatExceptionMessages.USER_WAS_NOT_FOUND
 import com.main.chat.data.storage.local.MessageCacheModel
