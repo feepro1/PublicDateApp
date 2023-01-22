@@ -1,16 +1,19 @@
 package com.main.chat.data.realization
 
-import com.main.chat.data.entities.Message
+import com.main.chat.data.storage.local.ChatCacheRepository
+import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.core.Resource
 
 interface SendMessageRepository {
 
-    suspend fun sendMessage(message: Message): Resource<Boolean>
+    suspend fun sendMessage(messageCacheModel: MessageCacheModel): Resource<Boolean>
 
-    class Base : SendMessageRepository {
+    class Base(
+        private val chatCacheRepository: ChatCacheRepository
+    ) : SendMessageRepository {
 
-        override suspend fun sendMessage(message: Message): Resource<Boolean> {
-            TODO("Not yet implemented")
+        override suspend fun sendMessage(messageCacheModel: MessageCacheModel): Resource<Boolean> {
+            return chatCacheRepository.addMessage(messageCacheModel)
         }
     }
 }

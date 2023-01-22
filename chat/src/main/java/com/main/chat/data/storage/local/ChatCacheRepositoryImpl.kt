@@ -1,0 +1,22 @@
+package com.main.chat.data.storage.local
+
+import com.main.core.Resource
+import com.main.core.exception.SqliteException
+
+class ChatCacheRepositoryImpl(private val chatDao: ChatDao): ChatCacheRepository {
+
+    override fun addMessage(messageCacheModel: MessageCacheModel): Resource<Boolean> {
+        chatDao.addMessage(messageCacheModel)
+        return Resource.Success(true)
+    }
+
+    override fun deleteMessage(messageCacheModel: MessageCacheModel): Resource<Boolean> {
+        chatDao.deleteMessage(messageCacheModel)
+        return Resource.Success(true)
+    }
+
+    override fun getAllMessages(): List<MessageCacheModel> {
+        return chatDao.getAllMessages()
+    }
+
+}

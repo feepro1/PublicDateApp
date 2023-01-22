@@ -3,6 +3,7 @@ package com.main.chat.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.main.chat.data.entities.Message
+import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.chat.domain.navigation.ChatNavigation
 import com.main.chat.domain.usecases.GetMessagesUseCase
 import com.main.chat.domain.usecases.SendMessageUseCase
@@ -34,9 +35,9 @@ class ChatViewModel(
         }
     }
 
-    fun sendMessage(message: Message) {
+    fun sendMessage(messageCacheModel: MessageCacheModel) {
         viewModelScope.launch(dispatchers.io()) {
-            val result = sendMessageUseCase.execute(message)
+            val result = sendMessageUseCase.execute(messageCacheModel)
             if (result.data == false) {
                 val exceptionMessage = result.exception?.message.toString()
                 chatCommunication.manageMotionToastError(exceptionMessage)

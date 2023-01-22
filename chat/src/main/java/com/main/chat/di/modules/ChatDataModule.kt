@@ -3,12 +3,17 @@ package com.main.chat.di.modules
 import com.main.chat.data.firebase.ManageMessageRepositoryImpl
 import com.main.chat.data.realization.ReceiveMessageRepository
 import com.main.chat.data.realization.SendMessageRepository
+import com.main.chat.data.storage.local.ChatCacheRepository
+import com.main.chat.data.storage.local.ChatCacheRepositoryImpl
+import com.main.chat.data.storage.local.ChatDao
 import com.main.chat.domain.firebase.ManageMessageRepository
 import dagger.Module
 import dagger.Provides
 
 @Module
-class ChatDataModule {
+class ChatDataModule(
+    private val chatDao: ChatDao
+) {
 
     @Provides
     fun provideManageMessageRepository(
@@ -27,7 +32,14 @@ class ChatDataModule {
     }
 
     @Provides
-    fun provideSendMessageRepository(): SendMessageRepository {
-        return SendMessageRepository.Base()
+    fun provideSendMessageRepository(
+        chatCacheRepository: ChatCacheRepository
+    ): SendMessageRepository {
+        return SendMessageRepository.Base(chatCacheRepository)
+    }
+
+    @Provides
+    fun provideChatCacheRepository(): ChatCacheRepository {
+        return ChatCacheRepositoryImpl(chatDao)
     }
 }

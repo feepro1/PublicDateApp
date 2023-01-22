@@ -17,3 +17,5 @@ class NetworkException(message: String): ApplicationException(message)
 class DefaultException(message: String): ApplicationException(message)
 
 class UserException(message: String): ApplicationException(message)
+
+class SqliteException(message: String): ApplicationException(message)

@@ -99,7 +99,7 @@ class Application : Application(), ProvideLoginComponent, ProvideRegisterCompone
             .builder()
             .chatPresentationModule(ChatPresentationModule())
             .chatDomainModule(ChatDomainModule())
-            .chatDataModule(ChatDataModule())
+            .chatDataModule(ChatDataModule(DatingDatabase.getInstance(applicationContext).chatDao()))
             .build()
     }
 

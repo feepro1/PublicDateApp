@@ -3,6 +3,7 @@ package com.main.chat.domain.firebase
 import com.main.chat.data.entities.Message
 import com.main.chat.data.exception.messages.ChatExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.chat.data.exception.messages.ChatExceptionMessages.USER_WAS_NOT_FOUND
+import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.core.Resource
 import com.main.core.exception.NetworkException
 import com.main.core.exception.UserException
@@ -45,7 +46,7 @@ class ManageMessageRepositoryTest {
 
     @Test
     fun `test successful send message`() = runBlocking {
-        val message = Message(text = "HelloWorld!")
+        val message = MessageCacheModel(message = "HelloWorld!", senderUid = "", receiverUid = "")
         Mockito.`when`(manageMessageRepository.sendMessage(message)).thenReturn(
             Resource.Success(true)
         )
@@ -55,7 +56,7 @@ class ManageMessageRepositoryTest {
 
     @Test
     fun `test failure send message, internet is not available`() = runBlocking {
-        val message = Message(text = "HelloWorld!")
+        val message = MessageCacheModel(message = "HelloWorld!", senderUid = "", receiverUid = "")
         Mockito.`when`(manageMessageRepository.sendMessage(message)).thenReturn(
             Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
         )
@@ -65,7 +66,7 @@ class ManageMessageRepositoryTest {
 
     @Test
     fun `test failure send message, user was not found`() = runBlocking {
-        val message = Message(text = "HelloWorld!")
+        val message = MessageCacheModel(message = "HelloWorld!", senderUid = "", receiverUid = "")
         Mockito.`when`(manageMessageRepository.sendMessage(message)).thenReturn(
             Resource.Error(false, UserException(USER_WAS_NOT_FOUND))
         )
