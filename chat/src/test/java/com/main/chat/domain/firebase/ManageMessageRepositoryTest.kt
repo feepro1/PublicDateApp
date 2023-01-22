@@ -73,4 +73,64 @@ class ManageMessageRepositoryTest {
         val result = manageMessageRepository.sendMessage(message)
         Assertions.assertTrue(result.exception?.message == USER_WAS_NOT_FOUND)
     }
+
+    @Test
+    fun `test successful delete message`() = runBlocking {
+        val message = MessageCacheModel(message = "HelloWorld!", senderUid = "1", receiverUid = "2")
+        Mockito.`when`(manageMessageRepository.deleteMessage(message)).thenReturn(
+            Resource.Success(true)
+        )
+        val result = manageMessageRepository.deleteMessage(message)
+        Assertions.assertTrue(result.data == true)
+    }
+
+    @Test
+    fun `test failure delete message, internet is not available`() = runBlocking {
+        val message = MessageCacheModel(message = "HelloWorld!", senderUid = "1", receiverUid = "2")
+        Mockito.`when`(manageMessageRepository.deleteMessage(message)).thenReturn(
+            Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
+        )
+        val result = manageMessageRepository.deleteMessage(message)
+        Assertions.assertTrue(result.exception?.message == INTERNET_IS_UNAVAILABLE)
+    }
+
+    @Test
+    fun `test failure delete message, message was not found`() = runBlocking {
+        val message = MessageCacheModel(message = "HelloWorld!", senderUid = "1", receiverUid = "2")
+        Mockito.`when`(manageMessageRepository.deleteMessage(message)).thenReturn(
+            Resource.Error(false, MessageException(MESSAGE_WAS_NOT_FOUND))
+        )
+        val result = manageMessageRepository.deleteMessage(message)
+        Assertions.assertTrue(result.exception?.message == MESSAGE_WAS_NOT_FOUND)
+    }
+
+    @Test
+    fun `test failure delete message, message is empty`() = runBlocking {
+        val message = MessageCacheModel(message = "", senderUid = "1", receiverUid = "2")
+        Mockito.`when`(manageMessageRepository.deleteMessage(message)).thenReturn(
+            Resource.Error(false, MessageException(MESSAGE_IS_EMPTY))
+        )
+        val result = manageMessageRepository.deleteMessage(message)
+        Assertions.assertTrue(result.exception?.message == MESSAGE_IS_EMPTY)
+    }
+
+    @Test
+    fun `test failure delete message, senderUid is empty`() = runBlocking {
+        val message = MessageCacheModel(message = "Hello World", senderUid = "", receiverUid = "2")
+        Mockito.`when`(manageMessageRepository.deleteMessage(message)).thenReturn(
+            Resource.Error(false, UidException(SENDER_UID_IS_EMPTY))
+        )
+        val result = manageMessageRepository.deleteMessage(message)
+        Assertions.assertTrue(result.exception?.message == SENDER_UID_IS_EMPTY)
+    }
+
+    @Test
+    fun `test failure delete message, receiverUid is empty`() = runBlocking {
+        val message = MessageCacheModel(message = "Hello World", senderUid = "1", receiverUid = "")
+        Mockito.`when`(manageMessageRepository.deleteMessage(message)).thenReturn(
+            Resource.Error(false, UidException(RECEIVER_UID_IS_EMPTY))
+        )
+        val result = manageMessageRepository.deleteMessage(message)
+        Assertions.assertTrue(result.exception?.message == RECEIVER_UID_IS_EMPTY)
+    }
 }
