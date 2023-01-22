@@ -114,10 +114,4 @@ class Application : Application(), ProvideLoginComponent, ProvideRegisterCompone
     override fun provideChatsComponent(): ChatsComponent = chatsComponent
 
     override fun provideChatComponent(): ChatComponent = chatComponent
-
-
-    override fun onCreate() {
-        super.onCreate()
-        FirebaseApp.initializeApp(applicationContext)
-    }
 }

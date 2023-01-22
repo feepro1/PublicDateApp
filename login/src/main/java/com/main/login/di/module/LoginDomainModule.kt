@@ -32,18 +32,11 @@ class LoginDomainModule {
 
     @Provides
     fun provideLoginFirebaseRepository(
-        firebaseAuth: FirebaseAuth,
         handleFirebaseLoginException: HandleFirebaseLoginException
     ): LoginFirebaseRepository {
         return LoginFirebaseRepository.Base(
-            firebaseAuth = firebaseAuth,
             handleFirebaseLoginException = handleFirebaseLoginException
         )
-    }
-
-    @Provides
-    fun provideFirebaseAuth(): FirebaseAuth {
-        return FirebaseAuth.getInstance()
     }
 
     @Provides

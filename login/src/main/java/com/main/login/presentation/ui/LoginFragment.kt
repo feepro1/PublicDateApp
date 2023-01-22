@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.main.core.base.BaseFragment
 import com.main.core.state.ApplicationTextWatcher
 import com.main.core.toast.showErrorColorToast
@@ -63,9 +65,9 @@ class LoginFragment : BaseFragment() {
                 password = binding.etPassword.text.toString().trim(),
                 email = binding.etEmail.text.toString().trim()
             )
-            loginViewModel.login(loginData, findNavController()) {
+            loginViewModel.login(loginData, findNavController(), {
                 showErrorColorToast(this, getString(R.string.confirm_your_email))
-            }
+            }, Firebase.auth.currentUser?.isEmailVerified == false)
         }
 
         binding.tvDoNotHaveAnAccount.setOnClickListener {

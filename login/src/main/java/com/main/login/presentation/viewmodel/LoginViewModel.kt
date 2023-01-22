@@ -28,10 +28,13 @@ class LoginViewModel(
     private val loginNavigation: LoginNavigation
 ) : ViewModel(), ObserveLoginErrors, ManageLoginError {
 
-    fun login(loginData: LoginData, navController: NavController, showToast: () -> (Unit)) {
+    fun login(
+        loginData: LoginData, navController: NavController,
+        showToast: () -> (Unit), isEmailVerified: Boolean
+    ) {
         viewModelScope.launch(dispatchers.io()) {
             val result = loginUseCase.execute(loginData)
-            if (Firebase.auth.currentUser?.isEmailVerified == false) {
+            if (!isEmailVerified) {
                 withContext(dispatchers.ui()) { showToast.invoke() }
                 return@launch
             }

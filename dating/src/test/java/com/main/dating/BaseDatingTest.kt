@@ -14,6 +14,7 @@ abstract class BaseDatingTest {
     protected class TestDatingCommunication : DatingCommunication {
         val motionToastError = mutableListOf<String>()
         val users = mutableListOf<User>()
+        val user = mutableListOf<User>()
 
         override fun manageMotionToastText(text: String) {
             motionToastError.add(text)
@@ -23,9 +24,14 @@ abstract class BaseDatingTest {
             users.addAll(list)
         }
 
+        override fun manageUser(user: User) {
+            this.user.add(user)
+        }
+
         override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) = Unit
 
         override fun observeUsersList(owner: LifecycleOwner, observer: Observer<List<User>>) = Unit
+        override fun valueUser(): User = user.first()
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

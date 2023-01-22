@@ -10,6 +10,7 @@ import com.main.dating.domain.ProvideAnimationsSettings
 import com.main.dating.domain.firebase.database.DatabaseRepository
 import com.main.dating.domain.firebase.repository.ManageUserRepository
 import com.main.dating.domain.interactor.DatingInteractor
+import com.main.dating.domain.navigation.DatingNavigation
 import com.main.dating.domain.usecases.DislikeUserUseCase
 import com.main.dating.domain.usecases.GetUsersFromDatabaseUseCase
 import com.main.dating.domain.usecases.LikeUserUseCase
@@ -48,7 +49,8 @@ class DatingViewModelTest : BaseDatingTest() {
         datingCommunication = datingCommunication,
         dispatchers = TestDispatchersList(),
         manageDirection = ManageDirection.Base(),
-        provideAnimationsSettings = ProvideAnimationsSettings.Base()
+        provideAnimationsSettings = ProvideAnimationsSettings.Base(),
+        datingNavigation = DatingNavigation.Base()
     )
 
     @BeforeEach
