@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.chat.domain.navigation.ChatNavigation
 import com.main.chat.domain.usecases.DeleteMessageUseCase
@@ -54,6 +55,10 @@ class ChatViewModel(
                 chatCommunication.manageMotionToastError(exceptionMessage)
             }
         }
+    }
+
+    fun navigateToChatsFragment(navController: NavController) {
+        chatNavigation.navigateToChatsFragment(navController)
     }
 
     override fun observeMessages(owner: LifecycleOwner, observer: Observer<List<MessageCacheModel>>) {

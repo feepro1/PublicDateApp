@@ -14,13 +14,18 @@ import com.main.chats.di.provider.ProvideChatsComponent
 import com.main.chats.presentation.adapter.FragmentAdapter
 import com.main.chats.presentation.viewmodel.ChatsViewModel
 import com.main.chats.presentation.viewmodel.ChatsViewModelFactory
+import com.main.core.viewmodel.CoreViewModel
+import com.main.core.viewmodel.CoreViewModelFactory
 import javax.inject.Inject
 
 class ChatsFragment : Fragment() {
     private val binding by lazy { FragmentChatsBinding.inflate(layoutInflater) }
     @Inject
     lateinit var chatsViewModelFactory: ChatsViewModelFactory
-    private val chatViewModel: ChatsViewModel by activityViewModels { chatsViewModelFactory }
+    private val chatsViewModel: ChatsViewModel by activityViewModels { chatsViewModelFactory }
+    @Inject
+    lateinit var coreViewModelFactory: CoreViewModelFactory
+    private val coreViewModel: CoreViewModel by activityViewModels { coreViewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,11 +40,12 @@ class ChatsFragment : Fragment() {
 
         binding.mainBottomNavigationView.menu.getItem(0).isChecked = true
         binding.viewpager.adapter = FragmentAdapter(
-            requireActivity(), tabLayoutNames, chatViewModel, findNavController()
+            requireActivity(), tabLayoutNames, chatsViewModel, findNavController(), coreViewModel
         )
         binding.mainBottomNavigationView.setOnItemSelectedListener { menuItem ->
-            chatViewModel.manageMenuItem(menuItem, findNavController())
+            chatsViewModel.manageMenuItem(menuItem, findNavController())
         }
+        binding.viewpager.isSaveEnabled = false
 
         TabLayoutMediator(binding.tabLayout, binding.viewpager) { tab, position ->
             tab.text = tabLayoutNames[position]
