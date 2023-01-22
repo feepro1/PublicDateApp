@@ -9,4 +9,6 @@ interface ManageMessageRepository {
     suspend fun receiveMessages(): Resource<List<Message>>
 
     suspend fun sendMessage(messageCacheModel: MessageCacheModel): Resource<Boolean>
+
+    suspend fun deleteMessage(messageCacheModel: MessageCacheModel): Resource<Boolean>
 }

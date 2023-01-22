@@ -1,7 +1,6 @@
 package com.main.chat.data.storage.local
 
 import com.main.core.Resource
-import com.main.core.exception.SqliteException
 
 class ChatCacheRepositoryImpl(private val chatDao: ChatDao): ChatCacheRepository {
 

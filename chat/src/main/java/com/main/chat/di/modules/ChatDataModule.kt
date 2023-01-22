@@ -1,6 +1,7 @@
 package com.main.chat.di.modules
 
 import com.main.chat.data.firebase.ManageMessageRepositoryImpl
+import com.main.chat.data.realization.DeleteMessageRepository
 import com.main.chat.data.realization.ReceiveMessageRepository
 import com.main.chat.data.realization.SendMessageRepository
 import com.main.chat.data.storage.local.ChatCacheRepository
@@ -18,11 +19,13 @@ class ChatDataModule(
     @Provides
     fun provideManageMessageRepository(
         receiveMessageRepository: ReceiveMessageRepository,
-        sendMessageRepository: SendMessageRepository
+        sendMessageRepository: SendMessageRepository,
+        deleteMessageRepository: DeleteMessageRepository
     ): ManageMessageRepository {
         return ManageMessageRepositoryImpl(
             receiveMessageRepository = receiveMessageRepository,
-            sendMessageRepository = sendMessageRepository
+            sendMessageRepository = sendMessageRepository,
+            deleteMessageRepository = deleteMessageRepository
         )
     }
 
@@ -36,6 +39,13 @@ class ChatDataModule(
         chatCacheRepository: ChatCacheRepository
     ): SendMessageRepository {
         return SendMessageRepository.Base(chatCacheRepository)
+    }
+
+    @Provides
+    fun provideDeleteMessageRepository(
+        chatCacheRepository: ChatCacheRepository
+    ): DeleteMessageRepository {
+        return DeleteMessageRepository.Base(chatCacheRepository)
     }
 
     @Provides
