@@ -1,4 +1,4 @@
-package com.main.chat.data.realization
+package com.main.chat.data.repository
 
 import com.main.chat.data.storage.local.ChatCacheRepository
 import com.main.chat.data.storage.local.MessageCacheModel

@@ -2,6 +2,7 @@ package com.main.chat.di.modules
 
 import com.main.chat.domain.firebase.ManageMessageRepository
 import com.main.chat.domain.navigation.ChatNavigation
+import com.main.chat.domain.usecases.DeleteMessageUseCase
 import com.main.chat.domain.usecases.GetMessagesUseCase
 import com.main.chat.domain.usecases.SendMessageUseCase
 import dagger.Module
@@ -22,6 +23,13 @@ class ChatDomainModule {
         manageMessageRepository: ManageMessageRepository
     ): SendMessageUseCase {
         return SendMessageUseCase(manageMessageRepository)
+    }
+
+    @Provides
+    fun provideDeleteMessageUseCase(
+        manageMessageRepository: ManageMessageRepository
+    ): DeleteMessageUseCase {
+        return DeleteMessageUseCase(manageMessageRepository)
     }
 
     @Provides

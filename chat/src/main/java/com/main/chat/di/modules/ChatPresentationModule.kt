@@ -1,6 +1,7 @@
 package com.main.chat.di.modules
 
 import com.main.chat.domain.navigation.ChatNavigation
+import com.main.chat.domain.usecases.DeleteMessageUseCase
 import com.main.chat.domain.usecases.GetMessagesUseCase
 import com.main.chat.domain.usecases.SendMessageUseCase
 import com.main.chat.presentation.communication.ChatCommunication
@@ -11,7 +12,6 @@ import com.main.chat.presentation.viewmodel.ChatViewModelFactory
 import com.main.core.DispatchersList
 import dagger.Module
 import dagger.Provides
-import java.nio.file.DirectoryIteratorException
 
 @Module
 class ChatPresentationModule {
@@ -20,6 +20,7 @@ class ChatPresentationModule {
     fun provideChatViewModelFactory(
         getMessagesUseCase: GetMessagesUseCase,
         sendMessageUseCase: SendMessageUseCase,
+        deleteMessageUseCase: DeleteMessageUseCase,
         chatCommunication: ChatCommunication,
         chatNavigation: ChatNavigation,
         dispatchers: DispatchersList
@@ -27,6 +28,7 @@ class ChatPresentationModule {
         return ChatViewModelFactory(
             getMessagesUseCase = getMessagesUseCase,
             sendMessageUseCase = sendMessageUseCase,
+            deleteMessageUseCase = deleteMessageUseCase,
             chatCommunication = chatCommunication,
             chatNavigation = chatNavigation,
             dispatchers = dispatchers

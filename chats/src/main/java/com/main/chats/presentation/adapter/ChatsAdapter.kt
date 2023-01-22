@@ -16,7 +16,9 @@ import com.main.core.UsernameUi
 class ChatsAdapter(
     private val clickListenerChat: ChatCLickListener
 ) : RecyclerView.Adapter<ChatsAdapter.ChatsViewHolder>(), UsernameUi, ManageChatsAdapterData {
-    private val chats = mutableListOf<Chat>()
+    private val chats = mutableListOf<Chat>(
+        Chat("Vadym", "Hrynyk")
+    )
 
     class ChatsViewHolder(item: View): ViewHolder(item) {
         private val binding by lazy { ItemChatBinding.bind(item) }

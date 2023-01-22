@@ -1,6 +1,5 @@
 package com.main.login.di.module
 
-import com.google.firebase.auth.FirebaseAuth
 import com.main.login.data.realization.LoginRepositoryImpl
 import com.main.login.data.validation.ValidateLoginData
 import com.main.login.domain.exception.HandleFirebaseLoginException

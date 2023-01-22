@@ -1,9 +1,8 @@
 package com.main.chat.data.firebase
 
-import com.main.chat.data.entities.Message
-import com.main.chat.data.realization.DeleteMessageRepository
-import com.main.chat.data.realization.ReceiveMessageRepository
-import com.main.chat.data.realization.SendMessageRepository
+import com.main.chat.data.repository.DeleteMessageRepository
+import com.main.chat.data.repository.ReceiveMessageRepository
+import com.main.chat.data.repository.SendMessageRepository
 import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.chat.domain.firebase.ManageMessageRepository
 import com.main.core.Resource
@@ -14,7 +13,7 @@ class ManageMessageRepositoryImpl(
     private val deleteMessageRepository: DeleteMessageRepository
 ) : ManageMessageRepository {
 
-    override suspend fun receiveMessages(): Resource<List<Message>> {
+    override suspend fun receiveMessages(): Resource<List<MessageCacheModel>> {
         return receiveMessageRepository.receiveMessages()
     }
 

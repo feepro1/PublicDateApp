@@ -1,12 +1,12 @@
 package com.main.chat.presentation.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import com.main.chat.R
+import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.chat.databinding.FragmentChatBinding
 import com.main.chat.di.provider.ProvideChatComponent
 import com.main.chat.presentation.viewmodel.ChatViewModel
@@ -28,5 +28,10 @@ class ChatFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity().applicationContext as ProvideChatComponent).provideChatComponent().inject(this)
+
+        chatViewModel.observeMessages(this) {
+            Log.d("MyLog", it.joinToString())
+        }
+        chatViewModel.receiveMessages()
     }
 }

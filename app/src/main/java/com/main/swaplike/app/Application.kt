@@ -1,16 +1,6 @@
 package com.main.swaplike.app
 
 import android.app.Application
-import android.util.Log
-import androidx.room.ColumnInfo
-import com.main.profile.di.component.DaggerProfileComponent
-import com.main.profile.di.component.ProfileComponent
-import com.main.profile.di.modules.ProfileDataModule
-import com.main.profile.di.modules.ProfileDomainModule
-import com.main.profile.di.modules.ProfilePresentationModule
-import com.main.profile.di.provider.ProvideProfileComponent
-import com.google.firebase.FirebaseApp
-import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.chat.di.component.ChatComponent
 import com.main.chat.di.component.DaggerChatComponent
 import com.main.chat.di.modules.ChatDataModule
@@ -35,6 +25,12 @@ import com.main.login.di.module.LoginDataModule
 import com.main.login.di.module.LoginDomainModule
 import com.main.login.di.module.LoginPresentationModule
 import com.main.login.di.provider.ProvideLoginComponent
+import com.main.profile.di.component.DaggerProfileComponent
+import com.main.profile.di.component.ProfileComponent
+import com.main.profile.di.modules.ProfileDataModule
+import com.main.profile.di.modules.ProfileDomainModule
+import com.main.profile.di.modules.ProfilePresentationModule
+import com.main.profile.di.provider.ProvideProfileComponent
 import com.main.register.di.component.DaggerRegisterComponent
 import com.main.register.di.component.RegisterComponent
 import com.main.register.di.module.RegisterDataModule
@@ -42,9 +38,6 @@ import com.main.register.di.module.RegisterDomainModule
 import com.main.register.di.module.RegisterPresentationModule
 import com.main.register.di.provider.ProvideRegisterComponent
 import com.main.swaplike.data.cloud.local.DatingDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class Application : Application(), ProvideLoginComponent, ProvideRegisterComponent,
     ProvideDatingComponent, ProvideProfileComponent, ProvideChatsComponent, ProvideChatComponent {

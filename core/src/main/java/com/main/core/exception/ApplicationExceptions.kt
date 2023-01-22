@@ -19,3 +19,9 @@ class DefaultException(message: String): ApplicationException(message)
 class UserException(message: String): ApplicationException(message)
 
 class SqliteException(message: String): ApplicationException(message)
+
+class FirebaseException(message: String): ApplicationException(message)
+
+class UidException(message: String): ApplicationException(message)
+
+class MessageException(message: String): ApplicationException(message)

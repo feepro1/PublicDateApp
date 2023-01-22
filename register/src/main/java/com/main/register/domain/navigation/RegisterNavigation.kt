@@ -2,7 +2,6 @@ package com.main.register.domain.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import com.main.core.navigation.DeepLinks
 import com.main.core.navigation.DeepLinks.DATING_DEEP_LINK
 import com.main.core.navigation.DeepLinks.FINISH_REGISTER_DEEP_LINK
 import com.main.core.navigation.DeepLinks.LOGIN_DEEP_LINK

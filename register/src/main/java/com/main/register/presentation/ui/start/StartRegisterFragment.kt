@@ -6,20 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.main.core.base.BaseFragment
-import com.main.core.exception.FirstNameException
 import com.main.core.state.ApplicationTextWatcher
 import com.main.register.data.entities.RegisterData
 import com.main.register.databinding.FragmentStartRegisterBinding
 import com.main.register.di.provider.ProvideRegisterComponent
 import com.main.register.presentation.viewmodel.RegisterViewModel
 import com.main.register.presentation.viewmodel.RegisterViewModelFactory
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class StartRegisterFragment : BaseFragment() {

@@ -12,7 +12,6 @@ import com.google.firebase.ktx.Firebase
 import com.main.core.base.BaseFragment
 import com.main.core.state.ApplicationTextWatcher
 import com.main.core.toast.showErrorColorToast
-import com.main.core.toast.showInfoColorToast
 import com.main.login.R
 import com.main.login.data.entities.LoginData
 import com.main.login.databinding.FragmentLoginBinding

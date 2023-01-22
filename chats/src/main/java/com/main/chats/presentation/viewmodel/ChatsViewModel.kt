@@ -51,6 +51,10 @@ class ChatsViewModel(
         }
     }
 
+    fun navigateToChat(navController: NavController) {
+        chatsNavigation.navigateToChatFragment(navController)
+    }
+
     fun manageMenuItem(menuItem: MenuItem, navController: NavController): Boolean {
         when (menuItem.itemId) {
             com.main.core.R.id.itemDating -> chatsNavigation.navigateToDatingFragment(navController)
@@ -58,5 +62,4 @@ class ChatsViewModel(
         }
         return true
     }
-
 }
