@@ -17,6 +17,8 @@ import com.main.chats.presentation.viewmodel.ChatsViewModelFactory
 import com.main.core.viewmodel.CoreViewModel
 import com.main.core.viewmodel.CoreViewModelFactory
 import javax.inject.Inject
+import kotlin.properties.Delegates
+import kotlin.properties.Delegates.notNull
 
 class ChatsFragment : Fragment() {
     private val binding by lazy { FragmentChatsBinding.inflate(layoutInflater) }
@@ -26,6 +28,7 @@ class ChatsFragment : Fragment() {
     @Inject
     lateinit var coreViewModelFactory: CoreViewModelFactory
     private val coreViewModel: CoreViewModel by activityViewModels { coreViewModelFactory }
+    private var fragmentAdapter by notNull<FragmentAdapter>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,11 +40,16 @@ class ChatsFragment : Fragment() {
         (requireActivity().applicationContext as ProvideChatsComponent).provideChatsComponent().inject(this)
 
         val tabLayoutNames = resources.getStringArray(R.array.tabLayoutNames).toList()
-
-        binding.mainBottomNavigationView.menu.getItem(0).isChecked = true
-        binding.viewpager.adapter = FragmentAdapter(
+        fragmentAdapter = FragmentAdapter(
             requireActivity(), tabLayoutNames, chatsViewModel, findNavController(), coreViewModel
         )
+
+        chatsViewModel.observeChats(this) { chats ->
+            fragmentAdapter.chatsAdapter.mapAll(chats)
+        }
+
+        binding.mainBottomNavigationView.menu.getItem(0).isChecked = true
+        binding.viewpager.adapter = fragmentAdapter
         binding.mainBottomNavigationView.setOnItemSelectedListener { menuItem ->
             chatsViewModel.manageMenuItem(menuItem, findNavController())
         }

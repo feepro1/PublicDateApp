@@ -1,6 +1,5 @@
 package com.main.chats.data.storage.local
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Entity
 import androidx.room.Query
@@ -10,5 +9,5 @@ import androidx.room.Query
 interface ChatsDao {
 
     @Query("SELECT * FROM user_chats_table")
-    fun getUserChats(): LiveData<List<ChatsCacheModel>>
+    fun getUserChats(): List<ChatCacheModel>
 }

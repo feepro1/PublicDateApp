@@ -5,7 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "user_chats_table")
-data class ChatsCacheModel(
+data class ChatCacheModel(
     @PrimaryKey val id: String,
-    @ColumnInfo("uid") val uid: String
+    @ColumnInfo("uid") val uid: String,
+    @ColumnInfo("lastMessage") val lastMessage: String
 )

@@ -12,7 +12,7 @@ import com.main.chats.data.entities.Chat
 import com.main.chats.databinding.ItemChatBinding
 import com.main.chats.domain.ManageChatsAdapterData
 import com.main.core.UsernameUi
-import java.util.UUID
+import java.util.*
 
 class ChatsAdapter(
     private val clickListenerChat: ChatCLickListener

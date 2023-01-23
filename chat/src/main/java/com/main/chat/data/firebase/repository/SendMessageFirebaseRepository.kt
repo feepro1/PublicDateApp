@@ -15,8 +15,8 @@ interface SendMessageFirebaseRepository {
     class Base : SendMessageFirebaseRepository {
 
         override suspend fun sendMessage(messageCacheModel: MessageCacheModel): Resource<Boolean> {
-            val task = Firebase.firestore.collection(REFERENCE_MESSENGERS).document(messageCacheModel.senderUid)
-                .collection(REFERENCE_CHATS).document(messageCacheModel.receiverUid).collection(REFERENCE_MESSAGES)
+            val task = Firebase.firestore.collection(REFERENCE_MESSENGERS).document(messageCacheModel.receiverUid)
+                .collection(REFERENCE_CHATS).document(messageCacheModel.senderUid).collection(REFERENCE_MESSAGES)
                 .document(UUID.randomUUID().toString()).set(messageCacheModel)
             task.await()
             return if (task.isSuccessful) {
