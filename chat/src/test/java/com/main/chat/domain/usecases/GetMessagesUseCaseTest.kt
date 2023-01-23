@@ -1,7 +1,7 @@
 package com.main.chat.domain.usecases
 
-import com.main.chat.data.entities.Message
 import com.main.chat.data.exception.messages.ChatExceptionMessages.INTERNET_IS_UNAVAILABLE
+import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.chat.domain.firebase.ManageMessageRepository
 import com.main.core.Resource
 import com.main.core.exception.NetworkException
@@ -19,7 +19,7 @@ class GetMessagesUseCaseTest {
     @Test
     fun `test successful get messages`() = runBlocking {
         Mockito.`when`(manageMessageRepository.receiveMessages()).thenReturn(
-            Resource.Success(listOf(Message(text = "Hello World")))
+            Resource.Success(listOf(MessageCacheModel(message = "Hello World", receiverUid = "", senderUid = "")))
         )
         val result = getMessagesUseCase.execute()
         Assertions.assertTrue(result.data?.isNotEmpty() == true)

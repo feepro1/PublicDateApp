@@ -11,6 +11,8 @@ interface ChatsNavigation {
 
     fun navigateToDatingFragment(navController: NavController)
 
+    fun navigateToChatFragment(navController: NavController)
+
     class Base: ChatsNavigation {
 
         override fun navigateToProfileFragment(navController: NavController) {
@@ -21,6 +23,10 @@ interface ChatsNavigation {
         override fun navigateToDatingFragment(navController: NavController) {
             val navOptions = NavOptions.Builder().setPopUpTo(R.id.chatsNavGraph, true).build()
             navController.navigate(DeepLinks.DATING_DEEP_LINK, navOptions)
+        }
+
+        override fun navigateToChatFragment(navController: NavController) {
+            navController.navigate(DeepLinks.CHAT_DEEP_LINK)
         }
     }
 }

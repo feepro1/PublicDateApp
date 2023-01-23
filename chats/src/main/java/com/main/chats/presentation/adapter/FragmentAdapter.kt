@@ -2,16 +2,20 @@ package com.main.chats.presentation.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.NavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.main.chats.data.entities.Chat
 import com.main.chats.data.entities.LikeFromUser
 import com.main.chats.presentation.ui.RecyclerViewFragment
 import com.main.chats.presentation.viewmodel.ChatsViewModel
+import com.main.core.viewmodel.CoreViewModel
 
 class FragmentAdapter(
     fragment: FragmentActivity,
     private val list: List<String>,
-    private val chatsViewModel: ChatsViewModel
+    private val chatsViewModel: ChatsViewModel,
+    private val navController: NavController,
+    private val coreViewModel: CoreViewModel
 ): FragmentStateAdapter(fragment)  {
 
     override fun getItemCount() = list.size
@@ -25,7 +29,8 @@ class FragmentAdapter(
                 }
 
                 override fun itemClick(chat: Chat) {
-                    TODO("Not yet implemented")
+                    coreViewModel.manageChat(chat.mapToCoreChat())
+                    chatsViewModel.navigateToChat(navController)
                 }
             }))
         }

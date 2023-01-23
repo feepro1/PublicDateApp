@@ -1,9 +1,6 @@
 package com.main.login.presentation.viewmodel
 
 import androidx.navigation.NavController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.main.core.Resource
 import com.main.core.exception.EmailException
 import com.main.core.exception.PasswordException
@@ -21,7 +18,6 @@ import com.main.login.domain.navigation.LoginNavigation
 import com.main.login.domain.repository.LoginRepository
 import com.main.login.domain.usecase.LoginUseCase
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach

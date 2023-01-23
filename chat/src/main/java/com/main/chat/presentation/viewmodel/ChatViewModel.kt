@@ -1,25 +1,28 @@
 package com.main.chat.presentation.viewmodel
 
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.main.chat.data.entities.Message
+import androidx.navigation.NavController
+import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.chat.domain.navigation.ChatNavigation
+import com.main.chat.domain.usecases.DeleteMessageUseCase
 import com.main.chat.domain.usecases.GetMessagesUseCase
 import com.main.chat.domain.usecases.SendMessageUseCase
 import com.main.chat.presentation.communication.ChatCommunication
+import com.main.chat.presentation.communication.ObserveChatCommunication
 import com.main.core.DispatchersList
-import com.main.core.exception.ApplicationException
-import com.main.core.exception.NetworkException
-import com.main.core.exception.UserException
 import kotlinx.coroutines.launch
 
 class ChatViewModel(
     private val getMessagesUseCase: GetMessagesUseCase,
     private val sendMessageUseCase: SendMessageUseCase,
+    private val deleteMessageUseCase: DeleteMessageUseCase,
     private val chatCommunication: ChatCommunication,
     private val chatNavigation: ChatNavigation,
     private val dispatchers: DispatchersList
-) : ViewModel() {
+) : ViewModel(), ObserveChatCommunication {
 
     fun receiveMessages() {
         viewModelScope.launch(dispatchers.io()) {
@@ -34,13 +37,42 @@ class ChatViewModel(
         }
     }
 
-    fun sendMessage(message: Message) {
+    fun sendMessage(messageCacheModel: MessageCacheModel) {
         viewModelScope.launch(dispatchers.io()) {
-            val result = sendMessageUseCase.execute(message)
+            val result = sendMessageUseCase.execute(messageCacheModel)
+            if (result.data == false) {
+                val exceptionMessage = result.exception?.message.toString()
+                chatCommunication.manageMotionToastError(exceptionMessage)
+            }
+            if (result.data == true) {
+                chatCommunication.manageMessage(messageCacheModel)
+            }
+        }
+    }
+
+    fun deleteMessage(messageCacheModel: MessageCacheModel) {
+        viewModelScope.launch(dispatchers.io()) {
+            val result = deleteMessageUseCase.execute(messageCacheModel)
             if (result.data == false) {
                 val exceptionMessage = result.exception?.message.toString()
                 chatCommunication.manageMotionToastError(exceptionMessage)
             }
         }
+    }
+
+    fun navigateToChatsFragment(navController: NavController) {
+        chatNavigation.navigateToChatsFragment(navController)
+    }
+
+    override fun observeMessages(owner: LifecycleOwner, observer: Observer<List<MessageCacheModel>>) {
+        chatCommunication.observeMessages(owner, observer)
+    }
+
+    override fun observeMessage(owner: LifecycleOwner, observer: Observer<MessageCacheModel>) {
+        chatCommunication.observeMessage(owner, observer)
+    }
+
+    override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) {
+        chatCommunication.observeMotionToastError(owner, observer)
     }
 }

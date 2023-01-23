@@ -9,7 +9,6 @@ import com.main.chats.domain.firebase.LikesRepository
 import com.main.chats.domain.navigation.ChatsNavigation
 import com.main.chats.domain.usecases.GetAllChatsUseCase
 import com.main.chats.domain.usecases.GetAllLikesUseCase
-import com.main.chats.presentation.viewmodel.ChatsViewModel
 import com.main.core.Resource
 import com.main.core.exception.NetworkException
 import kotlinx.coroutines.runBlocking

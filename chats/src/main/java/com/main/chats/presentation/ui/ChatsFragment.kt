@@ -1,29 +1,31 @@
 package com.main.chats.presentation.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.main.chats.R
 import com.main.chats.databinding.FragmentChatsBinding
 import com.main.chats.di.provider.ProvideChatsComponent
-import com.main.chats.presentation.adapter.ChatsAdapter
 import com.main.chats.presentation.adapter.FragmentAdapter
-import com.main.chats.presentation.adapter.LikesAdapter
 import com.main.chats.presentation.viewmodel.ChatsViewModel
 import com.main.chats.presentation.viewmodel.ChatsViewModelFactory
+import com.main.core.viewmodel.CoreViewModel
+import com.main.core.viewmodel.CoreViewModelFactory
 import javax.inject.Inject
 
 class ChatsFragment : Fragment() {
     private val binding by lazy { FragmentChatsBinding.inflate(layoutInflater) }
     @Inject
     lateinit var chatsViewModelFactory: ChatsViewModelFactory
-    private val chatViewModel: ChatsViewModel by activityViewModels { chatsViewModelFactory }
+    private val chatsViewModel: ChatsViewModel by activityViewModels { chatsViewModelFactory }
+    @Inject
+    lateinit var coreViewModelFactory: CoreViewModelFactory
+    private val coreViewModel: CoreViewModel by activityViewModels { coreViewModelFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,10 +39,13 @@ class ChatsFragment : Fragment() {
         val tabLayoutNames = resources.getStringArray(R.array.tabLayoutNames).toList()
 
         binding.mainBottomNavigationView.menu.getItem(0).isChecked = true
-        binding.viewpager.adapter = FragmentAdapter(requireActivity(), tabLayoutNames, chatViewModel)
+        binding.viewpager.adapter = FragmentAdapter(
+            requireActivity(), tabLayoutNames, chatsViewModel, findNavController(), coreViewModel
+        )
         binding.mainBottomNavigationView.setOnItemSelectedListener { menuItem ->
-            chatViewModel.manageMenuItem(menuItem, findNavController())
+            chatsViewModel.manageMenuItem(menuItem, findNavController())
         }
+        binding.viewpager.isSaveEnabled = false
 
         TabLayoutMediator(binding.tabLayout, binding.viewpager) { tab, position ->
             tab.text = tabLayoutNames[position]

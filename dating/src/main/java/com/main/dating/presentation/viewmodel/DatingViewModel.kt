@@ -1,7 +1,6 @@
 package com.main.dating.presentation.viewmodel
 
 import android.content.Context
-import android.util.Log
 import android.view.MenuItem
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
