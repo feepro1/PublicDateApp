@@ -29,8 +29,8 @@ class FragmentAdapter(
                 }
 
                 override fun itemClick(chat: Chat) {
-                    chatsViewModel.navigateToChat(navController)
                     coreViewModel.manageChat(chat.mapToCoreChat())
+                    chatsViewModel.navigateToChat(navController)
                 }
             }))
         }

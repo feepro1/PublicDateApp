@@ -15,6 +15,7 @@ import com.google.firebase.ktx.app
 import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.chat.databinding.FragmentChatBinding
 import com.main.chat.di.provider.ProvideChatComponent
+import com.main.chat.presentation.adapter.MessagesAdapter
 import com.main.chat.presentation.viewmodel.ChatViewModel
 import com.main.chat.presentation.viewmodel.ChatViewModelFactory
 import com.main.core.base.BaseFragment
@@ -31,6 +32,7 @@ class ChatFragment : BaseFragment() {
     @Inject
     lateinit var coreViewModelFactory: CoreViewModelFactory
     private val coreViewModel: CoreViewModel by activityViewModels { coreViewModelFactory }
+    private val messageAdapter = MessagesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,9 +47,14 @@ class ChatFragment : BaseFragment() {
         binding.btnBack.setOnClickListener {
             chatViewModel.navigateToChatsFragment(findNavController())
         }
+        binding.rvMessages.adapter = messageAdapter
 
-        chatViewModel.observeMessages(this) {
-            Log.d("MyLog", it.joinToString())
+        chatViewModel.observeMessage(this) { message ->
+            messageAdapter.map(message)
+            binding.rvMessages.scrollToPosition(messageAdapter.itemCount-1)
+        }
+        chatViewModel.observeMessages(this) { messages ->
+            messageAdapter.mapAll(messages)
         }
         chatViewModel.receiveMessages()
 
@@ -58,6 +65,7 @@ class ChatFragment : BaseFragment() {
                 receiverUid = coreViewModel.valueChat()?.uid.toString(),
                 dateTimeMillis = System.currentTimeMillis()
             ))
+            binding.etMessage.text.clear()
         }
     }
 

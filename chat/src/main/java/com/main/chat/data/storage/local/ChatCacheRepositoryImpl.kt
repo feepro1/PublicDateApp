@@ -17,5 +17,4 @@ class ChatCacheRepositoryImpl(private val chatDao: ChatDao): ChatCacheRepository
     override fun getAllMessages(): List<MessageCacheModel> {
         return chatDao.getAllMessages()
     }
-
 }

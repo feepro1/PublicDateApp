@@ -44,6 +44,9 @@ class ChatViewModel(
                 val exceptionMessage = result.exception?.message.toString()
                 chatCommunication.manageMotionToastError(exceptionMessage)
             }
+            if (result.data == true) {
+                chatCommunication.manageMessage(messageCacheModel)
+            }
         }
     }
 
@@ -63,6 +66,10 @@ class ChatViewModel(
 
     override fun observeMessages(owner: LifecycleOwner, observer: Observer<List<MessageCacheModel>>) {
         chatCommunication.observeMessages(owner, observer)
+    }
+
+    override fun observeMessage(owner: LifecycleOwner, observer: Observer<MessageCacheModel>) {
+        chatCommunication.observeMessage(owner, observer)
     }
 
     override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) {

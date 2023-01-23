@@ -12,12 +12,13 @@ import com.main.chats.data.entities.Chat
 import com.main.chats.databinding.ItemChatBinding
 import com.main.chats.domain.ManageChatsAdapterData
 import com.main.core.UsernameUi
+import java.util.UUID
 
 class ChatsAdapter(
     private val clickListenerChat: ChatCLickListener
 ) : RecyclerView.Adapter<ChatsAdapter.ChatsViewHolder>(), UsernameUi, ManageChatsAdapterData {
     private val chats = mutableListOf<Chat>(
-        Chat("Vadym", "Hrynyk")
+        Chat("Vadym", "Hrynyk", uid = UUID.randomUUID().toString())
     )
 
     class ChatsViewHolder(item: View): ViewHolder(item) {

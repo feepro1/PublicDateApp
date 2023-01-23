@@ -12,12 +12,15 @@ interface ChatCommunication : ObserveChatCommunication, ValueChatCommunication {
 
     fun manageMessages(messages: List<MessageCacheModel>)
 
+    fun manageMessage(message: MessageCacheModel)
+
     fun manageUser(user: User)
 
     class Base(
         private val chatMotionToastCommunication: ChatMotionToastCommunication,
         private val chatMessagesCommunication: ChatMessagesCommunication,
-        private val chatUserCommunication: ChatUserCommunication
+        private val chatUserCommunication: ChatUserCommunication,
+        private val chatMessageCommunication: ChatMessageCommunication
     ): ChatCommunication {
 
         override fun manageMotionToastError(error: String) {
@@ -28,12 +31,20 @@ interface ChatCommunication : ObserveChatCommunication, ValueChatCommunication {
             chatMessagesCommunication.map(messages)
         }
 
+        override fun manageMessage(message: MessageCacheModel) {
+            chatMessageCommunication.map(message)
+        }
+
         override fun manageUser(user: User) {
             chatUserCommunication.map(user)
         }
 
         override fun observeMessages(owner: LifecycleOwner, observer: Observer<List<MessageCacheModel>>) {
             chatMessagesCommunication.observe(owner, observer)
+        }
+
+        override fun observeMessage(owner: LifecycleOwner, observer: Observer<MessageCacheModel>) {
+            chatMessageCommunication.observe(owner, observer)
         }
 
         override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) {
@@ -49,6 +60,8 @@ interface ChatCommunication : ObserveChatCommunication, ValueChatCommunication {
 interface ObserveChatCommunication {
 
     fun observeMessages(owner: LifecycleOwner, observer: Observer<List<MessageCacheModel>>)
+
+    fun observeMessage(owner: LifecycleOwner, observer: Observer<MessageCacheModel>)
 
     fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>)
 }
@@ -68,4 +81,8 @@ interface ChatMessagesCommunication: Communication.Mutable<List<MessageCacheMode
 
 interface ChatUserCommunication: Communication.Mutable<User> {
     class Base: Communication.Post<User>(), ChatUserCommunication
+}
+
+interface ChatMessageCommunication: Communication.Mutable<MessageCacheModel> {
+    class Base: Communication.Post<MessageCacheModel>(), ChatMessageCommunication
 }
