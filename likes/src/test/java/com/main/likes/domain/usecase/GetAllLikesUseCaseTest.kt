@@ -1,4 +1,4 @@
-package com.main.chats.domain.usecases
+package com.main.likes.domain.usecase
 
 import com.main.chats.data.entities.LikeFromUser
 import com.main.chats.data.exception.messages.ChatsExceptionMessages.INTERNET_IS_UNAVAILABLE
