@@ -5,6 +5,9 @@ import com.google.firebase.ktx.Firebase
 import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.core.Resource
 import com.main.core.exception.FirebaseException
+import com.main.core.firebase.FirebaseConstants.REFERENCE_CHATS
+import com.main.core.firebase.FirebaseConstants.REFERENCE_MESSAGES
+import com.main.core.firebase.FirebaseConstants.REFERENCE_MESSENGERS
 import kotlinx.coroutines.tasks.await
 import java.util.*
 
@@ -15,21 +18,29 @@ interface SendMessageFirebaseRepository {
     class Base : SendMessageFirebaseRepository {
 
         override suspend fun sendMessage(messageCacheModel: MessageCacheModel): Resource<Boolean> {
-            val task = Firebase.firestore.collection(REFERENCE_MESSENGERS).document(messageCacheModel.senderUid)
-                .collection(REFERENCE_CHATS).document(messageCacheModel.receiverUid).collection(REFERENCE_MESSAGES)
-                .document(UUID.randomUUID().toString()).set(messageCacheModel)
-            task.await()
-            return if (task.isSuccessful) {
-                Resource.Success(true)
+            val isBannedTask = Firebase.firestore.collection(REFERENCE_MESSENGERS).document(messageCacheModel.receiverUid)
+                .collection(REFERENCE_CHATS).document(messageCacheModel.senderUid).get()
+            isBannedTask.await()
+            return if (isBannedTask.result.data?.values?.first() == true) {
+                Resource.Error(false, FirebaseException("Chat was banned"))
             } else {
-                Resource.Error(false, FirebaseException("Exception"))
+                val firstDocumentInitTask = Firebase.firestore.collection(REFERENCE_MESSENGERS)
+                    .document(messageCacheModel.receiverUid)
+                firstDocumentInitTask.set(mapOf("Bubble" to "Hello, World!"))
+
+                val secondDocumentInitTask = firstDocumentInitTask.collection(REFERENCE_CHATS)
+                    .document(messageCacheModel.senderUid)
+                secondDocumentInitTask.set(mapOf("isChatBanned" to false))
+
+                val sendMessageTask = secondDocumentInitTask.collection(REFERENCE_MESSAGES)
+                    .document(UUID.randomUUID().toString()).set(messageCacheModel)
+                sendMessageTask.await()
+                if (sendMessageTask.isSuccessful) {
+                    Resource.Success(true)
+                } else {
+                    Resource.Error(false, FirebaseException("Task is not successful"))
+                }
             }
         }
-    }
-
-    companion object {
-        const val REFERENCE_MESSENGERS = "messengers1"
-        const val REFERENCE_CHATS = "chats"
-        const val REFERENCE_MESSAGES = "messages"
     }
 }

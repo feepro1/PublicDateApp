@@ -18,33 +18,37 @@ class FragmentAdapter(
     private val coreViewModel: CoreViewModel
 ): FragmentStateAdapter(fragment)  {
 
+    val chatsAdapter = ChatsAdapter(object : ChatCLickListener {
+
+        override fun iconClick(chat: Chat) {
+            TODO("Not yet implemented")
+        }
+
+        override fun itemClick(chat: Chat) {
+            coreViewModel.manageChat(chat.mapToCoreChat())
+            chatsViewModel.navigateToChat(navController)
+        }
+    })
+
+    val likesAdapter = LikesAdapter(object : LikeCLickListener {
+
+        override fun iconClick(likeFromUser: LikeFromUser) {
+            TODO("Not yet implemented")
+        }
+
+        override fun itemClick(likeFromUser: LikeFromUser) {
+            TODO("Not yet implemented")
+        }
+    })
+
     override fun getItemCount() = list.size
 
     override fun createFragment(position: Int): Fragment {
         if (position == 0) {
-            return RecyclerViewFragment(chatsAdapter = ChatsAdapter(object : ChatCLickListener {
-
-                override fun iconClick(chat: Chat) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun itemClick(chat: Chat) {
-                    coreViewModel.manageChat(chat.mapToCoreChat())
-                    chatsViewModel.navigateToChat(navController)
-                }
-            }))
+            return RecyclerViewFragment(chatsAdapter = chatsAdapter)
         }
         if (position == 1) {
-            return RecyclerViewFragment(likesAdapter = LikesAdapter(object : LikeCLickListener {
-
-                override fun iconClick(likeFromUser: LikeFromUser) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun itemClick(likeFromUser: LikeFromUser) {
-                    TODO("Not yet implemented")
-                }
-            }))
+            return RecyclerViewFragment(likesAdapter = likesAdapter)
         }
         return RecyclerViewFragment()
     }

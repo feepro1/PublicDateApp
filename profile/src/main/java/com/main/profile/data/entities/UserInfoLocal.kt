@@ -12,7 +12,8 @@ data class UserInfoLocal(
     val age: Int? = null,
     val city: String = "",
     val region: String = "",
-    val aboutMe: String = ""
+    val aboutMe: String = "",
+    val token: String = ""
 ) {
 
     fun mapUserInfo(): UserInfo {
@@ -25,7 +26,8 @@ data class UserInfoLocal(
             age = age,
             city = city,
             region = region,
-            aboutMe = aboutMe
+            aboutMe = aboutMe,
+            token = token
         )
     }
 }

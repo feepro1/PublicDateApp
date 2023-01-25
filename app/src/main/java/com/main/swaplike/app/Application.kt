@@ -1,6 +1,9 @@
 package com.main.swaplike.app
 
 import android.app.Application
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.main.chat.data.storage.local.ChatCacheRepositoryImpl
 import com.main.chat.di.component.ChatComponent
 import com.main.chat.di.component.DaggerChatComponent
 import com.main.chat.di.modules.ChatDataModule
@@ -37,10 +40,29 @@ import com.main.register.di.module.RegisterDataModule
 import com.main.register.di.module.RegisterDomainModule
 import com.main.register.di.module.RegisterPresentationModule
 import com.main.register.di.provider.ProvideRegisterComponent
+import com.main.swaplike.data.cloud.firebase.ManageMessagesImpl
+import com.main.swaplike.data.cloud.firebase.ManageNotificationTokenImpl
 import com.main.swaplike.data.cloud.local.DatingDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class Application : Application(), ProvideLoginComponent, ProvideRegisterComponent,
     ProvideDatingComponent, ProvideProfileComponent, ProvideChatsComponent, ProvideChatComponent {
+
+    private val manageNotificationToken = ManageNotificationTokenImpl()
+    private val manageMessages = ManageMessagesImpl()
+
+    override fun onCreate() {
+        super.onCreate()
+        val chatCacheRepository = ChatCacheRepositoryImpl(DatingDatabase.getInstance(applicationContext).chatDao())
+        CoroutineScope(Dispatchers.IO).launch {
+            manageNotificationToken.updateToken()
+            val messages = manageMessages.receiveMessagesFromFirebase()
+            manageMessages.deleteMessagesOnFirebase()
+            manageMessages.addMessagesToLocalDatabase(messages, chatCacheRepository)
+        }
+    }
 
     private val loginComponent by lazy {
         DaggerLoginComponent
@@ -83,7 +105,7 @@ class Application : Application(), ProvideLoginComponent, ProvideRegisterCompone
             .builder()
             .chatsPresentationModule(ChatsPresentationModule())
             .chatsDomainModule(ChatsDomainModule())
-            .chatsDataModule(ChatsDataModule())
+            .chatsDataModule(ChatsDataModule(DatingDatabase.getInstance(applicationContext).chatsDao()))
             .build()
     }
 

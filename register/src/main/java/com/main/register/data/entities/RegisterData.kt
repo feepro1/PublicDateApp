@@ -3,13 +3,19 @@ package com.main.register.data.entities
 import android.graphics.Bitmap
 
 data class RegisterData(
-    val email: String = "",
     val password: String = "",
     val confirmPassword: String = "",
     val avatar: Bitmap? = null,
     val firstName: String = "",
     val lastName: String = "",
-    val uid: String = ""
+    val email: String = "",
+    val uid: String = "",
+    val likeFromAnotherUser: HashMap<String, String?> = hashMapOf(),
+    val age: Int? = null,
+    val city: String = "",
+    val region: String = "",
+    val aboutMe: String = "",
+    val token: String = ""
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

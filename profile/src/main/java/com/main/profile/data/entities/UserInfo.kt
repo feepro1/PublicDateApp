@@ -10,5 +10,6 @@ data class UserInfo(
     val age: Int? = null,
     val city: String = "",
     val region: String = "",
-    val aboutMe: String = ""
+    val aboutMe: String = "",
+    val token: String = ""
 )

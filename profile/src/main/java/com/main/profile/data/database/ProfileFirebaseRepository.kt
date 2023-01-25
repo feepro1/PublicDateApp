@@ -9,6 +9,8 @@ import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import com.main.core.Resource
 import com.main.core.exception.DefaultException
+import com.main.core.firebase.FirebaseConstants.REFERENCE_USERS
+import com.main.core.firebase.FirebaseConstants.REFERENCE_USERS_AVATARS
 import com.main.profile.data.entities.UserInfo
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
@@ -65,10 +67,5 @@ interface ProfileFirebaseRepository {
             val userInfo = task.result.toObject() ?: UserInfo()
             return Resource.Success(userInfo)
         }
-    }
-
-    companion object {
-        const val REFERENCE_USERS_AVATARS = "usersAvatars"
-        const val REFERENCE_USERS = "users"
     }
 }

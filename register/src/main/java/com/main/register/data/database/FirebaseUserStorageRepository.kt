@@ -8,12 +8,13 @@ import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import com.main.core.Resource
 import com.main.core.exception.EmailException
+import com.main.core.firebase.FirebaseConstants.REFERENCE_USERS
+import com.main.core.firebase.FirebaseConstants.REFERENCE_USERS_AVATARS
 import com.main.register.data.entities.RegisterData
 import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_ADDRESS_IS_BUSY
 import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_ADDRESS_IS_BUSY_UI
 import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT
 import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT_UI
-import com.main.register.domain.firebase.RegisterFirebaseRepository.Companion.REFERENCE_USERS_AVATARS
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 
@@ -32,7 +33,7 @@ interface FirebaseUserStorageRepository {
             val uid = firebase.auth.currentUser?.uid.toString()
             val avatarUrl = firebase.storage.getReference(REFERENCE_USERS_AVATARS).child(uid).downloadUrl
             avatarUrl.await()
-            val addUserToDatabaseTask = firebase.firestore.collection(COLLECTION_USERS).document(uid).set(
+            val addUserToDatabaseTask = firebase.firestore.collection(REFERENCE_USERS).document(uid).set(
                 registerData.mapToRegisterDataForDatabase().copy(
                     avatarUrl = avatarUrl.result.toString(),
                     uid = uid
@@ -61,9 +62,5 @@ interface FirebaseUserStorageRepository {
             val byteArray = byteArrayOutputStream.toByteArray()
             return firebase.storage.getReference(REFERENCE_USERS_AVATARS).child(uid).putBytes(byteArray)
         }
-    }
-
-    companion object {
-        const val COLLECTION_USERS = "users"
     }
 }

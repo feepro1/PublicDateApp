@@ -96,7 +96,8 @@ class ProfileFragment : BaseFragment() {
                 city = binding.etCity.text.toString().trim(),
                 region = binding.etRegion.text.toString().trim(),
                 aboutMe = binding.etAboutMe.text.toString().trim(),
-                uid = Firebase.auth.currentUser?.uid.toString()
+                uid = Firebase.auth.currentUser?.uid.toString(),
+                token = profileViewModel.valueUserInfo()?.token.toString()
             )
             profileViewModel.saveUserInfo(
                 userInfoLocal,
