@@ -21,12 +21,9 @@ class ChatsViewModelTest : BaseChatsTest() {
 
     private val chatsCommunication = TestChatsCommunication()
     private val chatsRepository = mock<ChatsRepository>()
-    private val likesRepository = mock<LikesRepository>()
     private val getAllChatsUseCase = GetAllChatsUseCase(chatsRepository)
-    private val getAllLikesUseCase = GetAllLikesUseCase(likesRepository)
     private val chatsViewModel = ChatsViewModel(
         getAllChatsUseCase = getAllChatsUseCase,
-        getAllLikesUseCase = getAllLikesUseCase,
         chatsCommunication = chatsCommunication,
         chatsNavigation = ChatsNavigation.Base(),
         dispatchers = TestDispatchersList()
@@ -56,34 +53,6 @@ class ChatsViewModelTest : BaseChatsTest() {
             Resource.Error(emptyList(), NetworkException(INTERNET_IS_UNAVAILABLE))
         )
         chatsViewModel.getAllChats()
-        val result = chatsCommunication.motionToastError.first() == INTERNET_IS_UNAVAILABLE
-        Assertions.assertTrue(result)
-    }
-
-    @Test
-    fun `test successful get all likes`() = runBlocking {
-        Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Success(listOf(LikeFromUser()))
-        )
-        chatsViewModel.getAllLikes()
-        Assertions.assertTrue(chatsCommunication.likes.isNotEmpty())
-    }
-
-    @Test
-    fun `test successful get all likes, but likes is empty`() = runBlocking {
-        Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Success(emptyList())
-        )
-        chatsViewModel.getAllLikes()
-        Assertions.assertTrue(chatsCommunication.likes.isNotEmpty())
-    }
-
-    @Test
-    fun `test failure get all likes, internet is not available`() = runBlocking {
-        Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Error(emptyList(), NetworkException(INTERNET_IS_UNAVAILABLE))
-        )
-        chatsViewModel.getAllLikes()
         val result = chatsCommunication.motionToastError.first() == INTERNET_IS_UNAVAILABLE
         Assertions.assertTrue(result)
     }

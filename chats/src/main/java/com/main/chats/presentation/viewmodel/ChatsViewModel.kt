@@ -20,7 +20,6 @@ import kotlinx.coroutines.launch
 
 class ChatsViewModel(
     private val getAllChatsUseCase: GetAllChatsUseCase,
-    private val getAllLikesUseCase: GetAllLikesUseCase,
     private val chatsCommunication: ChatsCommunication,
     private val chatsNavigation: ChatsNavigation,
     private val dispatchers: DispatchersList
@@ -34,21 +33,6 @@ class ChatsViewModel(
             }
             if (result.data?.isEmpty() == true) {
                 chatsCommunication.manageChats(emptyList())
-            }
-            when (result.exception) {
-                is NetworkException -> chatsCommunication.manageMotionToastError(INTERNET_IS_UNAVAILABLE)
-            }
-        }
-    }
-
-    fun getAllLikes() {
-        viewModelScope.launch(dispatchers.io()) {
-            val result = getAllLikesUseCase.execute()
-            if (result.data != null) {
-                chatsCommunication.manageLikes(result.data ?: emptyList())
-            }
-            if (result.data?.isEmpty() == true) {
-                chatsCommunication.manageLikes(emptyList())
             }
             when (result.exception) {
                 is NetworkException -> chatsCommunication.manageMotionToastError(INTERNET_IS_UNAVAILABLE)
