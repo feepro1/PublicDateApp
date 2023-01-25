@@ -1,4 +1,4 @@
-package com.main.chats.domain.firebase
+package com.main.likes.domain.firebase
 
 import com.main.chats.data.entities.LikeFromUser
 import com.main.chats.data.exception.messages.ChatsExceptionMessages.INTERNET_IS_UNAVAILABLE
