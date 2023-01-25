@@ -17,7 +17,6 @@ import com.main.chats.presentation.viewmodel.ChatsViewModelFactory
 import com.main.core.viewmodel.CoreViewModel
 import com.main.core.viewmodel.CoreViewModelFactory
 import javax.inject.Inject
-import kotlin.properties.Delegates
 import kotlin.properties.Delegates.notNull
 
 class ChatsFragment : Fragment() {

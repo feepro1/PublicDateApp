@@ -1,10 +1,8 @@
 package com.main.chat.presentation.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.NotificationCompat.MessagingStyle.Message
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -28,9 +26,11 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.MessagesViewHolder>
             val myUid = Firebase.auth.currentUser?.uid.toString()
             if (messageCacheModel.senderUid == myUid) {
                 sentMessageBinding.tvMessage.text = messageCacheModel.message
+                sentMessageBinding.tvMessageTime.text = messageCacheModel.dateTimeMillis.toString()
             }
             if (messageCacheModel.receiverUid == myUid) {
                 receivedMessageBinding.tvMessage.text = messageCacheModel.message
+                receivedMessageBinding.tvMessageTime.text = messageCacheModel.dateTimeMillis.toString()
             }
         }
     }
@@ -74,6 +74,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.MessagesViewHolder>
         val result = DiffUtil.calculateDiff(diff)
         this.messages.clear()
         this.messages.addAll(messages)
+        this.messages.sortByDescending { messageCacheModel -> messageCacheModel.dateTimeMillis }
         result.dispatchUpdatesTo(this)
     }
 
@@ -82,6 +83,7 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.MessagesViewHolder>
         val diff = MessageDiffUtilCallback(this.messages, newMessages)
         val result = DiffUtil.calculateDiff(diff)
         this.messages.add(message)
+        this.messages.sortByDescending { messageCacheModel -> messageCacheModel.dateTimeMillis }
         result.dispatchUpdatesTo(this)
     }
 
@@ -98,7 +100,7 @@ class MessageDiffUtilCallback(
     override fun getNewListSize() = newList.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-        oldList[oldItemPosition].id == (newList[newItemPosition]).id
+        oldList[oldItemPosition].dateTimeMillis == (newList[newItemPosition]).dateTimeMillis
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
         oldList[oldItemPosition] == newList[newItemPosition]

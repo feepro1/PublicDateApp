@@ -1,6 +1,6 @@
-package com.main.profile.data.entities
+package com.main.chat.data.entities.notification
 
-data class UserInfo(
+data class UserInfoForNotification(
     val firstName: String = "",
     val lastName: String = "",
     val avatarUrl: String = "",

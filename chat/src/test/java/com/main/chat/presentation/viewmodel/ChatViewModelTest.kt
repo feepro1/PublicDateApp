@@ -1,7 +1,6 @@
 package com.main.chat.presentation.viewmodel
 
 import com.main.chat.BaseChatTest
-import com.main.chat.data.exception.messages.ChatExceptionMessages
 import com.main.chat.data.exception.messages.ChatExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.chat.data.exception.messages.ChatExceptionMessages.MESSAGE_IS_EMPTY
 import com.main.chat.data.exception.messages.ChatExceptionMessages.MESSAGE_WAS_NOT_FOUND

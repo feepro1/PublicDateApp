@@ -29,8 +29,4 @@ interface RegisterFirebaseRepository {
             }
         }
     }
-
-    companion object {
-        const val REFERENCE_USERS_AVATARS = "usersAvatars"
-    }
 }

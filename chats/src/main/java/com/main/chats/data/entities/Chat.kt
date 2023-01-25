@@ -1,5 +1,7 @@
 package com.main.chats.data.entities
 
+import com.main.core.base.entity.Chat
+
 data class Chat(
     val firstName: String = "",
     val lastName: String = "",
@@ -8,8 +10,8 @@ data class Chat(
     val lastMessage: String = ""
 ) {
 
-    fun mapToCoreChat(): com.main.core.entity.Chat {
-        return com.main.core.entity.Chat(
+    fun mapToCoreChat(): Chat {
+        return Chat(
             firstName = firstName,
             lastName = lastName,
             avatarUrl = avatarUrl,

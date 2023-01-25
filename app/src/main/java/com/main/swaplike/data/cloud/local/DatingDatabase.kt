@@ -9,7 +9,7 @@ import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.chats.data.storage.local.ChatCacheModel
 import com.main.chats.data.storage.local.ChatsDao
 
-@Database(entities = [ChatCacheModel::class, MessageCacheModel::class], version = 4)
+@Database(entities = [ChatCacheModel::class, MessageCacheModel::class], version = 5)
 abstract class DatingDatabase : RoomDatabase() {
 
     abstract fun chatsDao(): ChatsDao
@@ -23,6 +23,7 @@ abstract class DatingDatabase : RoomDatabase() {
             return if (database == null) {
                 database = Room.databaseBuilder(context, DatingDatabase::class.java, "dating_database")
                     .fallbackToDestructiveMigration()
+                    .allowMainThreadQueries()
                     .build()
                 database as DatingDatabase
             } else {

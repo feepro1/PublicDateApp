@@ -1,5 +1,6 @@
 package com.main.chat.di.modules
 
+import com.main.chat.data.storage.shared_pref.ManageSharedPreferences
 import com.main.chat.domain.firebase.ManageMessageRepository
 import com.main.chat.domain.navigation.ChatNavigation
 import com.main.chat.domain.usecases.DeleteMessageUseCase
@@ -35,5 +36,10 @@ class ChatDomainModule {
     @Provides
     fun provideChatNavigation(): ChatNavigation {
         return ChatNavigation.Base()
+    }
+
+    @Provides
+    fun provideManageSharePreferences(): ManageSharedPreferences {
+        return ManageSharedPreferences.Base()
     }
 }
