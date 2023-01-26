@@ -2,16 +2,16 @@ package com.main.register.domain.usecase
 
 import com.main.core.Resource
 import com.main.core.exception.*
+import com.main.core.exception.ExceptionMessages.CONFIRM_PASSWORD_IS_EMPTY
+import com.main.core.exception.ExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT_UI
+import com.main.core.exception.ExceptionMessages.EMAIL_IS_EMPTY
+import com.main.core.exception.ExceptionMessages.FIRST_NAME_IS_EMPTY
+import com.main.core.exception.ExceptionMessages.LAST_NAME_IS_EMPTY
+import com.main.core.exception.ExceptionMessages.PASSWORDS_DO_NOT_MATCH
+import com.main.core.exception.ExceptionMessages.PASSWORD_DOES_NOT_CONSIST_A_CAPITAL_LETTER
+import com.main.core.exception.ExceptionMessages.PASSWORD_IS_EMPTY
+import com.main.core.exception.ExceptionMessages.PASSWORD_IS_TOO_SHORT
 import com.main.register.data.entities.RegisterData
-import com.main.register.data.exception.message.RegisterExceptionMessages.CONFIRM_PASSWORD_IS_EMPTY
-import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT_UI
-import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_IS_EMPTY
-import com.main.register.data.exception.message.RegisterExceptionMessages.FIRST_NAME_IS_EMPTY
-import com.main.register.data.exception.message.RegisterExceptionMessages.LAST_NAME_IS_EMPTY
-import com.main.register.data.exception.message.RegisterExceptionMessages.PASSWORDS_DO_NOT_MATCH
-import com.main.register.data.exception.message.RegisterExceptionMessages.PASSWORD_DOES_NOT_CONSIST_A_CAPITAL_LETTER
-import com.main.register.data.exception.message.RegisterExceptionMessages.PASSWORD_IS_EMPTY
-import com.main.register.data.exception.message.RegisterExceptionMessages.PASSWORD_IS_TOO_SHORT
 import com.main.register.domain.repository.RegisterRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

@@ -2,10 +2,10 @@ package com.main.register.data.validation
 
 import com.main.core.Resource
 import com.main.core.exception.EmailException
+import com.main.core.exception.ExceptionMessages.EMAIL_IS_EMPTY
+import com.main.core.exception.ExceptionMessages.PASSWORD_IS_EMPTY
 import com.main.core.exception.PasswordException
 import com.main.register.data.entities.RegisterData
-import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_IS_EMPTY
-import com.main.register.data.exception.message.RegisterExceptionMessages.PASSWORD_IS_EMPTY
 
 interface ValidateFinishRegisterData {
 

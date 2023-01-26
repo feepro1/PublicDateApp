@@ -8,13 +8,13 @@ import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import com.main.core.Resource
 import com.main.core.exception.EmailException
+import com.main.core.exception.ExceptionMessages.EMAIL_ADDRESS_IS_BUSY
+import com.main.core.exception.ExceptionMessages.EMAIL_ADDRESS_IS_BUSY_UI
+import com.main.core.exception.ExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT
+import com.main.core.exception.ExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT_UI
 import com.main.core.firebase.FirebaseConstants.REFERENCE_USERS
 import com.main.core.firebase.FirebaseConstants.REFERENCE_USERS_AVATARS
 import com.main.register.data.entities.RegisterData
-import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_ADDRESS_IS_BUSY
-import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_ADDRESS_IS_BUSY_UI
-import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT
-import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT_UI
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 

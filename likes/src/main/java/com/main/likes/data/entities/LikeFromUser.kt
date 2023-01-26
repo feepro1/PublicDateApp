@@ -1,4 +1,4 @@
-package com.main.chats.data.entities
+package com.main.likes.data.entities
 
 data class LikeFromUser(
     val firstName: String = "",

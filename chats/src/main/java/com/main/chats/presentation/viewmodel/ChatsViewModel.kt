@@ -7,14 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.main.chats.data.entities.Chat
-import com.main.chats.data.entities.LikeFromUser
-import com.main.chats.data.exception.messages.ChatsExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.chats.domain.navigation.ChatsNavigation
 import com.main.chats.domain.usecases.GetAllChatsUseCase
-import com.main.chats.domain.usecases.GetAllLikesUseCase
 import com.main.chats.presentation.communication.ChatsCommunication
 import com.main.chats.presentation.communication.ObserveChatsCommunication
 import com.main.core.DispatchersList
+import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import kotlinx.coroutines.launch
 
@@ -54,10 +52,6 @@ class ChatsViewModel(
 
     override fun observeChats(owner: LifecycleOwner, observer: Observer<List<Chat>>) {
         chatsCommunication.observeChats(owner, observer)
-    }
-
-    override fun observeLikes(owner: LifecycleOwner, observer: Observer<List<LikeFromUser>>) {
-        chatsCommunication.observeLikes(owner, observer)
     }
 
     override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) {

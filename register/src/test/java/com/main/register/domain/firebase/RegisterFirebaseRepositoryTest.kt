@@ -2,8 +2,8 @@ package com.main.register.domain.firebase
 
 import com.main.core.Resource
 import com.main.core.exception.EmailException
+import com.main.core.exception.ExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT_UI
 import com.main.register.data.entities.RegisterData
-import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT_UI
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.jupiter.api.Assertions

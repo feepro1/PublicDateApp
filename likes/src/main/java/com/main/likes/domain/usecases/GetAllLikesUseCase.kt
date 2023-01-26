@@ -1,8 +1,9 @@
-package com.main.chats.domain.usecases
+package com.main.likes.domain.usecases
 
-import com.main.chats.data.entities.LikeFromUser
-import com.main.chats.domain.firebase.LikesRepository
+
 import com.main.core.Resource
+import com.main.likes.data.entities.LikeFromUser
+import com.main.likes.domain.firebase.LikesRepository
 
 class GetAllLikesUseCase(
     private val likesRepository: LikesRepository

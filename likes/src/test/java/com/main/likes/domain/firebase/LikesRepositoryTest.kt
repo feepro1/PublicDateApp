@@ -1,9 +1,9 @@
 package com.main.likes.domain.firebase
 
-import com.main.chats.data.entities.LikeFromUser
-import com.main.chats.data.exception.messages.ChatsExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.Resource
+import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
+import com.main.likes.data.entities.LikeFromUser
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.jupiter.api.Assertions

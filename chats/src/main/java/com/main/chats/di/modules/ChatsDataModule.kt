@@ -1,13 +1,11 @@
 package com.main.chats.di.modules
 
 import com.main.chats.data.realization.ChatsRepositoryImpl
-import com.main.chats.data.realization.LikesRepositoryImpl
 import com.main.chats.data.storage.local.ChatsCacheRepository
 import com.main.chats.data.storage.local.ChatsCacheRepositoryImpl
 import com.main.chats.data.storage.local.ChatsDao
 import com.main.chats.data.storage.remote.ChatsFirebaseRepository
 import com.main.chats.domain.firebase.ChatsRepository
-import com.main.chats.domain.firebase.LikesRepository
 import dagger.Module
 import dagger.Provides
 
@@ -25,11 +23,6 @@ class ChatsDataModule(
             chatsCacheRepository = chatsCacheRepository,
             chatsFirebaseRepository = chatsFirebaseRepository
         )
-    }
-
-    @Provides
-    fun provideLikesRepository(): LikesRepository {
-        return LikesRepositoryImpl()
     }
 
     @Provides

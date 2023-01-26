@@ -3,15 +3,15 @@ package com.main.register.data.validation
 import com.main.core.Resource
 import com.main.core.exception.ConfirmPasswordException
 import com.main.core.exception.EmailException
+import com.main.core.exception.ExceptionMessages.CONFIRM_PASSWORD_IS_EMPTY
+import com.main.core.exception.ExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT_UI
+import com.main.core.exception.ExceptionMessages.EMAIL_IS_EMPTY
+import com.main.core.exception.ExceptionMessages.PASSWORDS_DO_NOT_MATCH
+import com.main.core.exception.ExceptionMessages.PASSWORD_DOES_NOT_CONSIST_A_CAPITAL_LETTER
+import com.main.core.exception.ExceptionMessages.PASSWORD_IS_EMPTY
+import com.main.core.exception.ExceptionMessages.PASSWORD_IS_TOO_SHORT
 import com.main.core.exception.PasswordException
 import com.main.register.data.entities.RegisterData
-import com.main.register.data.exception.message.RegisterExceptionMessages.CONFIRM_PASSWORD_IS_EMPTY
-import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT_UI
-import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_IS_EMPTY
-import com.main.register.data.exception.message.RegisterExceptionMessages.PASSWORDS_DO_NOT_MATCH
-import com.main.register.data.exception.message.RegisterExceptionMessages.PASSWORD_DOES_NOT_CONSIST_A_CAPITAL_LETTER
-import com.main.register.data.exception.message.RegisterExceptionMessages.PASSWORD_IS_EMPTY
-import com.main.register.data.exception.message.RegisterExceptionMessages.PASSWORD_IS_TOO_SHORT
 
 interface ValidateStartRegisterData {
 

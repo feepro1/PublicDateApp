@@ -1,8 +1,6 @@
 package com.main.swaplike.app
 
 import android.app.Application
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.main.chat.data.storage.local.ChatCacheRepositoryImpl
 import com.main.chat.di.component.ChatComponent
 import com.main.chat.di.component.DaggerChatComponent

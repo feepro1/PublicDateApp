@@ -1,10 +1,10 @@
 package com.main.chat.domain.usecases
 
-import com.main.chat.data.exception.messages.ChatExceptionMessages.INTERNET_IS_UNAVAILABLE
-import com.main.chat.data.exception.messages.ChatExceptionMessages.USER_WAS_NOT_FOUND
 import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.chat.domain.firebase.ManageMessageRepository
 import com.main.core.Resource
+import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
+import com.main.core.exception.ExceptionMessages.USER_WAS_NOT_FOUND
 import com.main.core.exception.NetworkException
 import com.main.core.exception.UserException
 import kotlinx.coroutines.runBlocking

@@ -2,14 +2,11 @@ package com.main.chats.presentation.viewmodel
 
 import com.main.chats.BaseChatsTest
 import com.main.chats.data.entities.Chat
-import com.main.chats.data.entities.LikeFromUser
-import com.main.chats.data.exception.messages.ChatsExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.chats.domain.firebase.ChatsRepository
-import com.main.chats.domain.firebase.LikesRepository
 import com.main.chats.domain.navigation.ChatsNavigation
 import com.main.chats.domain.usecases.GetAllChatsUseCase
-import com.main.chats.domain.usecases.GetAllLikesUseCase
 import com.main.core.Resource
+import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

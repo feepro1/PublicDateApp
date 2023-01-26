@@ -1,10 +1,10 @@
 package com.main.dating.presentation.viewmodel
 
 import com.main.core.Resource
+import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import com.main.dating.BaseDatingTest
 import com.main.dating.data.entities.User
-import com.main.dating.data.exception.message.DatingExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.dating.domain.ManageDirection
 import com.main.dating.domain.ProvideAnimationsSettings
 import com.main.dating.domain.firebase.database.DatabaseRepository

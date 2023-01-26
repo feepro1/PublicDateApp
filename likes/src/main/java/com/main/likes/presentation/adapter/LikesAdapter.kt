@@ -1,4 +1,4 @@
-package com.main.chats.presentation.adapter
+package com.main.likes.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
-import com.main.chats.R
-import com.main.chats.data.entities.LikeFromUser
-import com.main.chats.databinding.ItemLikeBinding
-import com.main.chats.domain.ManageLikesAdapterData
 import com.main.core.UsernameUi
+import com.main.likes.R
+import com.main.likes.data.entities.LikeFromUser
+import com.main.likes.databinding.ItemLikeBinding
+import com.main.likes.domain.ManageLikesAdapterData
 
 class LikesAdapter(
     private val likeCLickListener: LikeCLickListener

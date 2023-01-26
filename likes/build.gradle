@@ -48,6 +48,9 @@ dependencies {
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
     //Ui Testing
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+    kapt 'com.github.bumptech.glide:compiler:4.13.2'
     //Dagger
     implementation 'com.google.dagger:dagger:2.44.2'
     kapt 'com.google.dagger:dagger-compiler:2.44.2'
@@ -56,6 +59,8 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
     implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
     implementation "androidx.fragment:fragment-ktx:1.5.5"
+    //Circle Image
+    implementation 'com.github.abdularis:circularimageview:1.0'
     //Modules
     implementation project(path: ':core')
 }

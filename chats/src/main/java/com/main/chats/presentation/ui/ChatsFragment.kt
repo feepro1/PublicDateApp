@@ -9,15 +9,16 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.main.chats.R
+import com.main.chats.data.entities.Chat
 import com.main.chats.databinding.FragmentChatsBinding
 import com.main.chats.di.provider.ProvideChatsComponent
-import com.main.chats.presentation.adapter.FragmentAdapter
+import com.main.chats.presentation.adapter.ChatCLickListener
+import com.main.chats.presentation.adapter.ChatsAdapter
 import com.main.chats.presentation.viewmodel.ChatsViewModel
 import com.main.chats.presentation.viewmodel.ChatsViewModelFactory
 import com.main.core.viewmodel.CoreViewModel
 import com.main.core.viewmodel.CoreViewModelFactory
 import javax.inject.Inject
-import kotlin.properties.Delegates.notNull
 
 class ChatsFragment : Fragment() {
     private val binding by lazy { FragmentChatsBinding.inflate(layoutInflater) }
@@ -27,7 +28,16 @@ class ChatsFragment : Fragment() {
     @Inject
     lateinit var coreViewModelFactory: CoreViewModelFactory
     private val coreViewModel: CoreViewModel by activityViewModels { coreViewModelFactory }
-    private var fragmentAdapter by notNull<FragmentAdapter>()
+    private val chatsAdapter = ChatsAdapter(object : ChatCLickListener {
+
+        override fun iconClick(chat: Chat) {
+            TODO("Not yet implemented")
+        }
+
+        override fun itemClick(chat: Chat) {
+            TODO("Not yet implemented")
+        }
+    })
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,16 +49,14 @@ class ChatsFragment : Fragment() {
         (requireActivity().applicationContext as ProvideChatsComponent).provideChatsComponent().inject(this)
 
         val tabLayoutNames = resources.getStringArray(R.array.tabLayoutNames).toList()
-        fragmentAdapter = FragmentAdapter(
-            requireActivity(), tabLayoutNames, chatsViewModel, findNavController(), coreViewModel
-        )
+
 
         chatsViewModel.observeChats(this) { chats ->
-            fragmentAdapter.chatsAdapter.mapAll(chats)
+            chatsAdapter.mapAll(chats)
         }
 
         binding.mainBottomNavigationView.menu.getItem(0).isChecked = true
-        binding.viewpager.adapter = fragmentAdapter
+        binding.viewpager.adapter = chatsAdapter
         binding.mainBottomNavigationView.setOnItemSelectedListener { menuItem ->
             chatsViewModel.manageMenuItem(menuItem, findNavController())
         }
