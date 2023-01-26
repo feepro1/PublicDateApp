@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.main.core.base.BaseFragment
 import com.main.likes.databinding.FragmentLikesBinding
 
-class LikesFragment : Fragment() {
-
+class LikesFragment : BaseFragment() {
     private val binding by lazy { FragmentLikesBinding.inflate(layoutInflater) }
 
     override fun onCreateView(
