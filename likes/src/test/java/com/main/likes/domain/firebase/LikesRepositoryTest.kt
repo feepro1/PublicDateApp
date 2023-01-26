@@ -1,6 +1,7 @@
 package com.main.likes.domain.firebase
 
 import com.main.core.Resource
+import com.main.core.entities.Like
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import com.main.likes.data.entities.LikeFromUser
@@ -17,25 +18,25 @@ class LikesRepositoryTest {
     @Test
     fun `test successful get all likes`() = runBlocking {
         Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Success(listOf(LikeFromUser()))
+            Resource.Success(LikeFromUser())
         )
         val result = likesRepository.getAllLikes()
-        Assertions.assertTrue(result.data?.isNotEmpty() == true)
+        Assertions.assertTrue(result.data?.likeFromAnotherUser?.isEmpty() == true)
     }
 
     @Test
     fun `test successful get all likes, but likes is empty`() = runBlocking {
         Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Success(emptyList())
+            Resource.Success(LikeFromUser())
         )
         val result = likesRepository.getAllLikes()
-        Assertions.assertTrue(result.data?.isEmpty() == true)
+        Assertions.assertTrue(result.data?.likeFromAnotherUser?.isEmpty() == true)
     }
 
     @Test
     fun `test failure get all likes, internet is not available`() = runBlocking {
         Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Error(emptyList(), NetworkException(INTERNET_IS_UNAVAILABLE))
+            Resource.Error(LikeFromUser(), NetworkException(INTERNET_IS_UNAVAILABLE))
         )
         val result = likesRepository.getAllLikes()
         Assertions.assertTrue(result.exception?.message == INTERNET_IS_UNAVAILABLE)

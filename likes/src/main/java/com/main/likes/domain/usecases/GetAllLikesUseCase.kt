@@ -9,7 +9,7 @@ class GetAllLikesUseCase(
     private val likesRepository: LikesRepository
 ) {
 
-    suspend fun execute(): Resource<List<LikeFromUser>> {
+    suspend fun execute(): Resource<LikeFromUser> {
         return likesRepository.getAllLikes()
     }
 }

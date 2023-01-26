@@ -36,6 +36,7 @@ class ManageMessagesImpl : ManageMessages {
     }
 
     override suspend fun deleteMessagesOnFirebase() {
+        //todo delete
         val uid = Firebase.auth.currentUser?.uid.toString()
         val task = Firebase.firestore.collection(REFERENCE_MESSENGERS)
             .document(uid)

@@ -20,6 +20,12 @@ import com.main.dating.di.modules.DatingDataModule
 import com.main.dating.di.modules.DatingDomainModule
 import com.main.dating.di.modules.DatingPresentationModule
 import com.main.dating.di.provider.ProvideDatingComponent
+import com.main.likes.di.component.DaggerLikesComponent
+import com.main.likes.di.component.LikesComponent
+import com.main.likes.di.modules.LikesDataModule
+import com.main.likes.di.modules.LikesDomainModule
+import com.main.likes.di.modules.LikesPresentationModule
+import com.main.likes.di.provider.ProvideLikesComponent
 import com.main.login.di.component.DaggerLoginComponent
 import com.main.login.di.component.LoginComponent
 import com.main.login.di.module.LoginDataModule
@@ -46,7 +52,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class Application : Application(), ProvideLoginComponent, ProvideRegisterComponent,
-    ProvideDatingComponent, ProvideProfileComponent, ProvideChatsComponent, ProvideChatComponent {
+    ProvideDatingComponent, ProvideProfileComponent, ProvideChatsComponent,
+    ProvideChatComponent, ProvideLikesComponent {
 
     private val manageNotificationToken = ManageNotificationTokenImpl()
     private val manageMessages = ManageMessagesImpl()
@@ -116,6 +123,15 @@ class Application : Application(), ProvideLoginComponent, ProvideRegisterCompone
             .build()
     }
 
+    private val likesComponent by lazy {
+        DaggerLikesComponent
+            .builder()
+            .likesPresentationModule(LikesPresentationModule())
+            .likesDomainModule(LikesDomainModule())
+            .likesDataModule(LikesDataModule())
+            .build()
+    }
+
     override fun provideLoginComponent(): LoginComponent = loginComponent
 
     override fun provideRegisterComponent(): RegisterComponent = registerComponent
@@ -127,4 +143,6 @@ class Application : Application(), ProvideLoginComponent, ProvideRegisterCompone
     override fun provideChatsComponent(): ChatsComponent = chatsComponent
 
     override fun provideChatComponent(): ChatComponent = chatComponent
+
+    override fun provideLikesComponent(): LikesComponent = likesComponent
 }

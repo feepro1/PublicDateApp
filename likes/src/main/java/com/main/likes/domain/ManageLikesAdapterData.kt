@@ -1,8 +1,8 @@
 package com.main.likes.domain
 
-import com.main.likes.data.entities.LikeFromUser
+import com.main.core.entities.Like
 
 interface ManageLikesAdapterData {
 
-    fun mapAll(newLikes: List<LikeFromUser>)
+    fun mapAll(newLikes: List<Like>)
 }

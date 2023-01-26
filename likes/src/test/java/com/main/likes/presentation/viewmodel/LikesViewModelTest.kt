@@ -1,6 +1,7 @@
 package com.main.likes.presentation.viewmodel
 
 import com.main.core.Resource
+import com.main.core.entities.Like
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import com.main.likes.BaseLikesTest
@@ -29,7 +30,7 @@ class LikesViewModelTest : BaseLikesTest() {
     @Test
     fun `test successful get all likes`() = runBlocking {
         Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Success(listOf(LikeFromUser()))
+            Resource.Success(LikeFromUser())
         )
         likesViewModel.getAllLikes()
         Assertions.assertTrue(likesCommunication.likes.isNotEmpty())
@@ -38,7 +39,7 @@ class LikesViewModelTest : BaseLikesTest() {
     @Test
     fun `test successful get all likes, but likes is empty`() = runBlocking {
         Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Success(emptyList())
+            Resource.Success(LikeFromUser())
         )
         likesViewModel.getAllLikes()
         Assertions.assertTrue(likesCommunication.likes.isNotEmpty())
@@ -47,7 +48,7 @@ class LikesViewModelTest : BaseLikesTest() {
     @Test
     fun `test failure get all likes, internet is not available`() = runBlocking {
         Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Error(emptyList(), NetworkException(INTERNET_IS_UNAVAILABLE))
+            Resource.Error(LikeFromUser(), NetworkException(INTERNET_IS_UNAVAILABLE))
         )
         likesViewModel.getAllLikes()
         val result = likesCommunication.motionToastError.first() == INTERNET_IS_UNAVAILABLE

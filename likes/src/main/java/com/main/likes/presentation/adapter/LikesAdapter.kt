@@ -7,24 +7,27 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
-import com.main.core.UsernameUi
+import com.main.core.UserInfoUi
+import com.main.core.entities.Like
 import com.main.likes.R
-import com.main.likes.data.entities.LikeFromUser
 import com.main.likes.databinding.ItemLikeBinding
 import com.main.likes.domain.ManageLikesAdapterData
 
 class LikesAdapter(
     private val likeCLickListener: LikeCLickListener
-) : RecyclerView.Adapter<LikesAdapter.LikesViewHolder>(), UsernameUi, ManageLikesAdapterData {
-    private val likes = mutableListOf<LikeFromUser>()
+) : RecyclerView.Adapter<LikesAdapter.LikesViewHolder>(), UserInfoUi, ManageLikesAdapterData {
+    private val likes = mutableListOf<Like>()
 
     class LikesViewHolder(item: View): ViewHolder(item) {
         private val binding by lazy { ItemLikeBinding.bind(item) }
-        fun bind(likeFromUser: LikeFromUser, usernameUi: UsernameUi, likeCLickListener: LikeCLickListener) {
-            binding.tvUsername.text = usernameUi.mapUsername(likeFromUser.firstName, likeFromUser.lastName)
-            Glide.with(itemView).load(likeFromUser.avatarUrl).into(binding.ivUserIcon)
-            binding.ivUserIcon.setOnClickListener { likeCLickListener.iconClick(likeFromUser) }
-            binding.itemChat.setOnClickListener { likeCLickListener.itemClick(likeFromUser) }
+        fun bind(like: Like, userInfoUi: UserInfoUi, likeCLickListener: LikeCLickListener) {
+            binding.tvUserInfo.text = userInfoUi.mapUserInfo(
+                firstName = like.firstName, lastName = like.lastName,
+                age = like.age, city = like.city
+            )
+            Glide.with(itemView).load(like.avatarUrl).into(binding.ivUserIcon)
+            binding.ivUserIcon.setOnClickListener { likeCLickListener.iconClick(like) }
+            binding.btnWrite.setOnClickListener { likeCLickListener.buttonWriteClick(like) }
         }
     }
 
@@ -39,29 +42,30 @@ class LikesAdapter(
 
     override fun getItemCount() = likes.size
 
-    override fun mapUsername(firstName: String, lastName: String): String {
-        return "$firstName $lastName"
-    }
 
-    override fun mapAll(newLikes: List<LikeFromUser>) {
+    override fun mapAll(newLikes: List<Like>) {
         val diff = LikeDiffUtilCallback(likes, newLikes)
         val result = DiffUtil.calculateDiff(diff)
         likes.clear()
         likes.addAll(newLikes)
         result.dispatchUpdatesTo(this)
     }
+
+    override fun mapUserInfo(firstName: String, lastName: String, age: Int, city: String): String {
+        return "$firstName $lastName, $age, $city"
+    }
 }
 
 interface LikeCLickListener {
 
-    fun iconClick(likeFromUser: LikeFromUser)
+    fun iconClick(like: Like)
 
-    fun itemClick(likeFromUser: LikeFromUser)
+    fun buttonWriteClick(like: Like)
 }
 
 class LikeDiffUtilCallback(
-    private val oldList: List<LikeFromUser>,
-    private val newList: List<LikeFromUser>
+    private val oldList: List<Like>,
+    private val newList: List<Like>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize() = oldList.size
@@ -69,7 +73,8 @@ class LikeDiffUtilCallback(
     override fun getNewListSize() = newList.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-        oldList[oldItemPosition].uid == (newList[newItemPosition]).uid
+        oldList[oldItemPosition].message == (newList[newItemPosition]).message &&
+        oldList[oldItemPosition].isMutualLike == (newList[newItemPosition]).isMutualLike
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
         oldList[oldItemPosition] == newList[newItemPosition]

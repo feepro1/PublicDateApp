@@ -99,6 +99,10 @@ class DatingViewModel(
         return true
     }
 
+    fun navigateToLikesFragment(navController: NavController) {
+        datingNavigation.navigateToLikesFragment(navController)
+    }
+
     override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) {
         datingCommunication.observeMotionToastError(owner, observer)
     }

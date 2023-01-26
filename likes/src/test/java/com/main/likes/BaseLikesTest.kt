@@ -3,6 +3,7 @@ package com.main.likes
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.main.core.DispatchersList
+import com.main.core.entities.Like
 import com.main.likes.data.entities.LikeFromUser
 import com.main.likes.presentation.communication.LikesCommunication
 import kotlinx.coroutines.CoroutineDispatcher
@@ -12,18 +13,18 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 abstract class BaseLikesTest {
 
     protected class TestLikesCommunication : LikesCommunication {
-        val likes = mutableListOf<List<LikeFromUser>>()
+        val likes = mutableListOf<List<Like>>()
         val motionToastError = mutableListOf<String>()
 
-        override fun manageLikes(likes: List<LikeFromUser>) {
-           this.likes.add(likes)
+        override fun manageLikes(likes: List<Like>) {
+            this.likes.add(likes)
         }
 
         override fun manageMotionToastError(error: String) {
             this.motionToastError.add(error)
         }
 
-        override fun observeLikes(owner: LifecycleOwner, observer: Observer<List<LikeFromUser>>) = Unit
+        override fun observeLikes(owner: LifecycleOwner, observer: Observer<List<Like>>) = Unit
         override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) = Unit
     }
 

@@ -76,5 +76,9 @@ class DatingFragment : BaseFragment() {
         binding.mainBottomNavigationView.setOnItemSelectedListener { menuItem ->
             datingViewModel.manageMenuItem(menuItem, findNavController())
         }
+
+        binding.ivLikes.setOnClickListener {
+            datingViewModel.navigateToLikesFragment(findNavController())
+        }
     }
 }

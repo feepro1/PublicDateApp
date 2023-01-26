@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/likes_nav_graph">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/likesNavGraph"
+    app:startDestination="@id/likesFragment">
 
+    <fragment
+        android:id="@+id/likesFragment"
+        android:name="com.main.likes.presentation.ui.LikesFragment"
+        android:label="LikesFragment">
+
+        <deepLink app:uri="swapLike://likes" />
+    </fragment>
 </navigation>

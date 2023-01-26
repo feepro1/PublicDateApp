@@ -3,11 +3,12 @@ package com.main.likes.presentation.communication
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.main.core.communication.Communication
+import com.main.core.entities.Like
 import com.main.likes.data.entities.LikeFromUser
 
 interface LikesCommunication : ObserveLikesCommunication {
 
-    fun manageLikes(likes: List<LikeFromUser>)
+    fun manageLikes(likes: List<Like>)
 
     fun manageMotionToastError(error: String)
 
@@ -16,7 +17,7 @@ interface LikesCommunication : ObserveLikesCommunication {
         private val likesMotionToastCommunication: LikesMotionToastCommunication
     ) : LikesCommunication {
 
-        override fun manageLikes(likes: List<LikeFromUser>) {
+        override fun manageLikes(likes: List<Like>) {
             likesLikesCommunication.map(likes)
         }
 
@@ -24,7 +25,7 @@ interface LikesCommunication : ObserveLikesCommunication {
             likesMotionToastCommunication.map(error)
         }
 
-        override fun observeLikes(owner: LifecycleOwner, observer: Observer<List<LikeFromUser>>) {
+        override fun observeLikes(owner: LifecycleOwner, observer: Observer<List<Like>>) {
             likesLikesCommunication.observe(owner, observer)
         }
 
@@ -36,13 +37,13 @@ interface LikesCommunication : ObserveLikesCommunication {
 
 interface ObserveLikesCommunication {
 
-    fun observeLikes(owner: LifecycleOwner, observer: Observer<List<LikeFromUser>>)
+    fun observeLikes(owner: LifecycleOwner, observer: Observer<List<Like>>)
 
     fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>)
 }
 
-interface LikesLikesCommunication: Communication.Mutable<List<LikeFromUser>> {
-    class Base: Communication.Post<List<LikeFromUser>>(), LikesLikesCommunication
+interface LikesLikesCommunication: Communication.Mutable<List<Like>> {
+    class Base: Communication.Post<List<Like>>(), LikesLikesCommunication
 }
 
 interface LikesMotionToastCommunication: Communication.Mutable<String> {
