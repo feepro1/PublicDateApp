@@ -4,6 +4,7 @@ import com.main.core.Resource
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import com.main.likes.data.entities.LikeFromUser
+import com.main.likes.data.entities.User
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.jupiter.api.Assertions

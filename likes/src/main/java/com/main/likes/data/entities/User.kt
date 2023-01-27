@@ -1,4 +1,4 @@
-package com.main.dating.data.entities
+package com.main.likes.data.entities
 
 import com.main.core.entities.Like
 

@@ -5,16 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.main.core.base.BaseFragment
 import com.main.core.entities.Like
 import com.main.core.toast.showErrorColorToast
+import com.main.likes.data.entities.User
 import com.main.likes.databinding.FragmentLikesBinding
 import com.main.likes.di.provider.ProvideLikesComponent
 import com.main.likes.presentation.adapter.LikeCLickListener
 import com.main.likes.presentation.adapter.LikesAdapter
 import com.main.likes.presentation.viewmodel.LikesViewModel
 import com.main.likes.presentation.viewmodel.LikesViewModelFactory
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.xml.xpath.XPathExpression
 
 class LikesFragment : BaseFragment() {
     private val binding by lazy { FragmentLikesBinding.inflate(layoutInflater) }
@@ -23,7 +27,16 @@ class LikesFragment : BaseFragment() {
     private val likesViewModel: LikesViewModel by activityViewModels { likesViewModelFactory }
 
     private val likesAdapter = LikesAdapter(object: LikeCLickListener {
-        override fun iconClick(like: Like) = Unit
+        override fun iconClick(like: Like) {
+            lifecycleScope.launch {
+                likesViewModel.likeUser(
+                    User(
+                        firstName = like.firstName, lastName = like.lastName, age = like.age,
+                        avatarUrl = like.avatarUrl, city = like.city, uid = like.uid
+                    )
+                )
+            }
+        }
         override fun buttonWriteClick(like: Like) = Unit
     })
 

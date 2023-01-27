@@ -23,10 +23,10 @@ class LikesAdapter(
         fun bind(like: Like, userInfoUi: UserInfoUi, likeCLickListener: LikeCLickListener) {
             binding.tvUserInfo.text = userInfoUi.mapUserInfo(
                 firstName = like.firstName, lastName = like.lastName,
-                age = like.age, city = like.city
+                age = like.age ?: 0, city = like.city
             )
             Glide.with(itemView).load(like.avatarUrl).into(binding.ivUserIcon)
-            binding.ivUserIcon.setOnClickListener { likeCLickListener.iconClick(like) }
+            binding.ivLike.setOnClickListener { likeCLickListener.iconClick(like) }
             binding.btnWrite.setOnClickListener { likeCLickListener.buttonWriteClick(like) }
         }
     }

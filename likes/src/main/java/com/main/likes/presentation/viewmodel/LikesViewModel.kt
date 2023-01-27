@@ -9,14 +9,17 @@ import com.main.core.DispatchersList
 import com.main.core.entities.Like
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
+import com.main.likes.data.entities.User
 import com.main.likes.domain.navigation.LikesNavigation
 import com.main.likes.domain.usecases.GetAllLikesUseCase
+import com.main.likes.domain.usecases.LikeUserUseCase
 import com.main.likes.presentation.communication.LikesCommunication
 import com.main.likes.presentation.communication.ObserveLikesCommunication
 import kotlinx.coroutines.launch
 
 class LikesViewModel(
     private val getAllLikesUseCase: GetAllLikesUseCase,
+    private val likeUserUseCase: LikeUserUseCase,
     private val likesCommunication: LikesCommunication,
     private val likesNavigation: LikesNavigation,
     private val dispatchers: DispatchersList
@@ -30,6 +33,18 @@ class LikesViewModel(
             }
             if (result.data?.likeFromAnotherUser?.isEmpty() == true) {
                 likesCommunication.manageLikes(emptyList())
+            }
+            when (result.exception) {
+                is NetworkException -> likesCommunication.manageMotionToastError(INTERNET_IS_UNAVAILABLE)
+            }
+        }
+    }
+
+    fun likeUser(user: User) {
+        viewModelScope.launch(dispatchers.io()) {
+            val result = likeUserUseCase.execute(user)
+            if (result.data == true) {
+                //todo add user to list mutual likes
             }
             when (result.exception) {
                 is NetworkException -> likesCommunication.manageMotionToastError(INTERNET_IS_UNAVAILABLE)

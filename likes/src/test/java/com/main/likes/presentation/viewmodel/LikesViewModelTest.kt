@@ -5,9 +5,11 @@ import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import com.main.likes.BaseLikesTest
 import com.main.likes.data.entities.LikeFromUser
+import com.main.likes.data.entities.User
 import com.main.likes.domain.firebase.LikesRepository
 import com.main.likes.domain.navigation.LikesNavigation
 import com.main.likes.domain.usecases.GetAllLikesUseCase
+import com.main.likes.domain.usecases.LikeUserUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.jupiter.api.Assertions

@@ -5,10 +5,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.main.core.DispatchersList
 import com.main.likes.domain.navigation.LikesNavigation
 import com.main.likes.domain.usecases.GetAllLikesUseCase
+import com.main.likes.domain.usecases.LikeUserUseCase
 import com.main.likes.presentation.communication.LikesCommunication
 
 class LikesViewModelFactory(
     private val getAllLikesUseCase: GetAllLikesUseCase,
+    private val likeUserUseCase: LikeUserUseCase,
     private val likesCommunication: LikesCommunication,
     private val likesNavigation: LikesNavigation,
     private val dispatchers: DispatchersList
@@ -17,6 +19,7 @@ class LikesViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return LikesViewModel(
             getAllLikesUseCase = getAllLikesUseCase,
+            likeUserUseCase = likeUserUseCase,
             likesCommunication = likesCommunication,
             likesNavigation = likesNavigation,
             dispatchers = dispatchers

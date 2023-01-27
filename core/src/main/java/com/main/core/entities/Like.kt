@@ -5,7 +5,8 @@ data class Like(
     val isMutualLike: Boolean = false,
     val firstName: String = "",
     val lastName: String = "",
-    val age: Int = 0,
+    val age: Int? = 0,
     val city: String = "",
-    val avatarUrl: String = ""
+    val avatarUrl: String = "",
+    val uid: String = ""
 )

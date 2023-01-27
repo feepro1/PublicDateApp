@@ -3,6 +3,7 @@ package com.main.likes.di.modules
 import com.main.core.DispatchersList
 import com.main.likes.domain.navigation.LikesNavigation
 import com.main.likes.domain.usecases.GetAllLikesUseCase
+import com.main.likes.domain.usecases.LikeUserUseCase
 import com.main.likes.presentation.communication.LikesCommunication
 import com.main.likes.presentation.communication.LikesLikesCommunication
 import com.main.likes.presentation.communication.LikesMotionToastCommunication
@@ -16,12 +17,14 @@ class LikesPresentationModule {
     @Provides
     fun provideLikesViewModelFactory(
         getAllLikesUseCase: GetAllLikesUseCase,
+        likeUserUseCase: LikeUserUseCase,
         likesCommunication: LikesCommunication,
         likesNavigation: LikesNavigation,
         dispatchers: DispatchersList
     ): LikesViewModelFactory {
         return LikesViewModelFactory(
             getAllLikesUseCase = getAllLikesUseCase,
+            likeUserUseCase = likeUserUseCase,
             likesCommunication = likesCommunication,
             likesNavigation = likesNavigation,
             dispatchers = dispatchers

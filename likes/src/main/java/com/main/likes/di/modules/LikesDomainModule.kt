@@ -3,6 +3,7 @@ package com.main.likes.di.modules
 import com.main.likes.domain.firebase.LikesRepository
 import com.main.likes.domain.navigation.LikesNavigation
 import com.main.likes.domain.usecases.GetAllLikesUseCase
+import com.main.likes.domain.usecases.LikeUserUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -14,6 +15,13 @@ class LikesDomainModule {
         likesRepository: LikesRepository
     ): GetAllLikesUseCase {
         return GetAllLikesUseCase(likesRepository)
+    }
+
+    @Provides
+    fun provideLikeUserUseCase(
+        likesRepository: LikesRepository
+    ): LikeUserUseCase {
+        return LikeUserUseCase(likesRepository)
     }
 
     @Provides
