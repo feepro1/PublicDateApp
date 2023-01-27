@@ -1,6 +1,6 @@
 package com.main.dating.domain
 
-import com.main.dating.data.entities.User
+import com.main.core.entities.User
 
 interface ManageCardStackView {
 

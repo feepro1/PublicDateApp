@@ -5,9 +5,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.main.core.Resource
 import com.main.core.entities.Like
+import com.main.core.entities.User
 import com.main.core.firebase.FirebaseConstants
-import com.main.likes.data.entities.LikeFromUser
-import com.main.likes.data.entities.User
 import com.main.likes.data.firebase.LikesFirebaseRepository
 import com.main.likes.domain.firebase.LikesRepository
 import kotlinx.coroutines.tasks.await
@@ -16,7 +15,7 @@ class LikesRepositoryImpl(
     private val likesFirebaseRepository: LikesFirebaseRepository
 ) : LikesRepository {
 
-    override suspend fun getAllLikes(): Resource<LikeFromUser> {
+    override suspend fun getAllLikes(): Resource<User> {
         return likesFirebaseRepository.getAllLikes()
     }
 

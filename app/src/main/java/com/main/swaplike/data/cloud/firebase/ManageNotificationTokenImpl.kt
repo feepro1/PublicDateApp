@@ -5,8 +5,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import com.main.chat.data.entities.notification.UserInfoForNotification
+import com.main.core.entities.User
 import com.main.core.firebase.FirebaseConstants.REFERENCE_USERS
-import com.main.profile.data.entities.UserInfo
 import com.main.swaplike.domain.ManageNotificationToken
 
 class ManageNotificationTokenImpl : ManageNotificationToken {
@@ -16,7 +16,7 @@ class ManageNotificationTokenImpl : ManageNotificationToken {
         Firebase.messaging.token.addOnSuccessListener { token ->
             Firebase.firestore.collection(REFERENCE_USERS).document(uid).get()
                 .addOnSuccessListener { documentSnapshot ->
-                    val currentUser = documentSnapshot.toObject(UserInfo::class.java)
+                    val currentUser = documentSnapshot.toObject(User::class.java)
                     currentUser?.copy(token = token)?.let { user ->
                         Firebase.firestore.collection(REFERENCE_USERS).document(uid).set(user)
                     }

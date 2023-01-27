@@ -1,7 +1,7 @@
 package com.main.dating.domain.interactor
 
 import com.main.core.Resource
-import com.main.dating.data.entities.User
+import com.main.core.entities.User
 import com.main.dating.domain.usecases.DislikeUserUseCase
 import com.main.dating.domain.usecases.GetUsersFromDatabaseUseCase
 import com.main.dating.domain.usecases.LikeUserUseCase

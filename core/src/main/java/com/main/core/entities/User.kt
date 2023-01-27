@@ -1,6 +1,4 @@
-package com.main.likes.data.entities
-
-import com.main.core.entities.Like
+package com.main.core.entities
 
 data class User(
     val firstName: String = "",

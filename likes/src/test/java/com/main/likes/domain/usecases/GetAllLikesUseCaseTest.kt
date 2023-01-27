@@ -1,9 +1,9 @@
 package com.main.likes.domain.usecases
 
 import com.main.core.Resource
+import com.main.core.entities.User
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
-import com.main.likes.data.entities.LikeFromUser
 import com.main.likes.domain.firebase.LikesRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -21,7 +21,7 @@ class GetAllLikesUseCaseTest {
     @Test
     fun `test successful get all likes`() = runBlocking {
         Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Success(LikeFromUser())
+            Resource.Success(User())
         )
         val result = getAllLikesUseCase.execute()
         Assertions.assertTrue(result.data?.likeFromAnotherUser?.isEmpty() == true)
@@ -30,7 +30,7 @@ class GetAllLikesUseCaseTest {
     @Test
     fun `test successful get all likes, but likes is empty`() = runBlocking {
         Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Success(LikeFromUser())
+            Resource.Success(User())
         )
         val result = getAllLikesUseCase.execute()
         Assertions.assertTrue(result.data?.likeFromAnotherUser?.isEmpty() == true)
@@ -39,7 +39,7 @@ class GetAllLikesUseCaseTest {
     @Test
     fun `test failure get all likes, internet is not available`() = runBlocking {
         Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Error(LikeFromUser(), NetworkException(INTERNET_IS_UNAVAILABLE))
+            Resource.Error(User(), NetworkException(INTERNET_IS_UNAVAILABLE))
         )
         val result = getAllLikesUseCase.execute()
         Assertions.assertTrue(result.exception?.message == INTERNET_IS_UNAVAILABLE)

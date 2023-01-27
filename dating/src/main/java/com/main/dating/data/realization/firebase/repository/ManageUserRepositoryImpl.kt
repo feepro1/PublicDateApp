@@ -5,8 +5,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.main.core.Resource
 import com.main.core.entities.Like
+import com.main.core.entities.User
 import com.main.core.firebase.FirebaseConstants.REFERENCE_USERS
-import com.main.dating.data.entities.User
 import com.main.dating.domain.exception.DatingDatabaseHandleException
 import com.main.dating.domain.firebase.repository.ManageUserRepository
 import kotlinx.coroutines.tasks.await

@@ -1,7 +1,7 @@
 package com.main.likes.domain.usecases
 
 import com.main.core.Resource
-import com.main.likes.data.entities.User
+import com.main.core.entities.User
 import com.main.likes.domain.firebase.LikesRepository
 
 class LikeUserUseCase(

@@ -1,15 +1,14 @@
 package com.main.dating.presentation.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.main.core.base.BaseFragment
+import com.main.core.entities.User
 import com.main.core.toast.showErrorColorToast
-import com.main.dating.data.entities.User
 import com.main.dating.databinding.FragmentDatingBinding
 import com.main.dating.di.provider.ProvideDatingComponent
 import com.main.dating.presentation.adapter.ManageUserClickListener

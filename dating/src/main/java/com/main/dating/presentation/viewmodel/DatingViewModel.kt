@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.main.core.DispatchersList
+import com.main.core.entities.User
 import com.main.core.exception.NetworkException
-import com.main.dating.data.entities.User
 import com.main.dating.domain.ManageCommunication
 import com.main.dating.domain.ManageDirection
 import com.main.dating.domain.ProvideAnimationsSettings

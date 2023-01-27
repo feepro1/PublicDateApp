@@ -34,7 +34,7 @@ interface FirebaseUserStorageRepository {
             val avatarUrl = firebase.storage.getReference(REFERENCE_USERS_AVATARS).child(uid).downloadUrl
             avatarUrl.await()
             val addUserToDatabaseTask = firebase.firestore.collection(REFERENCE_USERS).document(uid).set(
-                registerData.mapToRegisterDataForDatabase().copy(
+                registerData.mapToUser().copy(
                     avatarUrl = avatarUrl.result.toString(),
                     uid = uid
                 )

@@ -8,8 +8,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.main.core.base.BaseFragment
 import com.main.core.entities.Like
+import com.main.core.entities.User
 import com.main.core.toast.showErrorColorToast
-import com.main.likes.data.entities.User
 import com.main.likes.databinding.FragmentLikesBinding
 import com.main.likes.di.provider.ProvideLikesComponent
 import com.main.likes.presentation.adapter.LikeCLickListener
@@ -18,7 +18,6 @@ import com.main.likes.presentation.viewmodel.LikesViewModel
 import com.main.likes.presentation.viewmodel.LikesViewModelFactory
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.xml.xpath.XPathExpression
 
 class LikesFragment : BaseFragment() {
     private val binding by lazy { FragmentLikesBinding.inflate(layoutInflater) }

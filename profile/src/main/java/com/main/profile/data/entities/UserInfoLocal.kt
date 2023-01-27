@@ -2,6 +2,7 @@ package com.main.profile.data.entities
 
 import android.graphics.Bitmap
 import com.main.core.entities.Like
+import com.main.core.entities.User
 
 data class UserInfoLocal(
     val firstName: String = "",
@@ -17,8 +18,8 @@ data class UserInfoLocal(
     val token: String = ""
 ) {
 
-    fun mapUserInfo(): UserInfo {
-        return UserInfo(
+    fun mapToUser(): User {
+        return User(
             firstName = firstName,
             lastName = lastName,
             email = email,

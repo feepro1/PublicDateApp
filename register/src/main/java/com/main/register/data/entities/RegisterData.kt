@@ -1,6 +1,7 @@
 package com.main.register.data.entities
 
 import android.graphics.Bitmap
+import com.main.core.entities.User
 
 data class RegisterData(
     val password: String = "",
@@ -43,8 +44,8 @@ data class RegisterData(
         return result
     }
 
-    fun mapToRegisterDataForDatabase(): RegisterDataForDatabase {
-        return RegisterDataForDatabase(
+    fun mapToUser(): User {
+        return User(
             email = email,
             firstName = firstName,
             lastName = lastName,

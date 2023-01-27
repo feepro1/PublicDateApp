@@ -3,7 +3,7 @@ package com.main.dating.presentation.communication
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.main.core.communication.Communication
-import com.main.dating.data.entities.User
+import com.main.core.entities.User
 
 interface DatingCommunication : ObserveDatingCommunications, ValueDatingCommunications {
 

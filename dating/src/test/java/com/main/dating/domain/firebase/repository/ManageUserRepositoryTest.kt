@@ -1,9 +1,9 @@
 package com.main.dating.domain.firebase.repository
 
 import com.main.core.Resource
+import com.main.core.entities.User
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
-import com.main.dating.data.entities.User
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.jupiter.api.Assertions

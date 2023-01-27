@@ -1,11 +1,10 @@
 package com.main.likes.presentation.viewmodel
 
 import com.main.core.Resource
+import com.main.core.entities.User
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import com.main.likes.BaseLikesTest
-import com.main.likes.data.entities.LikeFromUser
-import com.main.likes.data.entities.User
 import com.main.likes.domain.firebase.LikesRepository
 import com.main.likes.domain.navigation.LikesNavigation
 import com.main.likes.domain.usecases.GetAllLikesUseCase
@@ -33,7 +32,7 @@ class LikesViewModelTest : BaseLikesTest() {
     @Test
     fun `test successful get all likes`() = runBlocking {
         Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Success(LikeFromUser())
+            Resource.Success(User())
         )
         likesViewModel.getAllLikes()
         Assertions.assertTrue(likesCommunication.likes.isNotEmpty())
@@ -42,7 +41,7 @@ class LikesViewModelTest : BaseLikesTest() {
     @Test
     fun `test successful get all likes, but likes is empty`() = runBlocking {
         Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Success(LikeFromUser())
+            Resource.Success(User())
         )
         likesViewModel.getAllLikes()
         Assertions.assertTrue(likesCommunication.likes.isNotEmpty())
@@ -51,7 +50,7 @@ class LikesViewModelTest : BaseLikesTest() {
     @Test
     fun `test failure get all likes, internet is not available`() = runBlocking {
         Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Error(LikeFromUser(), NetworkException(INTERNET_IS_UNAVAILABLE))
+            Resource.Error(User(), NetworkException(INTERNET_IS_UNAVAILABLE))
         )
         likesViewModel.getAllLikes()
         val result = likesCommunication.motionToastError.first() == INTERNET_IS_UNAVAILABLE

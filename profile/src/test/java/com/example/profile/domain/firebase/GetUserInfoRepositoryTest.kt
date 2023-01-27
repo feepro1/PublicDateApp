@@ -1,9 +1,9 @@
 package com.example.profile.domain.firebase
 
 import com.main.core.Resource
+import com.main.core.entities.User
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
-import com.main.profile.data.entities.UserInfo
 import com.main.profile.domain.firebase.GetUserInfoRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -18,7 +18,7 @@ class GetUserInfoRepositoryTest {
     @Test
     fun `test successful get user info`() = runBlocking {
         Mockito.`when`(getUserInfoRepository.receiveUserInfo()).thenReturn(
-            Resource.Success(UserInfo())
+            Resource.Success(User())
         )
         val result = getUserInfoRepository.receiveUserInfo()
 

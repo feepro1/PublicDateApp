@@ -17,6 +17,6 @@ class SaveUserInfoRepositoryImpl(
         } catch (e: Exception) {
             return Resource.Error(false, DefaultException("Default"))
         }
-        return profileFirebaseRepository.saveUserInfo(userInfoLocal.mapUserInfo())
+        return profileFirebaseRepository.saveUserInfo(userInfoLocal.mapToUser())
     }
 }

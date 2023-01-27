@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.main.core.DispatchersList
 import com.main.core.entities.Like
+import com.main.core.entities.User
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
-import com.main.likes.data.entities.User
 import com.main.likes.domain.navigation.LikesNavigation
 import com.main.likes.domain.usecases.GetAllLikesUseCase
 import com.main.likes.domain.usecases.LikeUserUseCase

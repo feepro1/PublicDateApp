@@ -3,9 +3,9 @@ package com.example.profile.presentation.viewmodel
 import com.example.profile.BaseProfileTest
 import com.main.core.ManageImageRepository
 import com.main.core.Resource
+import com.main.core.entities.User
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
-import com.main.profile.data.entities.UserInfo
 import com.main.profile.data.entities.UserInfoLocal
 import com.main.profile.domain.firebase.GetUserInfoRepository
 import com.main.profile.domain.firebase.SaveUserInfoRepository
@@ -44,7 +44,7 @@ class ProfileViewModelTest : BaseProfileTest() {
     @Test
     fun `test successful get user info`() = runBlocking {
         Mockito.`when`(getUserInfoUseCase.execute()).thenReturn(
-            Resource.Success(UserInfo())
+            Resource.Success(User())
         )
         profileViewModel.receiveUserInfo()
 
