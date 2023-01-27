@@ -4,7 +4,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.main.core.communication.Communication
 import com.main.core.entities.Like
-import com.main.likes.data.entities.LikeFromUser
 
 interface LikesCommunication : ObserveLikesCommunication {
 

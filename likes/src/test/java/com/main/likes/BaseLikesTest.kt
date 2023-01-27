@@ -4,7 +4,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.main.core.DispatchersList
 import com.main.core.entities.Like
-import com.main.likes.data.entities.LikeFromUser
 import com.main.likes.presentation.communication.LikesCommunication
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi

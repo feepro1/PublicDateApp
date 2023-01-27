@@ -1,12 +1,10 @@
-package com.main.likes.domain.usecase
+package com.main.likes.domain.usecases
 
 import com.main.core.Resource
-import com.main.core.entities.Like
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import com.main.likes.data.entities.LikeFromUser
 import com.main.likes.domain.firebase.LikesRepository
-import com.main.likes.domain.usecases.GetAllLikesUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.jupiter.api.Assertions

@@ -9,7 +9,6 @@ import com.main.core.DispatchersList
 import com.main.core.entities.Like
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
-import com.main.likes.data.entities.LikeFromUser
 import com.main.likes.domain.navigation.LikesNavigation
 import com.main.likes.domain.usecases.GetAllLikesUseCase
 import com.main.likes.presentation.communication.LikesCommunication

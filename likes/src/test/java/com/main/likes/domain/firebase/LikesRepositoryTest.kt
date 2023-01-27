@@ -1,7 +1,6 @@
 package com.main.likes.domain.firebase
 
 import com.main.core.Resource
-import com.main.core.entities.Like
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import com.main.likes.data.entities.LikeFromUser

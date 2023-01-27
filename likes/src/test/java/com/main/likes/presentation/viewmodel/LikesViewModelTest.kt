@@ -1,7 +1,6 @@
 package com.main.likes.presentation.viewmodel
 
 import com.main.core.Resource
-import com.main.core.entities.Like
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import com.main.likes.BaseLikesTest
