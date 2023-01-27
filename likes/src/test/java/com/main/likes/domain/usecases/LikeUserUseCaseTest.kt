@@ -19,7 +19,7 @@ class LikeUserUseCaseTest {
 
     @Test
     fun `test successful like user`() = runBlocking {
-        Mockito.`when`(likesRepository.likeUser()).thenReturn(
+        Mockito.`when`(likesRepository.likeUser(User())).thenReturn(
             Resource.Success(true)
         )
         val result = likeUserUseCase.execute()
@@ -28,7 +28,7 @@ class LikeUserUseCaseTest {
 
     @Test
     fun `test failure like user, internet is not available`() = runBlocking {
-        Mockito.`when`(likesRepository.likeUser()).thenReturn(
+        Mockito.`when`(likesRepository.likeUser(User())).thenReturn(
             Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
         )
         val result = likeUserUseCase.execute()

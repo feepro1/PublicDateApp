@@ -19,8 +19,10 @@ class LikesViewModelTest : BaseLikesTest() {
     private val likesCommunication = TestLikesCommunication()
     private val likesRepository = mock<LikesRepository>()
     private val getAllLikesUseCase = GetAllLikesUseCase(likesRepository)
+    private val likeUserUseCase = LikeUserUseCase(likesRepository)
     private val likesViewModel = LikesViewModel(
         getAllLikesUseCase = getAllLikesUseCase,
+        likeUserUseCase = likeUserUseCase,
         likesCommunication = likesCommunication,
         likesNavigation = LikesNavigation.Base(),
         dispatchers = TestDispatchersList()
@@ -54,4 +56,22 @@ class LikesViewModelTest : BaseLikesTest() {
         Assertions.assertTrue(result)
     }
 
+    @Test
+    fun `test successful like user`() = runBlocking {
+        Mockito.`when`(likesRepository.likeUser(User())).thenReturn(
+            Resource.Success(true)
+        )
+        likesViewModel.likeUser(User())
+        Assertions.assertTrue(likesCommunication.motionToastError.isEmpty())
+    }
+
+    @Test
+    fun `test failure like user, internet is not available`() = runBlocking {
+        Mockito.`when`(likesRepository.likeUser(User())).thenReturn(
+            Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
+        )
+        likesViewModel.likeUser(User())
+        val result = likesCommunication.motionToastError.first() == INTERNET_IS_UNAVAILABLE
+        Assertions.assertTrue(result)
+    }
 }
