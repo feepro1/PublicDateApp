@@ -41,4 +41,21 @@ class LikesRepositoryTest {
         Assertions.assertTrue(result.exception?.message == INTERNET_IS_UNAVAILABLE)
     }
 
+    @Test
+    fun `test successful like user`() = runBlocking {
+        Mockito.`when`(likesRepository.likeUser()).thenReturn(
+            Resource.Success(true)
+        )
+        val result = likesRepository.likeUser()
+        Assertions.assertTrue(result.data == true)
+    }
+
+    @Test
+    fun `test failure like user, internet is not available`() = runBlocking {
+        Mockito.`when`(likesRepository.likeUser()).thenReturn(
+            Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
+        )
+        val result = likesRepository.likeUser()
+        Assertions.assertTrue(result.exception?.message == INTERNET_IS_UNAVAILABLE)
+    }
 }
