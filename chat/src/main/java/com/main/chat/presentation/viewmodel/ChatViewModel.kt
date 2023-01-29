@@ -1,5 +1,6 @@
 package com.main.chat.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -22,7 +23,7 @@ class ChatViewModel(
     private val chatCommunication: ChatCommunication,
     private val chatNavigation: ChatNavigation,
     private val dispatchers: DispatchersList
-) : ViewModel(), ObserveChatCommunication {
+) : ViewModel(), ObserveChatCommunication, ChatNavigation {
 
     fun receiveMessages() {
         viewModelScope.launch(dispatchers.io()) {
@@ -38,6 +39,7 @@ class ChatViewModel(
     }
 
     fun sendMessage(messageCacheModel: MessageCacheModel) {
+        Log.d("MyLog", messageCacheModel.toString())
         viewModelScope.launch(dispatchers.io()) {
             val result = sendMessageUseCase.execute(messageCacheModel)
             if (result.data == false) {
@@ -60,7 +62,7 @@ class ChatViewModel(
         }
     }
 
-    fun navigateToChatsFragment(navController: NavController) {
+    override fun navigateToChatsFragment(navController: NavController) {
         chatNavigation.navigateToChatsFragment(navController)
     }
 

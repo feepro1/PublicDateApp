@@ -1,6 +1,9 @@
 package com.main.likes.di.modules
 
 import com.main.core.DispatchersList
+import com.main.core.communication.CoreChatCommunication
+import com.main.core.communication.CoreCommunication
+import com.main.core.viewmodel.CoreViewModelFactory
 import com.main.likes.domain.navigation.LikesNavigation
 import com.main.likes.domain.usecases.GetAllLikesUseCase
 import com.main.likes.domain.usecases.LikeUserUseCase
@@ -32,6 +35,13 @@ class LikesPresentationModule {
     }
 
     @Provides
+    fun provideCoreViewModelFactory(
+        coreCommunication: CoreCommunication
+    ): CoreViewModelFactory {
+        return CoreViewModelFactory(coreCommunication)
+    }
+
+    @Provides
     fun provideLikesCommunication(
         likesLikesCommunication: LikesLikesCommunication,
         likesMotionToastCommunication: LikesMotionToastCommunication
@@ -43,6 +53,13 @@ class LikesPresentationModule {
     }
 
     @Provides
+    fun provideCoreCommunication(
+        coreChatCommunication: CoreChatCommunication
+    ): CoreCommunication {
+        return CoreCommunication.Base(coreChatCommunication)
+    }
+
+    @Provides
     fun provideLikesLikesCommunication(): LikesLikesCommunication {
         return LikesLikesCommunication.Base()
     }
@@ -50,6 +67,11 @@ class LikesPresentationModule {
     @Provides
     fun provideLikesMotionToastCommunication(): LikesMotionToastCommunication {
         return LikesMotionToastCommunication.Base()
+    }
+
+    @Provides
+    fun provideCoreChatCommunication(): CoreChatCommunication {
+        return CoreChatCommunication.Base()
     }
 
     @Provides

@@ -7,9 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.EventListener
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.main.chat.data.storage.local.MessageCacheModel
@@ -24,13 +28,18 @@ import com.main.core.firebase.FirebaseConstants.REFERENCE_MESSAGES
 import com.main.core.firebase.FirebaseConstants.REFERENCE_MESSENGERS
 import com.main.core.viewmodel.CoreViewModel
 import com.main.core.viewmodel.CoreViewModelFactory
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import java.util.concurrent.Executor
 import javax.inject.Inject
 
 class ChatFragment : BaseFragment() {
     private val binding by lazy { FragmentChatBinding.inflate(layoutInflater) }
+
     @Inject
     lateinit var chatViewModelFactory: ChatViewModelFactory
     private val chatViewModel: ChatViewModel by activityViewModels { chatViewModelFactory }
+
     @Inject
     lateinit var coreViewModelFactory: CoreViewModelFactory
     private val coreViewModel: CoreViewModel by activityViewModels { coreViewModelFactory }
@@ -43,18 +52,19 @@ class ChatFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity().applicationContext as ProvideChatComponent).provideChatComponent().inject(this)
+        (requireActivity().applicationContext as ProvideChatComponent)
+            .provideChatComponent().inject(this)
         initDesign()
 
         binding.btnBack.setOnClickListener {
             chatViewModel.navigateToChatsFragment(findNavController())
         }
         binding.rvMessages.adapter = messageAdapter
-        binding.rvMessages.scrollToPosition(messageAdapter.itemCount-1)
+        binding.rvMessages.scrollToPosition(messageAdapter.itemCount - 1)
 
         chatViewModel.observeMessage(this) { message ->
             messageAdapter.map(message)
-            binding.rvMessages.scrollToPosition(messageAdapter.itemCount-1)
+            binding.rvMessages.scrollToPosition(messageAdapter.itemCount - 1)
         }
         chatViewModel.observeMessages(this) { messages ->
             messageAdapter.mapAll(messages)
@@ -62,31 +72,16 @@ class ChatFragment : BaseFragment() {
         chatViewModel.receiveMessages()
 
         binding.btnSendMessage.setOnClickListener {
-            chatViewModel.sendMessage(MessageCacheModel(
-                message = binding.etMessage.text.toString().trim(),
-                senderUid = Firebase.auth.currentUser?.uid.toString(),
-                receiverUid = coreViewModel.valueChat()?.uid.toString(),
-                dateTimeMillis = System.currentTimeMillis()
-            ))
+            chatViewModel.sendMessage(
+                MessageCacheModel(
+                    message = binding.etMessage.text.toString().trim(),
+                    senderUid = Firebase.auth.currentUser?.uid.toString(),
+                    receiverUid = coreViewModel.valueChat()?.uid.toString(),
+                    dateTimeMillis = System.currentTimeMillis()
+                )
+            )
             binding.etMessage.text.clear()
         }
-
-//        val uid = Firebase.auth.currentUser?.uid.toString()
-        val uid = "o3ll7C8ntpf4IyFiZ4mbIzOhdZA2"
-//        Log.d("MyLog", uid)
-        val task = Firebase.firestore.collection(REFERENCE_MESSENGERS).document(uid)
-            .collection(REFERENCE_CHATS).get().addOnSuccessListener { snapshots ->
-                snapshots.documents.forEach { documentSnapshot ->
-                    val currentUid = documentSnapshot.reference.path.split("/").last()
-                    Firebase.firestore.collection(REFERENCE_MESSENGERS).document(uid)
-                        .collection(REFERENCE_CHATS).document(currentUid).collection(REFERENCE_MESSAGES)
-                        .get().addOnSuccessListener {
-                            it.documents.forEach { testSnap ->
-                                Log.d("MyLog", testSnap.toObject(MessageCacheModel::class.java).toString())
-                            }
-                        }
-                }
-            }
     }
 
     @SuppressLint("SetTextI18n")

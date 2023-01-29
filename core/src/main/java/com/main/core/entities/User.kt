@@ -1,5 +1,7 @@
 package com.main.core.entities
 
+import com.main.core.base.entity.Chat
+
 data class User(
     val firstName: String = "",
     val lastName: String = "",
@@ -7,6 +9,7 @@ data class User(
     val email: String = "",
     val uid: String = "",
     val likeFromAnotherUser: HashMap<String, Like> = hashMapOf(),
+    val userChats: HashMap<String, Chat> = hashMapOf(),
     val age: Int? = null,
     val city: String = "",
     val region: String = "",

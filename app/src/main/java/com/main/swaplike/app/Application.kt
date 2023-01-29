@@ -110,7 +110,7 @@ class Application : Application(), ProvideLoginComponent, ProvideRegisterCompone
             .builder()
             .chatsPresentationModule(ChatsPresentationModule())
             .chatsDomainModule(ChatsDomainModule())
-            .chatsDataModule(ChatsDataModule(DatingDatabase.getInstance(applicationContext).chatsDao()))
+            .chatsDataModule(ChatsDataModule())
             .build()
     }
 

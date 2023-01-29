@@ -8,17 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.main.chats.R
-import com.main.chats.data.entities.Chat
 import com.main.chats.databinding.ItemChatBinding
 import com.main.chats.domain.ManageChatsAdapterData
 import com.main.core.UsernameUi
+import com.main.core.base.entity.Chat
 
 class ChatsAdapter(
     private val clickListenerChat: ChatCLickListener
 ) : RecyclerView.Adapter<ChatsAdapter.ChatsViewHolder>(), UsernameUi, ManageChatsAdapterData {
-    private val chats = mutableListOf<Chat>(
-        Chat("Vadym", "Hrynyk", uid = "o3ll7C8ntpf4IyFiZ4mbIzOhdZA2")
-    )
+    private val chats = mutableListOf<Chat>()
 
     class ChatsViewHolder(item: View): ViewHolder(item) {
         private val binding by lazy { ItemChatBinding.bind(item) }

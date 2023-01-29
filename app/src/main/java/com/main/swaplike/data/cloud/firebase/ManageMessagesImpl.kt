@@ -1,5 +1,6 @@
 package com.main.swaplike.data.cloud.firebase
 
+import android.util.Log
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -36,26 +37,19 @@ class ManageMessagesImpl : ManageMessages {
     }
 
     override suspend fun deleteMessagesOnFirebase() {
-        //todo delete
         val uid = Firebase.auth.currentUser?.uid.toString()
-        val task = Firebase.firestore.collection(REFERENCE_MESSENGERS)
+        Firebase.firestore.collection(REFERENCE_MESSENGERS)
             .document(uid)
             .collection(REFERENCE_CHATS).get()
             .addOnSuccessListener { userChats ->
                 userChats.documents.forEach { userChat ->
-                    val currentUid = userChat.reference.path.split("/").last()
+                    val uidUser = userChat.reference.path.split("/").last()
                     Firebase.firestore.collection(REFERENCE_MESSENGERS)
                         .document(uid)
-                        .collection(REFERENCE_CHATS).document(currentUid)
-                        .collection(REFERENCE_MESSAGES).get()
-                        .addOnSuccessListener {
-                            it.documents.forEach { documentMessage ->
-                                Firebase.firestore.collection(REFERENCE_MESSENGERS)
-                                    .document(uid)
-                                    .collection(REFERENCE_CHATS).document(currentUid)
-                                    .collection(REFERENCE_MESSAGES).document().delete()
-                            }
-                        }
+                        .collection(REFERENCE_CHATS).document(uidUser).delete()
+                    Firebase.firestore.collection(REFERENCE_MESSENGERS)
+                        .document(uid)
+                        .collection(REFERENCE_CHATS).document(uidUser).set(mapOf("isChatBanned" to false))
                 }
             }
     }

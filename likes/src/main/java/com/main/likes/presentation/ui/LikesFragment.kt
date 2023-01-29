@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.main.core.base.BaseFragment
 import com.main.core.entities.Like
 import com.main.core.entities.User
 import com.main.core.toast.showErrorColorToast
+import com.main.core.viewmodel.CoreViewModel
+import com.main.core.viewmodel.CoreViewModelFactory
 import com.main.likes.databinding.FragmentLikesBinding
 import com.main.likes.di.provider.ProvideLikesComponent
 import com.main.likes.presentation.adapter.LikeCLickListener
@@ -24,19 +27,23 @@ class LikesFragment : BaseFragment() {
     @Inject
     lateinit var likesViewModelFactory: LikesViewModelFactory
     private val likesViewModel: LikesViewModel by activityViewModels { likesViewModelFactory }
+    @Inject
+    lateinit var coreViewModelFactory: CoreViewModelFactory
+    private val coreViewModel: CoreViewModel by activityViewModels { coreViewModelFactory }
 
     private val likesAdapter = LikesAdapter(object: LikeCLickListener {
         override fun iconClick(like: Like) {
-            lifecycleScope.launch {
-                likesViewModel.likeUser(
-                    User(
-                        firstName = like.firstName, lastName = like.lastName, age = like.age,
-                        avatarUrl = like.avatarUrl, city = like.city, uid = like.uid
-                    )
+            likesViewModel.likeUser(
+                User(
+                    firstName = like.firstName, lastName = like.lastName, age = like.age,
+                    avatarUrl = like.avatarUrl, city = like.city, uid = like.uid
                 )
-            }
+            )
         }
-        override fun buttonWriteClick(like: Like) = Unit
+        override fun buttonWriteClick(like: Like) {
+            coreViewModel.manageChat(like.mapToChat())
+            likesViewModel.navigateToChatFragment(findNavController())
+        }
     })
 
     override fun onCreateView(

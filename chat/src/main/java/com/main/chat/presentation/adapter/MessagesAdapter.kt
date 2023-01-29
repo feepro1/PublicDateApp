@@ -1,5 +1,6 @@
 package com.main.chat.presentation.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,8 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.MessagesViewHolder>
 
         fun bind(messageCacheModel: MessageCacheModel) {
             val myUid = Firebase.auth.currentUser?.uid.toString()
+            Log.d("MyLog", "MessagesAdapter: messageCacheModel: $messageCacheModel")
+            Log.d("MyLog", "MessagesAdapter: uid: $myUid")
             if (messageCacheModel.senderUid == myUid) {
                 sentMessageBinding.tvMessage.text = messageCacheModel.message
                 sentMessageBinding.tvMessageTime.text = messageCacheModel.dateTimeMillis.toString()

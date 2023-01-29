@@ -6,12 +6,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.main.chats.data.entities.Chat
 import com.main.chats.domain.navigation.ChatsNavigation
 import com.main.chats.domain.usecases.GetAllChatsUseCase
 import com.main.chats.presentation.communication.ChatsCommunication
 import com.main.chats.presentation.communication.ObserveChatsCommunication
 import com.main.core.DispatchersList
+import com.main.core.base.entity.Chat
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import kotlinx.coroutines.launch

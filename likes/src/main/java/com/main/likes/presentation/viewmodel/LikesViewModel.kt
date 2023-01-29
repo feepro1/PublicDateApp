@@ -23,7 +23,7 @@ class LikesViewModel(
     private val likesCommunication: LikesCommunication,
     private val likesNavigation: LikesNavigation,
     private val dispatchers: DispatchersList
-): ViewModel(), ObserveLikesCommunication {
+): ViewModel(), ObserveLikesCommunication, LikesNavigation {
 
     fun getAllLikes() {
         viewModelScope.launch(dispatchers.io()) {
@@ -52,15 +52,19 @@ class LikesViewModel(
         }
     }
 
-    fun goToDatingFragment(navController: NavController) {
-        likesNavigation.navigateToDatingFragment(navController)
-    }
-
     override fun observeLikes(owner: LifecycleOwner, observer: Observer<List<Like>>) {
          likesCommunication.observeLikes(owner, observer)
     }
 
     override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) {
         likesCommunication.observeMotionToastError(owner, observer)
+    }
+
+    override fun navigateToDatingFragment(navController: NavController) {
+        likesNavigation.navigateToDatingFragment(navController)
+    }
+
+    override fun navigateToChatFragment(navController: NavController) {
+        likesNavigation.navigateToChatFragment(navController)
     }
 }

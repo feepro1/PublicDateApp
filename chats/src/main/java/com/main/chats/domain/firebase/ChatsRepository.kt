@@ -1,7 +1,7 @@
 package com.main.chats.domain.firebase
 
-import com.main.chats.data.entities.Chat
 import com.main.core.Resource
+import com.main.core.base.entity.Chat
 
 interface ChatsRepository {
 

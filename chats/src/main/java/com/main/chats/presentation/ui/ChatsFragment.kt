@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.main.chats.data.entities.Chat
 import com.main.chats.databinding.FragmentChatsBinding
 import com.main.chats.di.provider.ProvideChatsComponent
 import com.main.chats.presentation.adapter.ChatCLickListener
@@ -14,6 +13,7 @@ import com.main.chats.presentation.adapter.ChatsAdapter
 import com.main.chats.presentation.viewmodel.ChatsViewModel
 import com.main.chats.presentation.viewmodel.ChatsViewModelFactory
 import com.main.core.base.BaseFragment
+import com.main.core.base.entity.Chat
 import com.main.core.viewmodel.CoreViewModel
 import com.main.core.viewmodel.CoreViewModelFactory
 import javax.inject.Inject
@@ -29,7 +29,7 @@ class ChatsFragment : BaseFragment() {
 
     private val chatsAdapter = ChatsAdapter(object : ChatCLickListener {
         override fun itemClick(chat: Chat) {
-            coreViewModel.manageChat(chat.mapToCoreChat())
+            coreViewModel.manageChat(chat)
             chatsViewModel.navigateToChat(findNavController())
         }
         override fun iconClick(chat: Chat) = Unit
@@ -46,6 +46,8 @@ class ChatsFragment : BaseFragment() {
 
         binding.mainBottomNavigationView.menu.getItem(0).isChecked = true
         binding.rvChats.adapter = chatsAdapter
+
+        chatsViewModel.getAllChats()
 
         chatsViewModel.observeChats(this) { chats ->
             chatsAdapter.mapAll(chats)
