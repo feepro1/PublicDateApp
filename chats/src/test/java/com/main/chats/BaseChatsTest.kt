@@ -2,9 +2,9 @@ package com.main.chats
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.main.chats.data.entities.Chat
 import com.main.chats.presentation.communication.ChatsCommunication
 import com.main.core.DispatchersList
+import com.main.core.base.entity.Chat
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher

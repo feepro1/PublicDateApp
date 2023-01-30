@@ -4,6 +4,7 @@ import com.main.chats.domain.firebase.ChatsRepository
 import com.main.core.Resource
 import com.main.core.base.entity.Chat
 import com.main.core.exception.ExceptionMessages
+import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -31,9 +32,9 @@ class DeleteChatUseCaseTest {
     @Test
     fun `test failure delete chat, internet is not available`() = runBlocking {
         Mockito.`when`(chatsRepository.deleteChat(Chat())).thenReturn(
-            Resource.Error(false, NetworkException(ExceptionMessages.INTERNET_IS_UNAVAILABLE))
+            Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
         )
         val result = deleteChatUseCase.execute(Chat())
-        Assertions.assertTrue(result.exception?.message == ExceptionMessages.INTERNET_IS_UNAVAILABLE)
+        Assertions.assertTrue(result.exception?.message == INTERNET_IS_UNAVAILABLE)
     }
 }
