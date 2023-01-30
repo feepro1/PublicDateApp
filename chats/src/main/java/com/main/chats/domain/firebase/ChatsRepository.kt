@@ -6,4 +6,6 @@ import com.main.core.base.entity.Chat
 interface ChatsRepository {
 
     suspend fun getAllChats(): Resource<List<Chat>>
+
+    suspend fun deleteChat(chatChat: Chat): Resource<Boolean>
 }

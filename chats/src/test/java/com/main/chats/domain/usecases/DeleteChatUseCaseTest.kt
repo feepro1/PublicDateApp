@@ -26,7 +26,7 @@ class DeleteChatUseCaseTest {
             Resource.Success(true)
         )
         val result = deleteChatUseCase.execute(Chat())
-        Assertions.assertTrue(result.data?.isNotEmpty() == true)
+        Assertions.assertTrue(result.data == true)
     }
 
     @Test

@@ -46,8 +46,8 @@ class ChatsRepositoryTest {
         Mockito.`when`(chatsRepository.deleteChat(Chat())).thenReturn(
             Resource.Success(true)
         )
-        val result = chatsRepository.getAllChats()
-        Assertions.assertTrue(result.data?.isNotEmpty() == true)
+        val result = chatsRepository.deleteChat(Chat())
+        Assertions.assertTrue(result.data == true)
     }
 
     @Test

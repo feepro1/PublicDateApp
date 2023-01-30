@@ -3,6 +3,7 @@ package com.main.chats.presentation.viewmodel
 import com.main.chats.BaseChatsTest
 import com.main.chats.domain.firebase.ChatsRepository
 import com.main.chats.domain.navigation.ChatsNavigation
+import com.main.chats.domain.usecases.DeleteChatUseCase
 import com.main.chats.domain.usecases.GetAllChatsUseCase
 import com.main.core.Resource
 import com.main.core.base.entity.Chat
@@ -59,12 +60,11 @@ class ChatsViewModelTest : BaseChatsTest() {
     @Test
     fun `test successful delete chat`() = runBlocking {
         val chat = Chat()
-        chatsCommunication.chats.add(listOf(chat))
         Mockito.`when`(chatsRepository.deleteChat(chat)).thenReturn(
             Resource.Success(true)
         )
         chatsViewModel.deleteChat(chat)
-        Assertions.assertTrue(chatsCommunication.chats.isEmpty())
+        Assertions.assertTrue(chatsCommunication.deleteChat.first() == chat)
     }
 
     @Test

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.main.chats.domain.navigation.ChatsNavigation
+import com.main.chats.domain.usecases.DeleteChatUseCase
 import com.main.chats.domain.usecases.GetAllChatsUseCase
 import com.main.chats.presentation.communication.ChatsCommunication
 import com.main.chats.presentation.communication.ObserveChatsCommunication
@@ -18,6 +19,7 @@ import kotlinx.coroutines.launch
 
 class ChatsViewModel(
     private val getAllChatsUseCase: GetAllChatsUseCase,
+    private val deleteChatUseCase: DeleteChatUseCase,
     private val chatsCommunication: ChatsCommunication,
     private val chatsNavigation: ChatsNavigation,
     private val dispatchers: DispatchersList
@@ -31,6 +33,18 @@ class ChatsViewModel(
             }
             if (result.data?.isEmpty() == true) {
                 chatsCommunication.manageChats(emptyList())
+            }
+            when (result.exception) {
+                is NetworkException -> chatsCommunication.manageMotionToastError(INTERNET_IS_UNAVAILABLE)
+            }
+        }
+    }
+
+    fun deleteChat(chat: Chat) {
+        viewModelScope.launch(dispatchers.io()) {
+            val result = deleteChatUseCase.execute(chat)
+            if (result.data == true) {
+                chatsCommunication.deleteChat(chat)
             }
             when (result.exception) {
                 is NetworkException -> chatsCommunication.manageMotionToastError(INTERNET_IS_UNAVAILABLE)
@@ -52,6 +66,10 @@ class ChatsViewModel(
 
     override fun observeChats(owner: LifecycleOwner, observer: Observer<List<Chat>>) {
         chatsCommunication.observeChats(owner, observer)
+    }
+
+    override fun observeDeleteChat(owner: LifecycleOwner, observer: Observer<Chat>) {
+        chatsCommunication.observeDeleteChat(owner, observer)
     }
 
     override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) {

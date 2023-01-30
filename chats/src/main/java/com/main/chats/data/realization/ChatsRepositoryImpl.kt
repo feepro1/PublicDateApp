@@ -12,4 +12,8 @@ class ChatsRepositoryImpl(
     override suspend fun getAllChats(): Resource<List<Chat>> {
         return Resource.Success(chatsFirebaseRepository.getListUsers())
     }
+
+    override suspend fun deleteChat(chatChat: Chat): Resource<Boolean> {
+        TODO("Not yet implemented")
+    }
 }

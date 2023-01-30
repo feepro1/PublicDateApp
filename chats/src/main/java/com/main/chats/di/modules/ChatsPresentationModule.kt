@@ -1,9 +1,11 @@
 package com.main.chats.di.modules
 
 import com.main.chats.domain.navigation.ChatsNavigation
+import com.main.chats.domain.usecases.DeleteChatUseCase
 import com.main.chats.domain.usecases.GetAllChatsUseCase
 import com.main.chats.presentation.communication.ChatsChatsCommunication
 import com.main.chats.presentation.communication.ChatsCommunication
+import com.main.chats.presentation.communication.ChatsDeleteChatCommunication
 import com.main.chats.presentation.communication.ChatsMotionToastCommunication
 import com.main.chats.presentation.viewmodel.ChatsViewModelFactory
 import com.main.core.DispatchersList
@@ -19,12 +21,14 @@ class ChatsPresentationModule {
     @Provides
     fun provideChatsViewModelFactory(
         getAllChatsUseCase: GetAllChatsUseCase,
+        deleteChatUseCase: DeleteChatUseCase,
         chatsCommunication: ChatsCommunication,
         chatsNavigation: ChatsNavigation,
         dispatchers: DispatchersList
     ): ChatsViewModelFactory {
         return ChatsViewModelFactory(
             getAllChatsUseCase = getAllChatsUseCase,
+            deleteChatUseCase = deleteChatUseCase,
             chatsCommunication = chatsCommunication,
             chatsNavigation = chatsNavigation,
             dispatchers = dispatchers
@@ -34,10 +38,12 @@ class ChatsPresentationModule {
     @Provides
     fun provideChatsCommunication(
         chatsChatsCommunication: ChatsChatsCommunication,
+        chatsDeleteChatCommunication: ChatsDeleteChatCommunication,
         chatsMotionToastCommunication: ChatsMotionToastCommunication
     ): ChatsCommunication {
         return ChatsCommunication.Base(
             chatsChatsCommunication = chatsChatsCommunication,
+            chatsDeleteChatCommunication = chatsDeleteChatCommunication,
             chatsMotionToastCommunication = chatsMotionToastCommunication
         )
     }
@@ -45,6 +51,11 @@ class ChatsPresentationModule {
     @Provides
     fun provideChatsChatsCommunication(): ChatsChatsCommunication {
         return ChatsChatsCommunication.Base()
+    }
+
+    @Provides
+    fun provideChatsDeleteChatCommunication(): ChatsDeleteChatCommunication {
+        return ChatsDeleteChatCommunication.Base()
     }
 
     @Provides
