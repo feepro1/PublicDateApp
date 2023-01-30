@@ -31,7 +31,7 @@ class DeleteChatUseCaseTest {
     @Test
     fun `test failure delete chat, internet is not available`() = runBlocking {
         Mockito.`when`(chatsRepository.deleteChat(Chat())).thenReturn(
-            Resource.Error(emptyList(), NetworkException(ExceptionMessages.INTERNET_IS_UNAVAILABLE))
+            Resource.Error(false, NetworkException(ExceptionMessages.INTERNET_IS_UNAVAILABLE))
         )
         val result = deleteChatUseCase.execute(Chat())
         Assertions.assertTrue(result.exception?.message == ExceptionMessages.INTERNET_IS_UNAVAILABLE)

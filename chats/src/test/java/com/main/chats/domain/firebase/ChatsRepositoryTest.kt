@@ -41,4 +41,21 @@ class ChatsRepositoryTest {
         Assertions.assertTrue(result.exception?.message == INTERNET_IS_UNAVAILABLE)
     }
 
+    @Test
+    fun `test successful delete chat`() = runBlocking {
+        Mockito.`when`(chatsRepository.deleteChat(Chat())).thenReturn(
+            Resource.Success(true)
+        )
+        val result = chatsRepository.getAllChats()
+        Assertions.assertTrue(result.data?.isNotEmpty() == true)
+    }
+
+    @Test
+    fun `test failure delete chat, internet is not available`() = runBlocking {
+        Mockito.`when`(chatsRepository.deleteChat(Chat())).thenReturn(
+            Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
+        )
+        val result = chatsRepository.deleteChat(Chat())
+        Assertions.assertTrue(result.exception?.message == INTERNET_IS_UNAVAILABLE)
+    }
 }
