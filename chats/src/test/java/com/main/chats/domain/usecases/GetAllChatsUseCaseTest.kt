@@ -1,8 +1,8 @@
 package com.main.chats.domain.usecases
 
-import com.main.chats.data.entities.Chat
 import com.main.chats.domain.firebase.ChatsRepository
 import com.main.core.Resource
+import com.main.core.base.entity.Chat
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import kotlinx.coroutines.runBlocking

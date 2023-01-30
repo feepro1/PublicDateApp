@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.main.chat.data.storage.local.ChatCacheRepository
 import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.chat.domain.navigation.ChatNavigation
 import com.main.chat.domain.usecases.DeleteMessageUseCase
@@ -22,7 +23,8 @@ class ChatViewModel(
     private val deleteMessageUseCase: DeleteMessageUseCase,
     private val chatCommunication: ChatCommunication,
     private val chatNavigation: ChatNavigation,
-    private val dispatchers: DispatchersList
+    private val dispatchers: DispatchersList,
+    private val chatCacheRepository: ChatCacheRepository
 ) : ViewModel(), ObserveChatCommunication, ChatNavigation {
 
     fun receiveMessages() {

@@ -5,5 +5,5 @@ data class Chat(
     val lastName: String = "",
     val avatarUrl: String = "",
     val uid: String = "",
-    val lastMessage: String = ""
+    var lastMessage: String = ""
 )

@@ -82,6 +82,15 @@ class ChatFragment : BaseFragment() {
             )
             binding.etMessage.text.clear()
         }
+        val uid = Firebase.auth.currentUser?.uid.toString()
+        val interlocutorUid = coreViewModel.valueChat()?.uid.toString()
+        Firebase.firestore.collection(REFERENCE_MESSENGERS).document(uid)
+            .collection(REFERENCE_CHATS).document()
+            .collection(REFERENCE_MESSAGES).document(interlocutorUid)
+            .addSnapshotListener { value, error ->
+                Log.d("MyLog", value.toString())
+                //todo add to database, check logic
+            }
     }
 
     @SuppressLint("SetTextI18n")

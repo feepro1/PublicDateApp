@@ -38,14 +38,22 @@ interface SendMessageFirebaseRepository {
                     .document(UUID.randomUUID().toString()).set(messageCacheModel)
                 sendMessageTask.await()
 
-                val getUserTask = Firebase.firestore.collection(REFERENCE_USERS)
+                val senderUserTask = Firebase.firestore.collection(REFERENCE_USERS)
                     .document(messageCacheModel.senderUid).get()
-                getUserTask.await()
+                val receiverUserTask = Firebase.firestore.collection(REFERENCE_USERS)
+                    .document(messageCacheModel.receiverUid).get()
+                senderUserTask.await()
                 //todo
-                val newUserData = getUserTask.result.toObject(User::class.java)
-                if (newUserData != null) {
-                    Firebase.firestore.collection(REFERENCE_USERS).document(messageCacheModel.senderUid)
-                        .set(newUserData.userChats[messageCacheModel.senderUid] to "")
+                val senderUserData = senderUserTask.result.toObject(User::class.java)
+                val receiverUserData = receiverUserTask.result.toObject(User::class.java)
+                val userChats = senderUserData?.userChats
+                userChats?.put(
+                    messageCacheModel.senderUid,
+                    senderUserData.mapToChat().copy(lastMessage = messageCacheModel.message)
+                )
+                if (senderUserData != null && receiverUserData != null) {
+                    Firebase.firestore.collection(REFERENCE_USERS).document(messageCacheModel.receiverUid).set(senderUserData)
+                    Firebase.firestore.collection(REFERENCE_USERS).document(messageCacheModel.senderUid).set(receiverUserData)
                 }
 
                 if (sendMessageTask.isSuccessful) {

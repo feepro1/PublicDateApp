@@ -15,4 +15,13 @@ data class User(
     val region: String = "",
     val aboutMe: String = "",
     val token: String = ""
-)
+) {
+    fun mapToChat(): Chat {
+        return Chat(
+            firstName = firstName,
+            lastName = lastName,
+            avatarUrl = avatarUrl,
+            uid = uid
+        )
+    }
+}

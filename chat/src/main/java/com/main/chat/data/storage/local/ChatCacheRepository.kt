@@ -8,5 +8,7 @@ interface ChatCacheRepository {
 
     fun deleteMessage(messageCacheModel: MessageCacheModel): Resource<Boolean>
 
+    fun deleteAllMessage(messages: List<MessageCacheModel>): Resource<Boolean>
+
     fun getAllMessages(): List<MessageCacheModel>
 }
