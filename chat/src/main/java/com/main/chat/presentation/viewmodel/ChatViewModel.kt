@@ -23,8 +23,7 @@ class ChatViewModel(
     private val deleteMessageUseCase: DeleteMessageUseCase,
     private val chatCommunication: ChatCommunication,
     private val chatNavigation: ChatNavigation,
-    private val dispatchers: DispatchersList,
-    private val chatCacheRepository: ChatCacheRepository
+    private val dispatchers: DispatchersList
 ) : ViewModel(), ObserveChatCommunication, ChatNavigation {
 
     fun receiveMessages() {

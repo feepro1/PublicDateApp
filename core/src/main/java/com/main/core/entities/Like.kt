@@ -1,7 +1,5 @@
 package com.main.core.entities
 
-import com.main.core.base.entity.Chat
-
 data class Like(
     val message: String = "",
     val isMutualLike: Boolean = false,

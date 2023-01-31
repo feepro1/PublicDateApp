@@ -11,7 +11,7 @@ import com.main.chats.R
 import com.main.chats.databinding.ItemChatBinding
 import com.main.chats.domain.ManageChatsAdapterData
 import com.main.core.UsernameUi
-import com.main.core.base.entity.Chat
+import com.main.core.entities.Chat
 
 class ChatsAdapter(
     private val clickListenerChat: ChatCLickListener
@@ -26,6 +26,7 @@ class ChatsAdapter(
             Glide.with(itemView).load(chat.avatarUrl).into(binding.ivUserIcon)
             binding.ivUserIcon.setOnClickListener { clickListenerChat.iconClick(chat) }
             binding.itemChat.setOnClickListener { clickListenerChat.itemClick(chat) }
+            binding.itemChat.setOnLongClickListener { clickListenerChat.itemLongClick(chat); true }
         }
     }
 
@@ -51,6 +52,13 @@ class ChatsAdapter(
         chats.addAll(newChats)
         result.dispatchUpdatesTo(this)
     }
+
+    override fun remove(chat: Chat) {
+        val diff = ChatDiffUtilCallback(chats, chats-chat)
+        val result = DiffUtil.calculateDiff(diff)
+        chats.remove(chat)
+        result.dispatchUpdatesTo(this)
+    }
 }
 
 interface ChatCLickListener {
@@ -58,6 +66,8 @@ interface ChatCLickListener {
     fun iconClick(chat: Chat)
 
     fun itemClick(chat: Chat)
+
+    fun itemLongClick(chat: Chat)
 }
 
 class ChatDiffUtilCallback(

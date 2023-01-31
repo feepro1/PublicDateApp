@@ -11,8 +11,9 @@ import com.main.chats.domain.usecases.DeleteChatUseCase
 import com.main.chats.domain.usecases.GetAllChatsUseCase
 import com.main.chats.presentation.communication.ChatsCommunication
 import com.main.chats.presentation.communication.ObserveChatsCommunication
+import com.main.chats.presentation.communication.ValueChatsCommunication
 import com.main.core.DispatchersList
-import com.main.core.base.entity.Chat
+import com.main.core.entities.Chat
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import kotlinx.coroutines.launch
@@ -23,7 +24,7 @@ class ChatsViewModel(
     private val chatsCommunication: ChatsCommunication,
     private val chatsNavigation: ChatsNavigation,
     private val dispatchers: DispatchersList
-) : ViewModel(), ObserveChatsCommunication {
+) : ViewModel(), ObserveChatsCommunication, ValueChatsCommunication {
 
     fun getAllChats() {
         viewModelScope.launch(dispatchers.io()) {
@@ -74,5 +75,9 @@ class ChatsViewModel(
 
     override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) {
         chatsCommunication.observeMotionToastError(owner, observer)
+    }
+
+    override fun valueChat(): Chat? {
+        return chatsCommunication.valueChat()
     }
 }

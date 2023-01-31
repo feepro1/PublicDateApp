@@ -16,8 +16,7 @@ class ChatViewModelFactory(
     private val deleteMessageUseCase: DeleteMessageUseCase,
     private val chatCommunication: ChatCommunication,
     private val chatNavigation: ChatNavigation,
-    private val dispatchers: DispatchersList,
-    private val chatCacheRepository: ChatCacheRepository
+    private val dispatchers: DispatchersList
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -27,8 +26,7 @@ class ChatViewModelFactory(
             deleteMessageUseCase = deleteMessageUseCase,
             chatCommunication = chatCommunication,
             chatNavigation = chatNavigation,
-            dispatchers = dispatchers,
-            chatCacheRepository = chatCacheRepository
+            dispatchers = dispatchers
         ) as T
     }
 }

@@ -1,6 +1,6 @@
 package com.main.core.communication
 
-import com.main.core.base.entity.Chat
+import com.main.core.entities.Chat
 
 interface CoreCommunication : ValueCoreCommunication, ManageCoreCommunication {
 

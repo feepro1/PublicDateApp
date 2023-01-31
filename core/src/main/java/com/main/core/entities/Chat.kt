@@ -1,4 +1,4 @@
-package com.main.core.base.entity
+package com.main.core.entities
 
 data class Chat(
     val firstName: String = "",

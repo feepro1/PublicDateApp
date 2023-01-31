@@ -2,10 +2,10 @@ package com.main.chats.presentation.communication
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.main.core.base.entity.Chat
+import com.main.core.entities.Chat
 import com.main.core.communication.Communication
 
-interface ChatsCommunication : ObserveChatsCommunication {
+interface ChatsCommunication : ObserveChatsCommunication, ValueChatsCommunication {
 
     fun manageChats(chats: List<Chat>)
 
@@ -42,16 +42,23 @@ interface ChatsCommunication : ObserveChatsCommunication {
         override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) {
             chatsMotionToastCommunication.observe(owner, observer)
         }
+
+        override fun valueChat(): Chat? {
+            return chatsDeleteChatCommunication.value()
+        }
     }
 }
 
 interface ObserveChatsCommunication {
 
     fun observeChats(owner: LifecycleOwner, observer: Observer<List<Chat>>)
-
     fun observeDeleteChat(owner: LifecycleOwner, observer: Observer<Chat>)
 
     fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>)
+}
+
+interface ValueChatsCommunication {
+    fun valueChat(): Chat?
 }
 
 interface ChatsChatsCommunication: Communication.Mutable<List<Chat>> {

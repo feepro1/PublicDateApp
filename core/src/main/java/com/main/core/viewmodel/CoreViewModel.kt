@@ -1,7 +1,7 @@
 package com.main.core.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.main.core.base.entity.Chat
+import com.main.core.entities.Chat
 import com.main.core.communication.CoreCommunication
 import com.main.core.communication.ManageCoreCommunication
 import com.main.core.communication.ValueCoreCommunication
