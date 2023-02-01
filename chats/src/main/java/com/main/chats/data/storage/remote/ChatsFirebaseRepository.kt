@@ -1,5 +1,6 @@
 package com.main.chats.data.storage.remote
 
+import android.util.Log
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -26,6 +27,8 @@ interface ChatsFirebaseRepository {
         }
 
         override suspend fun deleteChat(chat: Chat): Boolean {
+            //todo
+            Log.d("MyLog", chat.toString())
             val uid = Firebase.auth.currentUser?.uid.toString()
             val task = Firebase.firestore.collection(REFERENCE_USERS).document(uid).get()
             task.await()

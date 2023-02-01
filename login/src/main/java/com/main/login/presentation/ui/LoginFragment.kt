@@ -66,7 +66,7 @@ class LoginFragment : BaseFragment() {
             )
             loginViewModel.login(loginData, findNavController(), {
                 showErrorColorToast(this, getString(R.string.confirm_your_email))
-            }, Firebase.auth.currentUser?.isEmailVerified == false)
+            }, Firebase.auth.currentUser?.isEmailVerified == true)
         }
 
         binding.tvDoNotHaveAnAccount.setOnClickListener {
