@@ -4,6 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.main.core.DispatchersList
 import com.main.core.entities.Like
+import com.main.core.entities.User
 import com.main.likes.presentation.communication.LikesCommunication
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,6 +15,7 @@ abstract class BaseLikesTest {
     protected class TestLikesCommunication : LikesCommunication {
         val likes = mutableListOf<List<Like>>()
         val motionToastError = mutableListOf<String>()
+        val user = mutableListOf<User>()
 
         override fun manageLikes(likes: List<Like>) {
             this.likes.add(likes)
@@ -23,8 +25,13 @@ abstract class BaseLikesTest {
             this.motionToastError.add(error)
         }
 
+        override fun manageCurrentUSer(user: User) {
+            this.user.add(user)
+        }
+
         override fun observeLikes(owner: LifecycleOwner, observer: Observer<List<Like>>) = Unit
         override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) = Unit
+        override fun valueCurrentUser() = user.first()
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

@@ -12,6 +12,7 @@ import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import com.main.likes.domain.navigation.LikesNavigation
 import com.main.likes.domain.usecases.GetAllLikesUseCase
+import com.main.likes.domain.usecases.GetCurrentUserUseCase
 import com.main.likes.domain.usecases.LikeUserUseCase
 import com.main.likes.presentation.communication.LikesCommunication
 import com.main.likes.presentation.communication.ObserveLikesCommunication
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 class LikesViewModel(
     private val getAllLikesUseCase: GetAllLikesUseCase,
     private val likeUserUseCase: LikeUserUseCase,
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val likesCommunication: LikesCommunication,
     private val likesNavigation: LikesNavigation,
     private val dispatchers: DispatchersList
@@ -29,7 +31,7 @@ class LikesViewModel(
         viewModelScope.launch(dispatchers.io()) {
             val result = getAllLikesUseCase.execute()
             if (result.data != null) {
-                likesCommunication.manageLikes(result.data!!.likeFromAnotherUser.values.filterNotNull().toList())
+                likesCommunication.manageLikes(result.data!!.likeFromAnotherUser.values.toList())
             }
             if (result.data?.likeFromAnotherUser?.isEmpty() == true) {
                 likesCommunication.manageLikes(emptyList())
@@ -40,11 +42,23 @@ class LikesViewModel(
         }
     }
 
-    fun likeUser(user: User) {
+    fun likeUser() {
         viewModelScope.launch(dispatchers.io()) {
-            val result = likeUserUseCase.execute(user)
+            val result = likeUserUseCase.execute(likesCommunication.valueCurrentUser() ?: User())
             if (result.data == true) {
                 //todo add user to list mutual likes
+            }
+            when (result.exception) {
+                is NetworkException -> likesCommunication.manageMotionToastError(INTERNET_IS_UNAVAILABLE)
+            }
+        }
+    }
+
+    fun getCurrentUser() {
+        viewModelScope.launch(dispatchers.io()) {
+            val result = getCurrentUserUseCase.execute()
+            if (result.data != null) {
+                likesCommunication.manageCurrentUSer(result.data ?: User())
             }
             when (result.exception) {
                 is NetworkException -> likesCommunication.manageMotionToastError(INTERNET_IS_UNAVAILABLE)

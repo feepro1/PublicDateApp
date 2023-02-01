@@ -1,8 +1,10 @@
 package com.main.likes.di.modules
 
 import com.main.likes.domain.firebase.LikesRepository
+import com.main.likes.domain.firebase.UserRepository
 import com.main.likes.domain.navigation.LikesNavigation
 import com.main.likes.domain.usecases.GetAllLikesUseCase
+import com.main.likes.domain.usecases.GetCurrentUserUseCase
 import com.main.likes.domain.usecases.LikeUserUseCase
 import dagger.Module
 import dagger.Provides
@@ -22,6 +24,13 @@ class LikesDomainModule {
         likesRepository: LikesRepository
     ): LikeUserUseCase {
         return LikeUserUseCase(likesRepository)
+    }
+
+    @Provides
+    fun provideGetCurrentUserUseCase(
+        userRepository: UserRepository
+    ): GetCurrentUserUseCase {
+        return GetCurrentUserUseCase(userRepository)
     }
 
     @Provides

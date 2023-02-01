@@ -33,12 +33,7 @@ class LikesFragment : BaseFragment() {
 
     private val likesAdapter = LikesAdapter(object: LikeCLickListener {
         override fun iconClick(like: Like) {
-            likesViewModel.likeUser(
-                User(
-                    firstName = like.firstName, lastName = like.lastName, age = like.age,
-                    avatarUrl = like.avatarUrl, city = like.city, uid = like.uid
-                )
-            )
+            likesViewModel.likeUser()
         }
         override fun buttonWriteClick(like: Like) {
             coreViewModel.manageChat(like.mapToChat())
@@ -65,6 +60,7 @@ class LikesFragment : BaseFragment() {
             likesAdapter.mapAll(likes)
         }
 
+        likesViewModel.getCurrentUser()
         likesViewModel.getAllLikes()
     }
 }
