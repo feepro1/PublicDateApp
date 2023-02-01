@@ -88,7 +88,7 @@ class ChatFragment : BaseFragment() {
             .collection(REFERENCE_CHATS).document()
             .collection(REFERENCE_MESSAGES).document(interlocutorUid)
             .addSnapshotListener { value, error ->
-                Log.d("MyLog", value.toString())
+                Log.d("MyLog", "ChatFragment, value: ${value.toString()}")
                 //todo add to database, check logic
             }
     }

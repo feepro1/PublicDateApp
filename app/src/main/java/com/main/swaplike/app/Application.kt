@@ -60,6 +60,7 @@ class Application : Application(), ProvideLoginComponent, ProvideRegisterCompone
 
     override fun onCreate() {
         super.onCreate()
+        //todo test is here bug or no
         val chatCacheRepository = ChatCacheRepositoryImpl(DatingDatabase.getInstance(applicationContext).chatDao())
         CoroutineScope(Dispatchers.IO).launch {
             manageNotificationToken.updateToken()
