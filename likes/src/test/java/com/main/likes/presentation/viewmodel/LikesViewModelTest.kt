@@ -8,6 +8,7 @@ import com.main.likes.BaseLikesTest
 import com.main.likes.domain.firebase.LikesRepository
 import com.main.likes.domain.navigation.LikesNavigation
 import com.main.likes.domain.usecases.GetAllLikesUseCase
+import com.main.likes.domain.usecases.GetCurrentUserUseCaseTest
 import com.main.likes.domain.usecases.LikeUserUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -19,11 +20,14 @@ class LikesViewModelTest : BaseLikesTest() {
 
     private val likesCommunication = TestLikesCommunication()
     private val likesRepository = mock<LikesRepository>()
+    private val userRepository = mock<UserRepository>()
     private val getAllLikesUseCase = GetAllLikesUseCase(likesRepository)
     private val likeUserUseCase = LikeUserUseCase(likesRepository)
+    private val getCurrentUserUseCase = GetCurrentUserUseCase(userRepository)
     private val likesViewModel = LikesViewModel(
         getAllLikesUseCase = getAllLikesUseCase,
         likeUserUseCase = likeUserUseCase,
+        getCurrentUserUseCase = getCurrentUserUseCase,
         likesCommunication = likesCommunication,
         likesNavigation = LikesNavigation.Base(),
         dispatchers = TestDispatchersList()
@@ -72,6 +76,25 @@ class LikesViewModelTest : BaseLikesTest() {
             Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
         )
         likesViewModel.likeUser(User())
+        val result = likesCommunication.motionToastError.first() == INTERNET_IS_UNAVAILABLE
+        Assertions.assertTrue(result)
+    }
+
+    @Test
+    fun `test successful get current user`() = runBlocking {
+        Mockito.`when`(userRepository.getCurrentUser()).thenReturn(
+            Resource.Success(User())
+        )
+        likesViewModel.getCurrentUser()
+        Assertions.assertTrue(likesCommunication.user.isNotEmpty())
+    }
+
+    @Test
+    fun `test failure get current user, internet is not available`() = runBlocking {
+        Mockito.`when`(userRepository.getCurrentUser()).thenReturn(
+            Resource.Error(User(), NetworkException(INTERNET_IS_UNAVAILABLE))
+        )
+        likesViewModel.getCurrentUser()
         val result = likesCommunication.motionToastError.first() == INTERNET_IS_UNAVAILABLE
         Assertions.assertTrue(result)
     }
