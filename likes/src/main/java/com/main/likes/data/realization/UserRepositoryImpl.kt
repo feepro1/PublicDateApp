@@ -8,7 +8,7 @@ import com.main.likes.domain.firebase.UserRepository
 class UserRepositoryImpl(
     private val userFirebaseRepository: UserFirebaseRepository
 ) : UserRepository {
-    override suspend fun getCurrentUser(): Resource<User> {
-        TODO("Not yet implemented")
+    override suspend fun getUserByUid(uid: String): Resource<User> {
+        return userFirebaseRepository.getCurrentUser(uid)
     }
 }

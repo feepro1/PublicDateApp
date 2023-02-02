@@ -5,5 +5,5 @@ import com.main.core.entities.User
 
 interface UserRepository {
 
-    suspend fun getCurrentUser(): Resource<User>
+    suspend fun getUserByUid(uid: String): Resource<User>
 }

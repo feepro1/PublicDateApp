@@ -3,7 +3,6 @@ package com.main.likes.domain.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import com.main.core.navigation.DeepLinks.CHAT_DEEP_LINK
-import com.main.core.navigation.DeepLinks.LIKES_DEEP_LINK
 import com.main.likes.R
 
 interface LikesNavigation {

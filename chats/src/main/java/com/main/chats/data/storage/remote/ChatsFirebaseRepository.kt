@@ -27,7 +27,7 @@ interface ChatsFirebaseRepository {
         }
 
         override suspend fun deleteChat(chat: Chat): Boolean {
-            //todo
+            //todo correct/check the logic
             Log.d("MyLog", chat.toString())
             val uid = Firebase.auth.currentUser?.uid.toString()
             val task = Firebase.firestore.collection(REFERENCE_USERS).document(uid).get()

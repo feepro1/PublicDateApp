@@ -9,7 +9,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.main.core.base.BaseFragment
 import com.main.core.entities.Like
-import com.main.core.entities.User
 import com.main.core.toast.showErrorColorToast
 import com.main.core.viewmodel.CoreViewModel
 import com.main.core.viewmodel.CoreViewModelFactory
@@ -19,6 +18,7 @@ import com.main.likes.presentation.adapter.LikeCLickListener
 import com.main.likes.presentation.adapter.LikesAdapter
 import com.main.likes.presentation.viewmodel.LikesViewModel
 import com.main.likes.presentation.viewmodel.LikesViewModelFactory
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,7 +33,12 @@ class LikesFragment : BaseFragment() {
 
     private val likesAdapter = LikesAdapter(object: LikeCLickListener {
         override fun iconClick(like: Like) {
-            likesViewModel.likeUser()
+            lifecycleScope.launch {
+                likesViewModel.manageLike(like)
+                val getUserByUid = async { likesViewModel.getUserByUid(like.uid) }
+                getUserByUid.await()
+                likesViewModel.likeUser()
+            }
         }
         override fun buttonWriteClick(like: Like) {
             coreViewModel.manageChat(like.mapToChat())
@@ -60,7 +65,9 @@ class LikesFragment : BaseFragment() {
             likesAdapter.mapAll(likes)
         }
 
-        likesViewModel.getCurrentUser()
+        likesViewModel.observeLike(this) { like ->
+            likesAdapter.setFirstLike(like)
+        }
         likesViewModel.getAllLikes()
     }
 }

@@ -16,6 +16,7 @@ object ExceptionMessages {
     const val LAST_NAME_IS_EMPTY = "Last name is empty"
     const val CONFIRM_PASSWORD_IS_EMPTY = "Confirm password is empty"
     const val PASSWORDS_DO_NOT_MATCH = "Passwords do not match"
+    const val UID_IS_EMPTY = "Uid is empty"
     //Firebase
     const val PASSWORD_IS_INCORRECT = "The password is invalid or the user does not have a password."
     const val EMAIL_WAS_NOT_FOUND = "There is no user record corresponding to this identifier. The user may have been deleted."

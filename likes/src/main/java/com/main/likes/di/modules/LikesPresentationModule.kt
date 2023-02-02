@@ -6,12 +6,9 @@ import com.main.core.communication.CoreCommunication
 import com.main.core.viewmodel.CoreViewModelFactory
 import com.main.likes.domain.navigation.LikesNavigation
 import com.main.likes.domain.usecases.GetAllLikesUseCase
-import com.main.likes.domain.usecases.GetCurrentUserUseCase
+import com.main.likes.domain.usecases.GetUserByUidUseCase
 import com.main.likes.domain.usecases.LikeUserUseCase
-import com.main.likes.presentation.communication.LikesCommunication
-import com.main.likes.presentation.communication.LikesCurrentUserCommunication
-import com.main.likes.presentation.communication.LikesLikesCommunication
-import com.main.likes.presentation.communication.LikesMotionToastCommunication
+import com.main.likes.presentation.communication.*
 import com.main.likes.presentation.viewmodel.LikesViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -23,7 +20,7 @@ class LikesPresentationModule {
     fun provideLikesViewModelFactory(
         getAllLikesUseCase: GetAllLikesUseCase,
         likeUserUseCase: LikeUserUseCase,
-        getCurrentUserUseCase: GetCurrentUserUseCase,
+        getUserByUidUseCase: GetUserByUidUseCase,
         likesCommunication: LikesCommunication,
         likesNavigation: LikesNavigation,
         dispatchers: DispatchersList
@@ -31,7 +28,7 @@ class LikesPresentationModule {
         return LikesViewModelFactory(
             getAllLikesUseCase = getAllLikesUseCase,
             likeUserUseCase = likeUserUseCase,
-            getCurrentUserUseCase = getCurrentUserUseCase,
+            getUserByUidUseCase = getUserByUidUseCase,
             likesCommunication = likesCommunication,
             likesNavigation = likesNavigation,
             dispatchers = dispatchers
@@ -48,11 +45,13 @@ class LikesPresentationModule {
     @Provides
     fun provideLikesCommunication(
         likesLikesCommunication: LikesLikesCommunication,
+        likesLikeCommunication: LikesLikeCommunication,
         likesMotionToastCommunication: LikesMotionToastCommunication,
         likesCurrentUserCommunication: LikesCurrentUserCommunication
     ): LikesCommunication {
         return LikesCommunication.Base(
             likesLikesCommunication = likesLikesCommunication,
+            likesLikeCommunication = likesLikeCommunication,
             likesMotionToastCommunication = likesMotionToastCommunication,
             likesCurrentUserCommunication = likesCurrentUserCommunication
         )
@@ -68,6 +67,11 @@ class LikesPresentationModule {
     @Provides
     fun provideLikesLikesCommunication(): LikesLikesCommunication {
         return LikesLikesCommunication.Base()
+    }
+
+    @Provides
+    fun provideLikesLikeCommunication(): LikesLikeCommunication {
+        return LikesLikeCommunication.Base()
     }
 
     @Provides

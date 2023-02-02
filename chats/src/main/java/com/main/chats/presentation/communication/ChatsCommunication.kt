@@ -2,8 +2,8 @@ package com.main.chats.presentation.communication
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.main.core.entities.Chat
 import com.main.core.communication.Communication
+import com.main.core.entities.Chat
 
 interface ChatsCommunication : ObserveChatsCommunication, ValueChatsCommunication {
 

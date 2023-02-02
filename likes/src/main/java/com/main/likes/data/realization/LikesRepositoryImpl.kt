@@ -1,5 +1,6 @@
 package com.main.likes.data.realization
 
+import android.util.Log
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -25,6 +26,8 @@ class LikesRepositoryImpl(
             firstName = user.firstName, lastName = user.lastName, age = user.age ?: 0,
             city = user.city, avatarUrl = user.avatarUrl, uid = user.uid
         )
+        //todo bug
+        Log.d("MyLog", user.uid)
         val task = Firebase.firestore.collection(FirebaseConstants.REFERENCE_USERS).document(user.uid).set(user)
         task.await()
         return Resource.Success(task.isSuccessful)

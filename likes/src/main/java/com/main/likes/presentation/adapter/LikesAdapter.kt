@@ -28,6 +28,9 @@ class LikesAdapter(
             Glide.with(itemView).load(like.avatarUrl).into(binding.ivUserIcon)
             binding.ivLike.setOnClickListener { likeCLickListener.iconClick(like) }
             binding.btnWrite.setOnClickListener { likeCLickListener.buttonWriteClick(like) }
+            if (like.isMutualLike) {
+                binding.ivLike.setImageResource(R.drawable.icon_fill_love)
+            }
         }
     }
 
@@ -48,6 +51,16 @@ class LikesAdapter(
         val result = DiffUtil.calculateDiff(diff)
         likes.clear()
         likes.addAll(newLikes)
+        result.dispatchUpdatesTo(this)
+    }
+
+    override fun setFirstLike(like: Like) {
+        //todo test logic
+        val newList = likes.toMutableList()
+        val diff = LikeDiffUtilCallback(likes, newList)
+        val result = DiffUtil.calculateDiff(diff)
+        newList.remove(like)
+        newList.add(0, like.copy(isMutualLike = true))
         result.dispatchUpdatesTo(this)
     }
 

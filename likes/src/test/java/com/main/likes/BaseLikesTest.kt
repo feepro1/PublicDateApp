@@ -16,22 +16,29 @@ abstract class BaseLikesTest {
         val likes = mutableListOf<List<Like>>()
         val motionToastError = mutableListOf<String>()
         val user = mutableListOf<User>()
+        val like = mutableListOf<Like>()
 
         override fun manageLikes(likes: List<Like>) {
             this.likes.add(likes)
+        }
+
+        override fun manageLike(like: Like) {
+            this.like.add(like)
         }
 
         override fun manageMotionToastError(error: String) {
             this.motionToastError.add(error)
         }
 
-        override fun manageCurrentUSer(user: User) {
+        override fun manageCurrentUser(user: User) {
             this.user.add(user)
         }
 
         override fun observeLikes(owner: LifecycleOwner, observer: Observer<List<Like>>) = Unit
+        override fun observeLike(owner: LifecycleOwner, observer: Observer<Like>) = Unit
         override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) = Unit
         override fun valueCurrentUser() = user.first()
+        override fun valueLike() = like.first()
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)

@@ -10,12 +10,15 @@ interface LikesCommunication : ObserveLikesCommunication, ValueLikesCommunicatio
 
     fun manageLikes(likes: List<Like>)
 
+    fun manageLike(like: Like)
+
     fun manageMotionToastError(error: String)
 
-    fun manageCurrentUSer(user: User)
+    fun manageCurrentUser(user: User)
 
     class Base(
         private val likesLikesCommunication: LikesLikesCommunication,
+        private val likesLikeCommunication: LikesLikeCommunication,
         private val likesMotionToastCommunication: LikesMotionToastCommunication,
         private val likesCurrentUserCommunication: LikesCurrentUserCommunication
     ) : LikesCommunication {
@@ -24,16 +27,24 @@ interface LikesCommunication : ObserveLikesCommunication, ValueLikesCommunicatio
             likesLikesCommunication.map(likes)
         }
 
+        override fun manageLike(like: Like) {
+            likesLikeCommunication.map(like)
+        }
+
         override fun manageMotionToastError(error: String) {
             likesMotionToastCommunication.map(error)
         }
 
-        override fun manageCurrentUSer(user: User) {
+        override fun manageCurrentUser(user: User) {
             likesCurrentUserCommunication.map(user)
         }
 
         override fun observeLikes(owner: LifecycleOwner, observer: Observer<List<Like>>) {
             likesLikesCommunication.observe(owner, observer)
+        }
+
+        override fun observeLike(owner: LifecycleOwner, observer: Observer<Like>) {
+            likesLikeCommunication.observe(owner, observer)
         }
 
         override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) {
@@ -43,6 +54,10 @@ interface LikesCommunication : ObserveLikesCommunication, ValueLikesCommunicatio
         override fun valueCurrentUser(): User? {
             return likesCurrentUserCommunication.value()
         }
+
+        override fun valueLike(): Like? {
+            return likesLikeCommunication.value()
+        }
     }
 }
 
@@ -50,16 +65,28 @@ interface ObserveLikesCommunication {
 
     fun observeLikes(owner: LifecycleOwner, observer: Observer<List<Like>>)
 
+    fun observeLike(owner: LifecycleOwner, observer: Observer<Like>)
+
     fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>)
 }
 
 interface ValueLikesCommunication {
 
     fun valueCurrentUser(): User?
+
+    fun valueLike(): Like?
+}
+
+interface ManageLikesCommunication {
+    fun manageLike(like: Like)
 }
 
 interface LikesLikesCommunication: Communication.Mutable<List<Like>> {
     class Base: Communication.Post<List<Like>>(), LikesLikesCommunication
+}
+
+interface LikesLikeCommunication: Communication.Mutable<Like> {
+    class Base: Communication.Post<Like>(), LikesLikeCommunication
 }
 
 interface LikesMotionToastCommunication: Communication.Mutable<String> {

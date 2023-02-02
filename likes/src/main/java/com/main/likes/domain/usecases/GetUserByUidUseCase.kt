@@ -4,11 +4,11 @@ import com.main.core.Resource
 import com.main.core.entities.User
 import com.main.likes.domain.firebase.UserRepository
 
-class GetCurrentUserUseCase(
+class GetUserByUidUseCase(
     private val userRepository: UserRepository
 ) {
 
-    suspend fun execute(): Resource<User> {
-        return userRepository.getCurrentUser()
+    suspend fun execute(uid: String): Resource<User> {
+        return userRepository.getUserByUid(uid)
     }
 }

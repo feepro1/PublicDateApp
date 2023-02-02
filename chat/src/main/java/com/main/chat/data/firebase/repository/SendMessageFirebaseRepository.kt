@@ -43,7 +43,7 @@ interface SendMessageFirebaseRepository {
                 val receiverUserTask = Firebase.firestore.collection(REFERENCE_USERS)
                     .document(messageCacheModel.receiverUid).get()
                 senderUserTask.await()
-                //todo
+                //todo correct/check the logic
                 val senderUserData = senderUserTask.result.toObject(User::class.java)
                 val receiverUserData = receiverUserTask.result.toObject(User::class.java)
                 val userChats = senderUserData?.userChats
