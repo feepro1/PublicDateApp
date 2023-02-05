@@ -63,9 +63,6 @@ class ChatFragment : BaseFragment() {
             messageAdapter.mapAll(messages)
         }
         chatViewModel.receiveMessages()
-        Log.d("MyLog", "1"+coreViewModel.valueChat()?.uid.toString())
-        Log.d("MyLog", "2"+Firebase.auth.currentUser?.uid.toString())
-        //todo log
         binding.btnSendMessage.setOnClickListener {
             chatViewModel.sendMessage(
                 MessageCacheModel(

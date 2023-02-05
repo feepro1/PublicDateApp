@@ -2,6 +2,7 @@ package com.main.chats.presentation.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.main.chats.R
 import com.main.chats.databinding.DialogEditChatBinding
 import com.main.chats.databinding.FragmentChatsBinding
@@ -21,6 +24,7 @@ import com.main.chats.presentation.viewmodel.ChatsViewModel
 import com.main.chats.presentation.viewmodel.ChatsViewModelFactory
 import com.main.core.base.BaseFragment
 import com.main.core.entities.Chat
+import com.main.core.firebase.FirebaseConstants
 import com.main.core.viewmodel.CoreViewModel
 import com.main.core.viewmodel.CoreViewModelFactory
 import javax.inject.Inject
@@ -39,7 +43,7 @@ class ChatsFragment : BaseFragment(), ManageBottomSheetDialog {
             coreViewModel.manageChat(chat)
             chatsViewModel.navigateToChat(findNavController())
         }
-        override fun itemLongClick(chat: Chat) = showDialog(requireActivity())
+        override fun itemLongClick(chat: Chat) = showDialog(requireActivity(), chat)
         override fun iconClick(chat: Chat) = Unit
     })
 
@@ -71,14 +75,15 @@ class ChatsFragment : BaseFragment(), ManageBottomSheetDialog {
     }
 
     @SuppressLint("InflateParams")
-    override fun showDialog(activity: FragmentActivity) {
+    override fun showDialog(activity: FragmentActivity, chat: Chat) {
         val view = activity.layoutInflater.inflate(R.layout.dialog_edit_chat, null, false)
         val dialog = BottomSheetDialog(activity)
         dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         val dialogBinding by lazy { DialogEditChatBinding.bind(view) }
 
         dialogBinding.tvDeleteChat.setOnClickListener {
-            chatsViewModel.deleteChat(chatsViewModel.valueChat() ?: Chat())
+            chatsViewModel.deleteChat(chat)
+            dialog.hide()
         }
         dialog.setContentView(view)
         dialog.show()
