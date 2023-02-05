@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.main.core.DispatchersList
+import com.main.core.entities.User
 import com.main.core.exception.NetworkException
-import com.main.dating.data.entities.User
 import com.main.dating.domain.ManageCommunication
 import com.main.dating.domain.ManageDirection
 import com.main.dating.domain.ProvideAnimationsSettings
@@ -97,6 +97,10 @@ class DatingViewModel(
             com.main.core.R.id.itemChats -> datingNavigation.navigateToChatsFragment(navController)
         }
         return true
+    }
+
+    fun navigateToLikesFragment(navController: NavController) {
+        datingNavigation.navigateToLikesFragment(navController)
     }
 
     override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) {

@@ -3,13 +3,13 @@ package com.main.profile.presentation.communication
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.main.core.communication.Communication
-import com.main.profile.data.entities.UserInfo
+import com.main.core.entities.User
 
 interface ProfileCommunication : ObserveProfileCommunications, ValueProfileCommunication {
 
     fun manageMotionToastText(text: String)
 
-    fun manageUserInfo(userInfo: UserInfo)
+    fun manageUserInfo(user: User)
 
     class Base(
         private val profileMotionToastCommunication: ProfileMotionToastCommunication,
@@ -20,19 +20,19 @@ interface ProfileCommunication : ObserveProfileCommunications, ValueProfileCommu
             profileMotionToastCommunication.map(text)
         }
 
-        override fun manageUserInfo(userInfo: UserInfo) {
-            profileUserInfoCommunication.map(userInfo)
+        override fun manageUserInfo(user: User) {
+            profileUserInfoCommunication.map(user)
         }
 
         override fun observeMotionToastText(owner: LifecycleOwner, observer: Observer<String>) {
             profileMotionToastCommunication.observe(owner, observer)
         }
 
-        override fun observeUserInfo(owner: LifecycleOwner, observer: Observer<UserInfo>) {
+        override fun observeUserInfo(owner: LifecycleOwner, observer: Observer<User>) {
             profileUserInfoCommunication.observe(owner, observer)
         }
 
-        override fun valueUserInfo(): UserInfo? {
+        override fun valueUserInfo(): User? {
             return profileUserInfoCommunication.value()
         }
     }
@@ -42,17 +42,17 @@ interface ObserveProfileCommunications {
 
     fun observeMotionToastText(owner: LifecycleOwner, observer: Observer<String>)
 
-    fun observeUserInfo(owner: LifecycleOwner, observer: Observer<UserInfo>)
+    fun observeUserInfo(owner: LifecycleOwner, observer: Observer<User>)
 }
 
 interface ValueProfileCommunication {
-    fun valueUserInfo(): UserInfo?
+    fun valueUserInfo(): User?
 }
 
 interface ProfileMotionToastCommunication: Communication.Mutable<String> {
     class Base: Communication.SinglePost<String>(), ProfileMotionToastCommunication
 }
 
-interface ProfileUserInfoCommunication: Communication.Mutable<UserInfo> {
-    class Base: Communication.Post<UserInfo>(), ProfileUserInfoCommunication
+interface ProfileUserInfoCommunication: Communication.Mutable<User> {
+    class Base: Communication.Post<User>(), ProfileUserInfoCommunication
 }

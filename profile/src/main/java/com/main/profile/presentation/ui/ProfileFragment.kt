@@ -75,15 +75,15 @@ class ProfileFragment : BaseFragment() {
 
         binding.sbAge.setOnSeekBarChangeListener(seekBarListener)
 
-        profileViewModel.observeUserInfo(this) { userInfo ->
-            binding.etFirstName.setText(userInfo.firstName)
-            binding.etLastName.setText(userInfo.lastName)
-            binding.etCity.setText(userInfo.city)
-            binding.etRegion.setText(userInfo.region)
-            binding.etAboutMe.setText(userInfo.aboutMe)
-            Glide.with(this).load(userInfo.avatarUrl).into(binding.ivUserAvatar)
-            binding.tvAge.text = "Age: ${userInfo?.age ?: "unknow"}"
-            binding.sbAge.progress = userInfo.age ?: 0
+        profileViewModel.observeUserInfo(this) { user ->
+            binding.etFirstName.setText(user.firstName)
+            binding.etLastName.setText(user.lastName)
+            binding.etCity.setText(user.city)
+            binding.etRegion.setText(user.region)
+            binding.etAboutMe.setText(user.aboutMe)
+            Glide.with(this).load(user.avatarUrl).into(binding.ivUserAvatar)
+            binding.tvAge.text = "Age: ${user?.age ?: "unknow"}"
+            binding.sbAge.progress = user.age ?: 0
         }
 
         binding.btnSave.setOnClickListener {

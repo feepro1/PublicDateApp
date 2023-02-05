@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.main.core.UsernameUi
+import com.main.core.entities.User
 import com.main.dating.R
-import com.main.dating.data.entities.User
 import com.main.dating.databinding.ItemCardStackViewBinding
 import com.main.dating.domain.ManageCardStackView
 

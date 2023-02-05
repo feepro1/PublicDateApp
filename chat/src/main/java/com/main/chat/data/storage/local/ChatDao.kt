@@ -12,6 +12,9 @@ interface ChatDao {
     @Delete
     fun deleteMessage(messageCacheModel: MessageCacheModel)
 
+    @Delete
+    fun deleteAllMessages(messages: List<MessageCacheModel>)
+
     @Query("SELECT * FROM user_messages")
     fun getAllMessages(): List<MessageCacheModel>
 }

@@ -8,10 +8,10 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import com.main.core.Resource
+import com.main.core.entities.User
 import com.main.core.exception.DefaultException
 import com.main.core.firebase.FirebaseConstants.REFERENCE_USERS
 import com.main.core.firebase.FirebaseConstants.REFERENCE_USERS_AVATARS
-import com.main.profile.data.entities.UserInfo
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 
@@ -20,9 +20,9 @@ interface ProfileFirebaseRepository {
 
     suspend fun addImageToStorage(bitmap: Bitmap): UploadTask
 
-    suspend fun saveUserInfo(userInfo: UserInfo): Resource<Boolean>
+    suspend fun saveUserInfo(userInfo: User): Resource<Boolean>
 
-    suspend fun getUserInfo(): Resource<UserInfo>
+    suspend fun getUserInfo(): Resource<User>
 
     class Base : ProfileFirebaseRepository {
 
@@ -34,14 +34,14 @@ interface ProfileFirebaseRepository {
             return Firebase.storage.getReference(REFERENCE_USERS_AVATARS).child(uid).putBytes(byteArray)
         }
 
-        override suspend fun saveUserInfo(userInfo: UserInfo): Resource<Boolean> {
+        override suspend fun saveUserInfo(userInfo: User): Resource<Boolean> {
             val uid = Firebase.auth.currentUser?.uid.toString()
 
             val avatarUrl = Firebase.storage.getReference(REFERENCE_USERS_AVATARS).child(uid).downloadUrl
             avatarUrl.await()
             val currentData = Firebase.firestore.collection(REFERENCE_USERS).document(uid).get()
             currentData.await()
-            val result = currentData.result.toObject(UserInfo::class.java)
+            val result = currentData.result.toObject(User::class.java)
 
             val likeFromAnotherUser = result?.likeFromAnotherUser
             likeFromAnotherUser?.let { userInfo.likeFromAnotherUser.putAll(it) }
@@ -56,15 +56,15 @@ interface ProfileFirebaseRepository {
             }
         }
 
-        override suspend fun getUserInfo(): Resource<UserInfo> {
+        override suspend fun getUserInfo(): Resource<User> {
             val uid = Firebase.auth.currentUser?.uid.toString()
             val task = Firebase.firestore.collection(REFERENCE_USERS).document(uid).get()
             try {
                 task.await()
             } catch (e: Exception) {
-                return Resource.Error(UserInfo(), DefaultException("Default"))
+                return Resource.Error(User(), DefaultException("Default"))
             }
-            val userInfo = task.result.toObject() ?: UserInfo()
+            val userInfo = task.result.toObject() ?: User()
             return Resource.Success(userInfo)
         }
     }

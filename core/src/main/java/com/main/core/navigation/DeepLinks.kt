@@ -10,4 +10,5 @@ object DeepLinks {
     val PROFILE_DEEP_LINK = "swapLike://profile".toUri()
     val CHATS_DEEP_LINK = "swapLike://chats".toUri()
     val CHAT_DEEP_LINK = "swapLike://chat".toUri()
+    val LIKES_DEEP_LINK = "swapLike://likes".toUri()
 }

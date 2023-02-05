@@ -16,5 +16,4 @@ interface ReceiveMessageRepository {
             return Resource.Success(chatCacheRepository.getAllMessages())
         }
     }
-
 }

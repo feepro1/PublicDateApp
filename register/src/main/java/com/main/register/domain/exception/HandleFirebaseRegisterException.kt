@@ -2,10 +2,10 @@ package com.main.register.domain.exception
 
 import com.main.core.Resource
 import com.main.core.exception.EmailException
-import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_ADDRESS_IS_BUSY
-import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_ADDRESS_IS_BUSY_UI
-import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT
-import com.main.register.data.exception.message.RegisterExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT_UI
+import com.main.core.exception.ExceptionMessages.EMAIL_ADDRESS_IS_BUSY
+import com.main.core.exception.ExceptionMessages.EMAIL_ADDRESS_IS_BUSY_UI
+import com.main.core.exception.ExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT
+import com.main.core.exception.ExceptionMessages.EMAIL_ADDRESS_IS_INCORRECT_UI
 
 interface HandleFirebaseRegisterException {
 

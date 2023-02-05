@@ -1,9 +1,9 @@
 package com.example.profile.domain.usecases
 
 import com.main.core.Resource
+import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import com.main.profile.data.entities.UserInfoLocal
-import com.main.profile.data.exception.message.ProfileExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.profile.domain.firebase.SaveUserInfoRepository
 import com.main.profile.domain.usecases.SaveUserInfoUseCase
 import kotlinx.coroutines.runBlocking

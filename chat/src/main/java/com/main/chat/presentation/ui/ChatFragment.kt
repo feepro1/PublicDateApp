@@ -28,9 +28,11 @@ import javax.inject.Inject
 
 class ChatFragment : BaseFragment() {
     private val binding by lazy { FragmentChatBinding.inflate(layoutInflater) }
+
     @Inject
     lateinit var chatViewModelFactory: ChatViewModelFactory
     private val chatViewModel: ChatViewModel by activityViewModels { chatViewModelFactory }
+
     @Inject
     lateinit var coreViewModelFactory: CoreViewModelFactory
     private val coreViewModel: CoreViewModel by activityViewModels { coreViewModelFactory }
@@ -43,49 +45,46 @@ class ChatFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity().applicationContext as ProvideChatComponent).provideChatComponent().inject(this)
+        (requireActivity().applicationContext as ProvideChatComponent)
+            .provideChatComponent().inject(this)
         initDesign()
 
         binding.btnBack.setOnClickListener {
             chatViewModel.navigateToChatsFragment(findNavController())
         }
         binding.rvMessages.adapter = messageAdapter
-        binding.rvMessages.scrollToPosition(messageAdapter.itemCount-1)
+        binding.rvMessages.scrollToPosition(messageAdapter.itemCount - 1)
 
         chatViewModel.observeMessage(this) { message ->
             messageAdapter.map(message)
-            binding.rvMessages.scrollToPosition(messageAdapter.itemCount-1)
+            binding.rvMessages.scrollToPosition(messageAdapter.itemCount - 1)
         }
         chatViewModel.observeMessages(this) { messages ->
             messageAdapter.mapAll(messages)
         }
         chatViewModel.receiveMessages()
-
+        Log.d("MyLog", "1"+coreViewModel.valueChat()?.uid.toString())
+        Log.d("MyLog", "2"+Firebase.auth.currentUser?.uid.toString())
+        //todo log
         binding.btnSendMessage.setOnClickListener {
-            chatViewModel.sendMessage(MessageCacheModel(
-                message = binding.etMessage.text.toString().trim(),
-                senderUid = Firebase.auth.currentUser?.uid.toString(),
-                receiverUid = coreViewModel.valueChat()?.uid.toString(),
-                dateTimeMillis = System.currentTimeMillis()
-            ))
+            chatViewModel.sendMessage(
+                MessageCacheModel(
+                    message = binding.etMessage.text.toString().trim(),
+                    senderUid = Firebase.auth.currentUser?.uid.toString(),
+                    receiverUid = coreViewModel.valueChat()?.uid.toString(),
+                    dateTimeMillis = System.currentTimeMillis()
+                )
+            )
             binding.etMessage.text.clear()
         }
-
-//        val uid = Firebase.auth.currentUser?.uid.toString()
-        val uid = "o3ll7C8ntpf4IyFiZ4mbIzOhdZA2"
-//        Log.d("MyLog", uid)
-        val task = Firebase.firestore.collection(REFERENCE_MESSENGERS).document(uid)
-            .collection(REFERENCE_CHATS).get().addOnSuccessListener { snapshots ->
-                snapshots.documents.forEach { documentSnapshot ->
-                    val currentUid = documentSnapshot.reference.path.split("/").last()
-                    Firebase.firestore.collection(REFERENCE_MESSENGERS).document(uid)
-                        .collection(REFERENCE_CHATS).document(currentUid).collection(REFERENCE_MESSAGES)
-                        .get().addOnSuccessListener {
-                            it.documents.forEach { testSnap ->
-                                Log.d("MyLog", testSnap.toObject(MessageCacheModel::class.java).toString())
-                            }
-                        }
-                }
+        val uid = Firebase.auth.currentUser?.uid.toString()
+        val interlocutorUid = coreViewModel.valueChat()?.uid.toString()
+        Firebase.firestore.collection(REFERENCE_MESSENGERS).document(uid)
+            .collection(REFERENCE_CHATS).document()
+            .collection(REFERENCE_MESSAGES).document(interlocutorUid)
+            .addSnapshotListener { value, error ->
+                Log.d("MyLog", "ChatFragment, value: ${value.toString()}")
+                //todo add to database, check logic
             }
     }
 

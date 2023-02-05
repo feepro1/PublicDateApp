@@ -15,6 +15,7 @@ abstract class BaseChatTest {
     protected class TestChatCommunication : ChatCommunication {
         val motionToastError = mutableListOf<String>()
         val messages = mutableListOf<List<MessageCacheModel>>()
+        val message = mutableListOf<MessageCacheModel>()
         val user = mutableListOf<User>()
 
         override fun manageMotionToastError(error: String) {
@@ -25,12 +26,16 @@ abstract class BaseChatTest {
             this.messages.add(messages)
         }
 
+        override fun manageMessage(message: MessageCacheModel) {
+            this.message.add(message)
+        }
+
         override fun manageUser(user: User) {
             this.user.add(user)
         }
 
         override fun observeMessages(owner: LifecycleOwner, observer: Observer<List<MessageCacheModel>>) = Unit
-
+        override fun observeMessage(owner: LifecycleOwner, observer: Observer<MessageCacheModel>) = Unit
         override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) = Unit
         override fun valueUser(): User = this.user.first()
     }

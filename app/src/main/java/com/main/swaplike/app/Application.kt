@@ -1,8 +1,6 @@
 package com.main.swaplike.app
 
 import android.app.Application
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.main.chat.data.storage.local.ChatCacheRepositoryImpl
 import com.main.chat.di.component.ChatComponent
 import com.main.chat.di.component.DaggerChatComponent
@@ -22,6 +20,12 @@ import com.main.dating.di.modules.DatingDataModule
 import com.main.dating.di.modules.DatingDomainModule
 import com.main.dating.di.modules.DatingPresentationModule
 import com.main.dating.di.provider.ProvideDatingComponent
+import com.main.likes.di.component.DaggerLikesComponent
+import com.main.likes.di.component.LikesComponent
+import com.main.likes.di.modules.LikesDataModule
+import com.main.likes.di.modules.LikesDomainModule
+import com.main.likes.di.modules.LikesPresentationModule
+import com.main.likes.di.provider.ProvideLikesComponent
 import com.main.login.di.component.DaggerLoginComponent
 import com.main.login.di.component.LoginComponent
 import com.main.login.di.module.LoginDataModule
@@ -48,20 +52,22 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class Application : Application(), ProvideLoginComponent, ProvideRegisterComponent,
-    ProvideDatingComponent, ProvideProfileComponent, ProvideChatsComponent, ProvideChatComponent {
+    ProvideDatingComponent, ProvideProfileComponent, ProvideChatsComponent,
+    ProvideChatComponent, ProvideLikesComponent {
 
     private val manageNotificationToken = ManageNotificationTokenImpl()
     private val manageMessages = ManageMessagesImpl()
 
     override fun onCreate() {
         super.onCreate()
-        val chatCacheRepository = ChatCacheRepositoryImpl(DatingDatabase.getInstance(applicationContext).chatDao())
-        CoroutineScope(Dispatchers.IO).launch {
-            manageNotificationToken.updateToken()
-            val messages = manageMessages.receiveMessagesFromFirebase()
-            manageMessages.deleteMessagesOnFirebase()
-            manageMessages.addMessagesToLocalDatabase(messages, chatCacheRepository)
-        }
+        //todo test is here bug or no
+//        val chatCacheRepository = ChatCacheRepositoryImpl(DatingDatabase.getInstance(applicationContext).chatDao())
+//        CoroutineScope(Dispatchers.IO).launch {
+//            manageNotificationToken.updateToken()
+//            val messages = manageMessages.receiveMessagesFromFirebase()
+//            manageMessages.deleteMessagesOnFirebase()
+//            manageMessages.addMessagesToLocalDatabase(messages, chatCacheRepository)
+//        }
     }
 
     private val loginComponent by lazy {
@@ -105,7 +111,7 @@ class Application : Application(), ProvideLoginComponent, ProvideRegisterCompone
             .builder()
             .chatsPresentationModule(ChatsPresentationModule())
             .chatsDomainModule(ChatsDomainModule())
-            .chatsDataModule(ChatsDataModule(DatingDatabase.getInstance(applicationContext).chatsDao()))
+            .chatsDataModule(ChatsDataModule())
             .build()
     }
 
@@ -115,6 +121,15 @@ class Application : Application(), ProvideLoginComponent, ProvideRegisterCompone
             .chatPresentationModule(ChatPresentationModule())
             .chatDomainModule(ChatDomainModule())
             .chatDataModule(ChatDataModule(DatingDatabase.getInstance(applicationContext).chatDao()))
+            .build()
+    }
+
+    private val likesComponent by lazy {
+        DaggerLikesComponent
+            .builder()
+            .likesPresentationModule(LikesPresentationModule())
+            .likesDomainModule(LikesDomainModule())
+            .likesDataModule(LikesDataModule())
             .build()
     }
 
@@ -129,4 +144,6 @@ class Application : Application(), ProvideLoginComponent, ProvideRegisterCompone
     override fun provideChatsComponent(): ChatsComponent = chatsComponent
 
     override fun provideChatComponent(): ChatComponent = chatComponent
+
+    override fun provideLikesComponent(): LikesComponent = likesComponent
 }

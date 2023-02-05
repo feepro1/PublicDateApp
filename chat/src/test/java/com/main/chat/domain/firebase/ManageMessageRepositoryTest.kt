@@ -1,13 +1,13 @@
 package com.main.chat.domain.firebase
 
-import com.main.chat.data.exception.messages.ChatExceptionMessages.INTERNET_IS_UNAVAILABLE
-import com.main.chat.data.exception.messages.ChatExceptionMessages.MESSAGE_IS_EMPTY
-import com.main.chat.data.exception.messages.ChatExceptionMessages.MESSAGE_WAS_NOT_FOUND
-import com.main.chat.data.exception.messages.ChatExceptionMessages.RECEIVER_UID_IS_EMPTY
-import com.main.chat.data.exception.messages.ChatExceptionMessages.SENDER_UID_IS_EMPTY
-import com.main.chat.data.exception.messages.ChatExceptionMessages.USER_WAS_NOT_FOUND
 import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.core.Resource
+import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
+import com.main.core.exception.ExceptionMessages.MESSAGE_IS_EMPTY
+import com.main.core.exception.ExceptionMessages.MESSAGE_WAS_NOT_FOUND
+import com.main.core.exception.ExceptionMessages.RECEIVER_UID_IS_EMPTY
+import com.main.core.exception.ExceptionMessages.SENDER_UID_IS_EMPTY
+import com.main.core.exception.ExceptionMessages.USER_WAS_NOT_FOUND
 import com.main.core.exception.MessageException
 import com.main.core.exception.NetworkException
 import com.main.core.exception.UidException

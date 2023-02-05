@@ -14,6 +14,11 @@ class ChatCacheRepositoryImpl(private val chatDao: ChatDao): ChatCacheRepository
         return Resource.Success(true)
     }
 
+    override fun deleteAllMessage(messages: List<MessageCacheModel>): Resource<Boolean> {
+        chatDao.deleteAllMessages(messages)
+        return Resource.Success(true)
+    }
+
     override fun getAllMessages(): List<MessageCacheModel> {
         return chatDao.getAllMessages()
     }

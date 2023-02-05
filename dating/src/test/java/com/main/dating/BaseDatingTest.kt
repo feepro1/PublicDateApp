@@ -3,7 +3,7 @@ package com.main.dating
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.main.core.DispatchersList
-import com.main.dating.data.entities.User
+import com.main.core.entities.User
 import com.main.dating.presentation.communication.DatingCommunication
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi

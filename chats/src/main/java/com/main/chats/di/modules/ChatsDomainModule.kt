@@ -1,10 +1,9 @@
 package com.main.chats.di.modules
 
 import com.main.chats.domain.firebase.ChatsRepository
-import com.main.chats.domain.firebase.LikesRepository
 import com.main.chats.domain.navigation.ChatsNavigation
+import com.main.chats.domain.usecases.DeleteChatUseCase
 import com.main.chats.domain.usecases.GetAllChatsUseCase
-import com.main.chats.domain.usecases.GetAllLikesUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -17,8 +16,8 @@ class ChatsDomainModule {
     }
 
     @Provides
-    fun provideGetAllLikesUseCase(likesRepository: LikesRepository): GetAllLikesUseCase {
-        return GetAllLikesUseCase(likesRepository)
+    fun provideDeleteChatUseCase(chatsRepository: ChatsRepository): DeleteChatUseCase {
+        return DeleteChatUseCase(chatsRepository)
     }
 
     @Provides

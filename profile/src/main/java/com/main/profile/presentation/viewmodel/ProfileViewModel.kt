@@ -10,8 +10,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.main.core.DispatchersList
 import com.main.core.ManageImageRepository
+import com.main.core.entities.User
 import com.main.core.exception.NetworkException
-import com.main.profile.data.entities.UserInfo
 import com.main.profile.data.entities.UserInfoLocal
 import com.main.profile.domain.navigation.ProfileNavigation
 import com.main.profile.domain.usecases.GetUserInfoUseCase
@@ -43,7 +43,7 @@ class ProfileViewModel(
                     }
                 }
             }
-            profileCommunication.manageUserInfo(result.data ?: UserInfo())
+            profileCommunication.manageUserInfo(result.data ?: User())
         }
     }
 
@@ -90,11 +90,11 @@ class ProfileViewModel(
         profileCommunication.observeMotionToastText(owner, observer)
     }
 
-    override fun observeUserInfo(owner: LifecycleOwner, observer: Observer<UserInfo>) {
+    override fun observeUserInfo(owner: LifecycleOwner, observer: Observer<User>) {
         profileCommunication.observeUserInfo(owner, observer)
     }
 
-    override fun valueUserInfo(): UserInfo? {
+    override fun valueUserInfo(): User? {
         return profileCommunication.valueUserInfo()
     }
 }

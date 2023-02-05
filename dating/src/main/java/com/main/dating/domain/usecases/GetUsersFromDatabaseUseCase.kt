@@ -1,7 +1,7 @@
 package com.main.dating.domain.usecases
 
 import com.main.core.Resource
-import com.main.dating.data.entities.User
+import com.main.core.entities.User
 import com.main.dating.domain.firebase.database.DatabaseRepository
 
 class GetUsersFromDatabaseUseCase(

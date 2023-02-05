@@ -1,15 +1,13 @@
 package com.main.chats.presentation.viewmodel
 
 import com.main.chats.BaseChatsTest
-import com.main.chats.data.entities.Chat
-import com.main.chats.data.entities.LikeFromUser
-import com.main.chats.data.exception.messages.ChatsExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.chats.domain.firebase.ChatsRepository
-import com.main.chats.domain.firebase.LikesRepository
 import com.main.chats.domain.navigation.ChatsNavigation
+import com.main.chats.domain.usecases.DeleteChatUseCase
 import com.main.chats.domain.usecases.GetAllChatsUseCase
-import com.main.chats.domain.usecases.GetAllLikesUseCase
 import com.main.core.Resource
+import com.main.core.entities.Chat
+import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.NetworkException
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -21,12 +19,11 @@ class ChatsViewModelTest : BaseChatsTest() {
 
     private val chatsCommunication = TestChatsCommunication()
     private val chatsRepository = mock<ChatsRepository>()
-    private val likesRepository = mock<LikesRepository>()
     private val getAllChatsUseCase = GetAllChatsUseCase(chatsRepository)
-    private val getAllLikesUseCase = GetAllLikesUseCase(likesRepository)
+    private val deleteChatUseCase = DeleteChatUseCase(chatsRepository)
     private val chatsViewModel = ChatsViewModel(
         getAllChatsUseCase = getAllChatsUseCase,
-        getAllLikesUseCase = getAllLikesUseCase,
+        deleteChatUseCase = deleteChatUseCase,
         chatsCommunication = chatsCommunication,
         chatsNavigation = ChatsNavigation.Base(),
         dispatchers = TestDispatchersList()
@@ -61,29 +58,21 @@ class ChatsViewModelTest : BaseChatsTest() {
     }
 
     @Test
-    fun `test successful get all likes`() = runBlocking {
-        Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Success(listOf(LikeFromUser()))
+    fun `test successful delete chat`() = runBlocking {
+        val chat = Chat()
+        Mockito.`when`(chatsRepository.deleteChat(chat)).thenReturn(
+            Resource.Success(true)
         )
-        chatsViewModel.getAllLikes()
-        Assertions.assertTrue(chatsCommunication.likes.isNotEmpty())
+        chatsViewModel.deleteChat(chat)
+        Assertions.assertTrue(chatsCommunication.deleteChat.first() == chat)
     }
 
     @Test
-    fun `test successful get all likes, but likes is empty`() = runBlocking {
-        Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Success(emptyList())
+    fun `test failure delete chat, internet is not available`() = runBlocking {
+        Mockito.`when`(chatsRepository.deleteChat(Chat())).thenReturn(
+            Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
         )
-        chatsViewModel.getAllLikes()
-        Assertions.assertTrue(chatsCommunication.likes.isNotEmpty())
-    }
-
-    @Test
-    fun `test failure get all likes, internet is not available`() = runBlocking {
-        Mockito.`when`(likesRepository.getAllLikes()).thenReturn(
-            Resource.Error(emptyList(), NetworkException(INTERNET_IS_UNAVAILABLE))
-        )
-        chatsViewModel.getAllLikes()
+        chatsViewModel.deleteChat(Chat())
         val result = chatsCommunication.motionToastError.first() == INTERNET_IS_UNAVAILABLE
         Assertions.assertTrue(result)
     }
