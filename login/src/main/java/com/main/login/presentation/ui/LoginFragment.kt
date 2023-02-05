@@ -64,9 +64,9 @@ class LoginFragment : BaseFragment() {
                 password = binding.etPassword.text.toString().trim(),
                 email = binding.etEmail.text.toString().trim()
             )
-            loginViewModel.login(loginData, findNavController(), {
+            loginViewModel.login(loginData, findNavController()) {
                 showErrorColorToast(this, getString(R.string.confirm_your_email))
-            }, Firebase.auth.currentUser?.isEmailVerified == true)
+            }
         }
 
         binding.tvDoNotHaveAnAccount.setOnClickListener {

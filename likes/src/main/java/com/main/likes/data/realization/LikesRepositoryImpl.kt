@@ -7,13 +7,15 @@ import com.google.firebase.ktx.Firebase
 import com.main.core.Resource
 import com.main.core.entities.Like
 import com.main.core.entities.User
-import com.main.core.firebase.FirebaseConstants
+import com.main.core.firebase.FirebaseConstants.REFERENCE_USERS
 import com.main.likes.data.firebase.LikesFirebaseRepository
+import com.main.likes.data.firebase.UserFirebaseRepository
 import com.main.likes.domain.firebase.LikesRepository
 import kotlinx.coroutines.tasks.await
 
 class LikesRepositoryImpl(
-    private val likesFirebaseRepository: LikesFirebaseRepository
+    private val likesFirebaseRepository: LikesFirebaseRepository,
+    private val userFirebaseRepository: UserFirebaseRepository
 ) : LikesRepository {
 
     override suspend fun getAllLikes(): Resource<User> {
@@ -22,14 +24,21 @@ class LikesRepositoryImpl(
 
     override suspend fun likeUser(user: User): Resource<Boolean> {
         val uid = Firebase.auth.currentUser?.uid.toString()
+        val firstUser = userFirebaseRepository.getCurrentUser(uid).data
         user.likeFromAnotherUser[uid] = Like(
-            firstName = user.firstName, lastName = user.lastName, age = user.age ?: 0,
-            city = user.city, avatarUrl = user.avatarUrl, uid = user.uid
+            firstName = firstUser?.firstName ?: "", lastName = firstUser?.lastName ?: "",
+            age = firstUser?.age, city = firstUser?.city ?: "",
+            avatarUrl = firstUser?.avatarUrl ?: "", uid = firstUser?.uid ?: ""
         )
-        //todo bug
-        Log.d("MyLog", user.uid)
-        val task = Firebase.firestore.collection(FirebaseConstants.REFERENCE_USERS).document(user.uid).set(user)
+        val task = Firebase.firestore.collection(REFERENCE_USERS).document(user.uid).set(user)
         task.await()
+
+        firstUser?.likeFromAnotherUser?.get(user.uid)?.isMutualLike = true
+        user.likeFromAnotherUser[uid]?.isMutualLike = true
+
+        firstUser?.let { Firebase.firestore.collection(REFERENCE_USERS).document(uid).set(it) }
+        Firebase.firestore.collection(REFERENCE_USERS).document(user.uid).set(user)
+
         return Resource.Success(task.isSuccessful)
     }
 }

@@ -4,6 +4,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.core.Resource
+import com.main.core.entities.Chat
 import com.main.core.entities.User
 import com.main.core.exception.FirebaseException
 import com.main.core.firebase.FirebaseConstants.REFERENCE_CHATS
@@ -43,17 +44,21 @@ interface SendMessageFirebaseRepository {
                 val receiverUserTask = Firebase.firestore.collection(REFERENCE_USERS)
                     .document(messageCacheModel.receiverUid).get()
                 senderUserTask.await()
+                receiverUserTask.await()
                 //todo correct/check the logic
                 val senderUserData = senderUserTask.result.toObject(User::class.java)
                 val receiverUserData = receiverUserTask.result.toObject(User::class.java)
-                val userChats = senderUserData?.userChats
-                userChats?.put(
-                    messageCacheModel.senderUid,
+                senderUserData?.userChats?.put(
+                    messageCacheModel.receiverUid,
                     senderUserData.mapToChat().copy(lastMessage = messageCacheModel.message)
                 )
+                receiverUserData?.userChats?.put(
+                    messageCacheModel.senderUid,
+                    receiverUserData.mapToChat().copy(lastMessage = messageCacheModel.message)
+                )
                 if (senderUserData != null && receiverUserData != null) {
-                    Firebase.firestore.collection(REFERENCE_USERS).document(messageCacheModel.receiverUid).set(senderUserData)
-                    Firebase.firestore.collection(REFERENCE_USERS).document(messageCacheModel.senderUid).set(receiverUserData)
+                    Firebase.firestore.collection(REFERENCE_USERS).document(messageCacheModel.receiverUid).set(receiverUserData)
+                    Firebase.firestore.collection(REFERENCE_USERS).document(messageCacheModel.senderUid).set(senderUserData)
                 }
 
                 if (sendMessageTask.isSuccessful) {

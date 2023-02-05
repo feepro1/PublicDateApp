@@ -14,9 +14,13 @@ class LikesDataModule {
 
     @Provides
     fun provideLikesRepository(
-        likesFirebaseRepository: LikesFirebaseRepository
+        likesFirebaseRepository: LikesFirebaseRepository,
+        userFirebaseRepository: UserFirebaseRepository
     ): LikesRepository {
-        return LikesRepositoryImpl(likesFirebaseRepository)
+        return LikesRepositoryImpl(
+            likesFirebaseRepository = likesFirebaseRepository,
+            userFirebaseRepository = userFirebaseRepository
+        )
     }
 
     @Provides
