@@ -31,10 +31,13 @@ class ChatViewModelTest : BaseChatTest() {
     private val sendMessageUseCase = SendMessageUseCase(manageMessageRepository)
     private val getMessagesUseCase = GetMessagesUseCase(manageMessageRepository)
     private val deleteMessageUseCase = DeleteMessageUseCase(manageMessageRepository)
-    private val chatViewModel = ChatViewModel(
-        getMessagesUseCase = getMessagesUseCase,
+    private val chatInteractor = ChatInteractor(
         sendMessageUseCase = sendMessageUseCase,
-        deleteMessageUseCase = deleteMessageUseCase,
+        getMessagesUseCase = getMessagesUseCase,
+        deleteMessageUseCase = deleteMessageUseCase
+    )
+    private val chatViewModel = ChatViewModel(
+        chatInteractor = chatInteractor,
         chatCommunication = chatCommunication,
         chatNavigation = ChatNavigation.Base(),
         dispatchers = TestDispatchersList()

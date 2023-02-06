@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.chat.databinding.FragmentChatBinding
@@ -74,15 +75,16 @@ class ChatFragment : BaseFragment() {
             )
             binding.etMessage.text.clear()
         }
-        val uid = Firebase.auth.currentUser?.uid.toString()
-        val interlocutorUid = coreViewModel.valueChat()?.uid.toString()
-        Firebase.firestore.collection(REFERENCE_MESSENGERS).document(uid)
-            .collection(REFERENCE_CHATS).document()
-            .collection(REFERENCE_MESSAGES).document(interlocutorUid)
+        /*
+        Firebase.firestore.collection(REFERENCE_MESSENGERS).document("wvsWyBhbhdYVCpop7G5iply5xlE3")
+            .collection(REFERENCE_CHATS).document("x45HZNgGSga50SUNDgVsNcUgRlP2")
+            .collection(REFERENCE_MESSAGES)
             .addSnapshotListener { value, error ->
-                Log.d("MyLog", "ChatFragment, value: ${value.toString()}")
-                //todo add to database, check logic
+                value?.documentChanges?.forEach {
+                    Log.d("MyLog", "22: ${it.document.toObject(MessageCacheModel::class.java)}")
+                }
             }
+         */
     }
 
     @SuppressLint("SetTextI18n")
