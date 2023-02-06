@@ -3,6 +3,7 @@ package com.main.chat.presentation.viewmodel
 import com.main.chat.BaseChatTest
 import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.chat.domain.firebase.ManageMessageRepository
+import com.main.chat.domain.interactor.ChatInteractor
 import com.main.chat.domain.navigation.ChatNavigation
 import com.main.chat.domain.usecases.DeleteMessageUseCase
 import com.main.chat.domain.usecases.GetMessagesUseCase

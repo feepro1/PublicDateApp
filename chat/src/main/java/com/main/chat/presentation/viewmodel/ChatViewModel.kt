@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.main.chat.data.storage.local.MessageCacheModel
+import com.main.chat.domain.interactor.ChatInteractor
 import com.main.chat.domain.navigation.ChatNavigation
 import com.main.chat.domain.usecases.DeleteMessageUseCase
 import com.main.chat.domain.usecases.GetMessagesUseCase
@@ -16,9 +17,7 @@ import com.main.core.DispatchersList
 import kotlinx.coroutines.launch
 
 class ChatViewModel(
-    private val getMessagesUseCase: GetMessagesUseCase,
-    private val sendMessageUseCase: SendMessageUseCase,
-    private val deleteMessageUseCase: DeleteMessageUseCase,
+    private val chatInteractor: ChatInteractor,
     private val chatCommunication: ChatCommunication,
     private val chatNavigation: ChatNavigation,
     private val dispatchers: DispatchersList
@@ -26,7 +25,7 @@ class ChatViewModel(
 
     fun receiveMessages() {
         viewModelScope.launch(dispatchers.io()) {
-            val result = getMessagesUseCase.execute()
+            val result = chatInteractor.getMessage()
             if (result.data != null) {
                 chatCommunication.manageMessages(result.data ?: emptyList())
             }
@@ -39,7 +38,7 @@ class ChatViewModel(
 
     fun sendMessage(messageCacheModel: MessageCacheModel) {
         viewModelScope.launch(dispatchers.io()) {
-            val result = sendMessageUseCase.execute(messageCacheModel)
+            val result = chatInteractor.sendMessage(messageCacheModel)
             if (result.data == false) {
                 val exceptionMessage = result.exception?.message.toString()
                 chatCommunication.manageMotionToastError(exceptionMessage)
@@ -52,16 +51,12 @@ class ChatViewModel(
 
     fun deleteMessage(messageCacheModel: MessageCacheModel) {
         viewModelScope.launch(dispatchers.io()) {
-            val result = deleteMessageUseCase.execute(messageCacheModel)
+            val result = chatInteractor.deleteMessage(messageCacheModel)
             if (result.data == false) {
                 val exceptionMessage = result.exception?.message.toString()
                 chatCommunication.manageMotionToastError(exceptionMessage)
             }
         }
-    }
-
-    fun receiveMessagesRealtime() {
-
     }
 
     override fun navigateToChatsFragment(navController: NavController) {

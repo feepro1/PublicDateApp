@@ -2,6 +2,7 @@ package com.main.chat.di.modules
 
 import com.main.chat.data.storage.shared_pref.ManageSharedPreferences
 import com.main.chat.domain.firebase.ManageMessageRepository
+import com.main.chat.domain.interactor.ChatInteractor
 import com.main.chat.domain.navigation.ChatNavigation
 import com.main.chat.domain.usecases.DeleteMessageUseCase
 import com.main.chat.domain.usecases.GetMessagesUseCase
@@ -31,6 +32,19 @@ class ChatDomainModule {
         manageMessageRepository: ManageMessageRepository
     ): DeleteMessageUseCase {
         return DeleteMessageUseCase(manageMessageRepository)
+    }
+
+    @Provides
+    fun provideChatInteractor(
+        sendMessageUseCase: SendMessageUseCase,
+        getMessagesUseCase: GetMessagesUseCase,
+        deleteMessageUseCase: DeleteMessageUseCase
+    ): ChatInteractor {
+        return ChatInteractor(
+            sendMessageUseCase = sendMessageUseCase,
+            getMessagesUseCase = getMessagesUseCase,
+            deleteMessageUseCase = deleteMessageUseCase
+        )
     }
 
     @Provides
