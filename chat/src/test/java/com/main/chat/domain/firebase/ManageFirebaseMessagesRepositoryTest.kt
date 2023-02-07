@@ -1,6 +1,5 @@
 package com.main.chat.domain.firebase
 
-import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.core.Resource
 import com.main.core.exception.ExceptionMessages
 import com.main.core.exception.NetworkException
@@ -28,7 +27,7 @@ class ManageFirebaseMessagesRepositoryTest {
         Mockito.`when`(manageFirebaseMessagesRepository.deleteAllMessages()).thenReturn(
             Resource.Error(false, NetworkException(ExceptionMessages.INTERNET_IS_UNAVAILABLE))
         )
-        val result = manageFirebaseMessagesRepository.deleteAllMessage()
+        val result = manageFirebaseMessagesRepository.deleteAllMessages()
         Assertions.assertTrue(result.exception?.message == ExceptionMessages.INTERNET_IS_UNAVAILABLE)
     }
 }

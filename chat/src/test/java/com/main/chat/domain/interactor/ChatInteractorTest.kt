@@ -1,7 +1,9 @@
 package com.main.chat.domain.interactor
 
 import com.main.chat.data.storage.local.MessageCacheModel
+import com.main.chat.domain.firebase.ManageFirebaseMessagesRepository
 import com.main.chat.domain.firebase.ManageMessageRepository
+import com.main.chat.domain.usecases.DeleteFirebaseMessagesUseCase
 import com.main.chat.domain.usecases.DeleteMessageUseCase
 import com.main.chat.domain.usecases.GetMessagesUseCase
 import com.main.chat.domain.usecases.SendMessageUseCase

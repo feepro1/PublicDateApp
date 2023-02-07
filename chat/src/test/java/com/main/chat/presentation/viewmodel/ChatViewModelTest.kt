@@ -1,10 +1,15 @@
 package com.main.chat.presentation.viewmodel
 
 import com.main.chat.BaseChatTest
+import com.main.chat.data.storage.local.ChatCacheRepository
+import com.main.chat.data.storage.local.ChatCacheRepositoryImpl
+import com.main.chat.data.storage.local.ChatDao
 import com.main.chat.data.storage.local.MessageCacheModel
+import com.main.chat.domain.firebase.ManageFirebaseMessagesRepository
 import com.main.chat.domain.firebase.ManageMessageRepository
 import com.main.chat.domain.interactor.ChatInteractor
 import com.main.chat.domain.navigation.ChatNavigation
+import com.main.chat.domain.usecases.DeleteFirebaseMessagesUseCase
 import com.main.chat.domain.usecases.DeleteMessageUseCase
 import com.main.chat.domain.usecases.GetMessagesUseCase
 import com.main.chat.domain.usecases.SendMessageUseCase
@@ -28,20 +33,25 @@ import org.mockito.kotlin.mock
 class ChatViewModelTest : BaseChatTest() {
 
     private val chatCommunication = TestChatCommunication()
+    private val chatCacheRepository = mock<ChatCacheRepository>()
     private val manageMessageRepository = mock<ManageMessageRepository>()
+    private val manageFirebaseMessagesRepository = mock<ManageFirebaseMessagesRepository>()
     private val sendMessageUseCase = SendMessageUseCase(manageMessageRepository)
     private val getMessagesUseCase = GetMessagesUseCase(manageMessageRepository)
     private val deleteMessageUseCase = DeleteMessageUseCase(manageMessageRepository)
+    private val deleteFirebaseMessagesUseCase = DeleteFirebaseMessagesUseCase(manageFirebaseMessagesRepository)
     private val chatInteractor = ChatInteractor(
         sendMessageUseCase = sendMessageUseCase,
         getMessagesUseCase = getMessagesUseCase,
-        deleteMessageUseCase = deleteMessageUseCase
+        deleteMessageUseCase = deleteMessageUseCase,
+        deleteFirebaseMessagesUseCase = deleteFirebaseMessagesUseCase
     )
     private val chatViewModel = ChatViewModel(
         chatInteractor = chatInteractor,
         chatCommunication = chatCommunication,
         chatNavigation = ChatNavigation.Base(),
-        dispatchers = TestDispatchersList()
+        dispatchers = TestDispatchersList(),
+        chatCacheRepository = chatCacheRepository
     )
 
     @Test

@@ -1,6 +1,5 @@
 package com.main.chat.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -30,12 +29,12 @@ class ChatViewModel(
 ) : ViewModel(), ObserveChatCommunication, ChatNavigation {
 
     //todo delete fun test
-    fun test() {
-        val result = chatCacheRepository.getAllMessages()
-        result.forEachIndexed { index, messageCacheModel ->
-            Log.d("MyLog", "index:$index model: $messageCacheModel")
-        }
-    }
+//    fun test() {
+//        val result = chatCacheRepository.getAllMessages()
+//        result.forEachIndexed { index, messageCacheModel ->
+//            Log.d("MyLog", "index:$index model: $messageCacheModel")
+//        }
+//    }
 
     fun receiveMessages() {
         viewModelScope.launch(dispatchers.io()) {
@@ -74,13 +73,13 @@ class ChatViewModel(
     }
 
     fun receiveMessageRealtime(interlocutorUid: String) {
-        val uid = Firebase.auth.currentUser?.uid.toString()
-        val newMessages = mutableListOf<MessageCacheModel>()
-        //todo make logic
-        Firebase.firestore.collection(REFERENCE_MESSENGERS).document(uid)
-            .collection(REFERENCE_CHATS).document(interlocutorUid)
-            .collection(REFERENCE_MESSAGES)
-            .addSnapshotListener { value, error ->
+        viewModelScope.launch(dispatchers.io()) {
+            val uid = Firebase.auth.currentUser?.uid.toString()
+            val newMessages = mutableListOf<MessageCacheModel>()
+            //todo make logic, can be problems throws deleteAllMessagesFromFirebase()
+            val task = Firebase.firestore.collection(REFERENCE_MESSENGERS).document(uid)
+                .collection(REFERENCE_CHATS).document(interlocutorUid).collection(REFERENCE_MESSAGES)
+            task.addSnapshotListener { value, error ->
                 value?.documentChanges?.forEach { documentChange ->
                     val message = documentChange.document.toObject(MessageCacheModel::class.java)
                     newMessages.add(message)
@@ -88,6 +87,8 @@ class ChatViewModel(
                 }
                 chatCommunication.manageMessagesWithoutClear(newMessages)
             }
+            chatInteractor.deleteAllMessagesFromFirebase()
+        }
     }
 
     override fun navigateToChatsFragment(navController: NavController) {

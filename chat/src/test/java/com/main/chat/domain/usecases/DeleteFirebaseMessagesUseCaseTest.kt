@@ -1,6 +1,6 @@
 package com.main.chat.domain.usecases
 
-import com.main.chat.data.storage.local.MessageCacheModel
+import com.main.chat.domain.firebase.ManageFirebaseMessagesRepository
 import com.main.core.Resource
 import com.main.core.exception.ExceptionMessages
 import com.main.core.exception.NetworkException
