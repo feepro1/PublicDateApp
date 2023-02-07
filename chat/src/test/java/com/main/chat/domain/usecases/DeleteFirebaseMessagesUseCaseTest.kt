@@ -12,11 +12,11 @@ import org.mockito.kotlin.mock
 
 class DeleteFirebaseMessagesUseCaseTest {
 
-    private val manageFirebaseMessagesRepository = mock<ManageFirebaseMessageRepository>()
-    private val deleteFirebaseMessagesUseCase = DeleteFirebaseMessageUseCase(manageFirebaseMessagesRepository)
+    private val manageFirebaseMessagesRepository = mock<ManageFirebaseMessagesRepository>()
+    private val deleteFirebaseMessagesUseCase = DeleteFirebaseMessagesUseCase(manageFirebaseMessagesRepository)
 
     @Test
-    fun `test successful delete message`() = runBlocking {
+    fun `test successful delete message from firebase`() = runBlocking {
         Mockito.`when`(manageFirebaseMessagesRepository.deleteAllMessages()).thenReturn(
             Resource.Success(true)
         )
@@ -25,7 +25,7 @@ class DeleteFirebaseMessagesUseCaseTest {
     }
 
     @Test
-    fun `test failure delete message, internet is not available`() = runBlocking {
+    fun `test failure delete message from firebase, internet is not available`() = runBlocking {
         Mockito.`when`(manageFirebaseMessagesRepository.deleteAllMessages()).thenReturn(
             Resource.Error(false, NetworkException(ExceptionMessages.INTERNET_IS_UNAVAILABLE))
         )

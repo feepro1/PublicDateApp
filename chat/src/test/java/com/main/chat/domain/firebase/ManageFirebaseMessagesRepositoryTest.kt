@@ -15,7 +15,7 @@ class ManageFirebaseMessagesRepositoryTest {
     private val manageFirebaseMessagesRepository = mock<ManageFirebaseMessagesRepository>()
 
     @Test
-    fun `test successful delete message`() = runBlocking {
+    fun `test successful delete message from firebase`() = runBlocking {
         Mockito.`when`(manageFirebaseMessagesRepository.deleteAllMessages()).thenReturn(
             Resource.Success(true)
         )
@@ -24,7 +24,7 @@ class ManageFirebaseMessagesRepositoryTest {
     }
 
     @Test
-    fun `test failure delete message, internet is not available`() = runBlocking {
+    fun `test failure delete message from firebase, internet is not available`() = runBlocking {
         Mockito.`when`(manageFirebaseMessagesRepository.deleteAllMessages()).thenReturn(
             Resource.Error(false, NetworkException(ExceptionMessages.INTERNET_IS_UNAVAILABLE))
         )

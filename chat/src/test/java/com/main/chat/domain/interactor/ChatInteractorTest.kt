@@ -16,13 +16,16 @@ import org.mockito.kotlin.mock
 class ChatInteractorTest {
 
     private val manageMessageRepository = mock<ManageMessageRepository>()
+    private val manageFirebaseMessagesRepository = mock<ManageFirebaseMessagesRepository>()
     private val sendMessageUseCase = SendMessageUseCase(manageMessageRepository)
     private val getMessagesUseCase = GetMessagesUseCase(manageMessageRepository)
     private val deleteMessageUseCase = DeleteMessageUseCase(manageMessageRepository)
+    private val deleteFirebaseMessagesUseCase = DeleteFirebaseMessagesUseCase(manageFirebaseMessagesRepository)
     private val chatInteractor = ChatInteractor(
         sendMessageUseCase = sendMessageUseCase,
         getMessagesUseCase = getMessagesUseCase,
-        deleteMessageUseCase = deleteMessageUseCase
+        deleteMessageUseCase = deleteMessageUseCase,
+        deleteFirebaseMessagesUseCase = deleteFirebaseMessagesUseCase
     )
 
     @Test
@@ -140,5 +143,23 @@ class ChatInteractorTest {
         )
         val result = chatInteractor.deleteMessage(message)
         Assertions.assertTrue(result.exception?.message == ExceptionMessages.RECEIVER_UID_IS_EMPTY)
+    }
+
+    @Test
+    fun `test successful delete message from firebase`() = runBlocking {
+        Mockito.`when`(deleteFirebaseMessagesUseCase.execute()).thenReturn(
+            Resource.Success(true)
+        )
+        val result = chatInteractor.deleteAllMessagesFromFirebase()
+        Assertions.assertTrue(result.data == true)
+    }
+
+    @Test
+    fun `test failure delete message from firebase, internet is not available`() = runBlocking {
+        Mockito.`when`(deleteFirebaseMessagesUseCase.execute()).thenReturn(
+            Resource.Error(false, NetworkException(ExceptionMessages.INTERNET_IS_UNAVAILABLE))
+        )
+        val result = chatInteractor.deleteAllMessagesFromFirebase()
+        Assertions.assertTrue(result.exception?.message == ExceptionMessages.INTERNET_IS_UNAVAILABLE)
     }
 }
