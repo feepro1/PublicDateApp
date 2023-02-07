@@ -10,28 +10,26 @@ import org.junit.jupiter.api.Assertions
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
-class DeleteFirebaseMessageUseCaseTest {
+class DeleteFirebaseMessagesUseCaseTest {
 
-    private val manageFirebaseMessageRepository = mock<ManageFirebaseMessageRepository>()
-    private val deleteFirebaseMessageUseCase = DeleteFirebaseMessageUseCase(manageFirebaseMessageRepository)
+    private val manageFirebaseMessagesRepository = mock<ManageFirebaseMessageRepository>()
+    private val deleteFirebaseMessagesUseCase = DeleteFirebaseMessageUseCase(manageFirebaseMessagesRepository)
 
     @Test
     fun `test successful delete message`() = runBlocking {
-        val message = MessageCacheModel(message = "HelloWorld!", senderUid = "1", receiverUid = "2")
-        Mockito.`when`(manageFirebaseMessageRepository.deleteMessage(message)).thenReturn(
+        Mockito.`when`(manageFirebaseMessagesRepository.deleteAllMessages()).thenReturn(
             Resource.Success(true)
         )
-        val result = deleteFirebaseMessageUseCase.execute(message)
+        val result = deleteFirebaseMessagesUseCase.execute()
         Assertions.assertTrue(result.data == true)
     }
 
     @Test
     fun `test failure delete message, internet is not available`() = runBlocking {
-        val message = MessageCacheModel(message = "HelloWorld!", senderUid = "1", receiverUid = "2")
-        Mockito.`when`(manageFirebaseMessageRepository.deleteMessage(message)).thenReturn(
+        Mockito.`when`(manageFirebaseMessagesRepository.deleteAllMessages()).thenReturn(
             Resource.Error(false, NetworkException(ExceptionMessages.INTERNET_IS_UNAVAILABLE))
         )
-        val result = deleteFirebaseMessageUseCase.execute(message)
+        val result = deleteFirebaseMessagesUseCase.execute()
         Assertions.assertTrue(result.exception?.message == ExceptionMessages.INTERNET_IS_UNAVAILABLE)
     }
 }
