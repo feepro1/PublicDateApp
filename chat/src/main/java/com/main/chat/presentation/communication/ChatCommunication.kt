@@ -12,6 +12,8 @@ interface ChatCommunication : ObserveChatCommunication, ValueChatCommunication {
 
     fun manageMessages(messages: List<MessageCacheModel>)
 
+    fun manageMessagesWithoutClear(messages: List<MessageCacheModel>)
+
     fun manageMessage(message: MessageCacheModel)
 
     fun manageUser(user: User)
@@ -19,6 +21,7 @@ interface ChatCommunication : ObserveChatCommunication, ValueChatCommunication {
     class Base(
         private val chatMotionToastCommunication: ChatMotionToastCommunication,
         private val chatMessagesCommunication: ChatMessagesCommunication,
+        private val chatMessagesWithoutClearCommunication: ChatMessagesWithoutClearCommunication,
         private val chatUserCommunication: ChatUserCommunication,
         private val chatMessageCommunication: ChatMessageCommunication
     ): ChatCommunication {
@@ -31,6 +34,10 @@ interface ChatCommunication : ObserveChatCommunication, ValueChatCommunication {
             chatMessagesCommunication.map(messages)
         }
 
+        override fun manageMessagesWithoutClear(messages: List<MessageCacheModel>) {
+            chatMessagesWithoutClearCommunication.map(messages)
+        }
+
         override fun manageMessage(message: MessageCacheModel) {
             chatMessageCommunication.map(message)
         }
@@ -41,6 +48,10 @@ interface ChatCommunication : ObserveChatCommunication, ValueChatCommunication {
 
         override fun observeMessages(owner: LifecycleOwner, observer: Observer<List<MessageCacheModel>>) {
             chatMessagesCommunication.observe(owner, observer)
+        }
+
+        override fun observeMessagesWithoutClear(owner: LifecycleOwner, observer: Observer<List<MessageCacheModel>>) {
+            chatMessagesWithoutClearCommunication.observe(owner, observer)
         }
 
         override fun observeMessage(owner: LifecycleOwner, observer: Observer<MessageCacheModel>) {
@@ -61,6 +72,8 @@ interface ObserveChatCommunication {
 
     fun observeMessages(owner: LifecycleOwner, observer: Observer<List<MessageCacheModel>>)
 
+    fun observeMessagesWithoutClear(owner: LifecycleOwner, observer: Observer<List<MessageCacheModel>>)
+
     fun observeMessage(owner: LifecycleOwner, observer: Observer<MessageCacheModel>)
 
     fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>)
@@ -77,6 +90,10 @@ interface ChatMotionToastCommunication: Communication.Mutable<String> {
 
 interface ChatMessagesCommunication: Communication.Mutable<List<MessageCacheModel>> {
     class Base: Communication.Post<List<MessageCacheModel>>(), ChatMessagesCommunication
+}
+
+interface ChatMessagesWithoutClearCommunication: Communication.Mutable<List<MessageCacheModel>> {
+    class Base: Communication.Post<List<MessageCacheModel>>(), ChatMessagesWithoutClearCommunication
 }
 
 interface ChatUserCommunication: Communication.Mutable<User> {

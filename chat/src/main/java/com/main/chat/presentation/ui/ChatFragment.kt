@@ -46,8 +46,7 @@ class ChatFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity().applicationContext as ProvideChatComponent)
-            .provideChatComponent().inject(this)
+        (requireActivity().applicationContext as ProvideChatComponent).provideChatComponent().inject(this)
         initDesign()
 
         binding.btnBack.setOnClickListener {
@@ -55,15 +54,6 @@ class ChatFragment : BaseFragment() {
         }
         binding.rvMessages.adapter = messageAdapter
         binding.rvMessages.scrollToPosition(messageAdapter.itemCount - 1)
-
-        chatViewModel.observeMessage(this) { message ->
-            messageAdapter.map(message)
-            binding.rvMessages.scrollToPosition(messageAdapter.itemCount - 1)
-        }
-        chatViewModel.observeMessages(this) { messages ->
-            messageAdapter.mapAll(messages)
-        }
-        chatViewModel.receiveMessages()
         binding.btnSendMessage.setOnClickListener {
             chatViewModel.sendMessage(
                 MessageCacheModel(
@@ -75,16 +65,20 @@ class ChatFragment : BaseFragment() {
             )
             binding.etMessage.text.clear()
         }
-        /*
-        Firebase.firestore.collection(REFERENCE_MESSENGERS).document("wvsWyBhbhdYVCpop7G5iply5xlE3")
-            .collection(REFERENCE_CHATS).document("x45HZNgGSga50SUNDgVsNcUgRlP2")
-            .collection(REFERENCE_MESSAGES)
-            .addSnapshotListener { value, error ->
-                value?.documentChanges?.forEach {
-                    Log.d("MyLog", "22: ${it.document.toObject(MessageCacheModel::class.java)}")
-                }
-            }
-         */
+
+        chatViewModel.observeMessage(this) { message ->
+            messageAdapter.map(message)
+            binding.rvMessages.scrollToPosition(messageAdapter.itemCount - 1)
+        }
+        chatViewModel.observeMessages(this) { messages ->
+            messageAdapter.mapAll(messages)
+        }
+        chatViewModel.observeMessagesWithoutClear(this) { messages ->
+            chatViewModel.test()
+            messageAdapter.mapAllWithoutClear(messages)
+        }
+        chatViewModel.receiveMessages()
+        chatViewModel.receiveMessageRealtime(coreViewModel.valueChat()?.uid.toString())
     }
 
     @SuppressLint("SetTextI18n")

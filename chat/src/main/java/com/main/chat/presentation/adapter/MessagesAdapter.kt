@@ -1,6 +1,5 @@
 package com.main.chat.presentation.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -84,6 +83,14 @@ class MessagesAdapter : RecyclerView.Adapter<MessagesAdapter.MessagesViewHolder>
         val diff = MessageDiffUtilCallback(this.messages, newMessages)
         val result = DiffUtil.calculateDiff(diff)
         this.messages.add(message)
+        this.messages.sortBy { messageCacheModel -> messageCacheModel.dateTimeMillis }
+        result.dispatchUpdatesTo(this)
+    }
+
+    override fun mapAllWithoutClear(messages: List<MessageCacheModel>) {
+        val diff = MessageDiffUtilCallback(this.messages, messages)
+        val result = DiffUtil.calculateDiff(diff)
+        this.messages.addAll(messages)
         this.messages.sortBy { messageCacheModel -> messageCacheModel.dateTimeMillis }
         result.dispatchUpdatesTo(this)
     }

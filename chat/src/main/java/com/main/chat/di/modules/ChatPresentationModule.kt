@@ -1,5 +1,6 @@
 package com.main.chat.di.modules
 
+import com.main.chat.data.storage.local.ChatCacheRepository
 import com.main.chat.domain.interactor.ChatInteractor
 import com.main.chat.domain.navigation.ChatNavigation
 import com.main.chat.domain.usecases.DeleteMessageUseCase
@@ -22,13 +23,15 @@ class ChatPresentationModule {
         chatInteractor: ChatInteractor,
         chatCommunication: ChatCommunication,
         chatNavigation: ChatNavigation,
-        dispatchers: DispatchersList
+        dispatchers: DispatchersList,
+        chatCacheRepository: ChatCacheRepository
     ): ChatViewModelFactory {
         return ChatViewModelFactory(
             chatInteractor = chatInteractor,
             chatCommunication = chatCommunication,
             chatNavigation = chatNavigation,
-            dispatchers = dispatchers
+            dispatchers = dispatchers,
+            chatCacheRepository = chatCacheRepository
         )
     }
 
@@ -36,12 +39,14 @@ class ChatPresentationModule {
     fun provideChatCommunication(
         chatMotionToastCommunication: ChatMotionToastCommunication,
         chatMessagesCommunication: ChatMessagesCommunication,
+        chatMessagesWithoutClearCommunication: ChatMessagesWithoutClearCommunication,
         chatUserCommunication: ChatUserCommunication,
         chatMessageCommunication: ChatMessageCommunication
     ): ChatCommunication {
         return ChatCommunication.Base(
             chatMotionToastCommunication = chatMotionToastCommunication,
             chatMessagesCommunication = chatMessagesCommunication,
+            chatMessagesWithoutClearCommunication = chatMessagesWithoutClearCommunication,
             chatUserCommunication = chatUserCommunication,
             chatMessageCommunication = chatMessageCommunication
         )
@@ -65,6 +70,11 @@ class ChatPresentationModule {
     @Provides
     fun provideChatMessageCommunication(): ChatMessageCommunication {
         return ChatMessageCommunication.Base()
+    }
+
+    @Provides
+    fun provideChatMessagesWithoutClearCommunication(): ChatMessagesWithoutClearCommunication {
+        return ChatMessagesWithoutClearCommunication.Base()
     }
 
     @Provides
