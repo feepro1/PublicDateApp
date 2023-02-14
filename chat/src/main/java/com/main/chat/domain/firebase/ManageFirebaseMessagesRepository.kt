@@ -4,5 +4,5 @@ import com.main.core.Resource
 
 interface ManageFirebaseMessagesRepository {
 
-    suspend fun deleteAllMessages(): Resource<Boolean>
+    fun deleteAllMessages(interlocutorUid: String): Resource<Boolean>
 }

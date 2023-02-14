@@ -18,7 +18,7 @@ class ChatInteractor(
         return sendMessageUseCase.execute(messageCacheModel)
     }
 
-    suspend fun getMessage(): Resource<List<MessageCacheModel>> {
+    suspend fun getMessages(): Resource<List<MessageCacheModel>> {
         return getMessagesUseCase.execute()
     }
 
@@ -26,7 +26,7 @@ class ChatInteractor(
         return deleteMessageUseCase.execute(messageCacheModel)
     }
 
-    suspend fun deleteAllMessagesFromFirebase(): Resource<Boolean> {
-        return deleteFirebaseMessagesUseCase.execute()
+    fun deleteAllMessagesFromFirebase(interlocutorUid: String): Resource<Boolean> {
+        return deleteFirebaseMessagesUseCase.execute(interlocutorUid)
     }
 }

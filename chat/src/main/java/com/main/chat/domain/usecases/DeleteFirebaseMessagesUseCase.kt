@@ -7,7 +7,7 @@ class DeleteFirebaseMessagesUseCase(
     private val manageFirebaseMessagesRepository: ManageFirebaseMessagesRepository
 ) {
 
-    suspend fun execute(): Resource<Boolean> {
-        return manageFirebaseMessagesRepository.deleteAllMessages()
+    fun execute(interlocutorUid: String): Resource<Boolean> {
+        return manageFirebaseMessagesRepository.deleteAllMessages(interlocutorUid)
     }
 }

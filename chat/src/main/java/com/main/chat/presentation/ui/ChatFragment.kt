@@ -74,7 +74,6 @@ class ChatFragment : BaseFragment() {
             messageAdapter.mapAll(messages)
         }
         chatViewModel.observeMessagesWithoutClear(this) { messages ->
-            chatViewModel.test()
             messageAdapter.mapAllWithoutClear(messages)
         }
         chatViewModel.receiveMessages()

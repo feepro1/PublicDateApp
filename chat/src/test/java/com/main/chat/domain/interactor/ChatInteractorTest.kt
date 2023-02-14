@@ -9,6 +9,12 @@ import com.main.chat.domain.usecases.GetMessagesUseCase
 import com.main.chat.domain.usecases.SendMessageUseCase
 import com.main.core.Resource
 import com.main.core.exception.*
+import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
+import com.main.core.exception.ExceptionMessages.MESSAGE_IS_EMPTY
+import com.main.core.exception.ExceptionMessages.MESSAGE_WAS_NOT_FOUND
+import com.main.core.exception.ExceptionMessages.RECEIVER_UID_IS_EMPTY
+import com.main.core.exception.ExceptionMessages.SENDER_UID_IS_EMPTY
+import com.main.core.exception.ExceptionMessages.USER_WAS_NOT_FOUND
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.jupiter.api.Assertions
@@ -44,20 +50,20 @@ class ChatInteractorTest {
     fun `test failure send message, internet is not available`() = runBlocking {
         val message = MessageCacheModel(message = "HelloWorld!", senderUid = "", receiverUid = "")
         Mockito.`when`(sendMessageUseCase.execute(message)).thenReturn(
-            Resource.Error(false, NetworkException(ExceptionMessages.INTERNET_IS_UNAVAILABLE))
+            Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
         )
         val result = chatInteractor.sendMessage(message)
-        Assertions.assertTrue(result.exception?.message == ExceptionMessages.INTERNET_IS_UNAVAILABLE)
+        Assertions.assertTrue(result.exception?.message == INTERNET_IS_UNAVAILABLE)
     }
 
     @Test
     fun `test failure send message, user was not found`() = runBlocking {
         val message = MessageCacheModel(message = "HelloWorld!", senderUid = "", receiverUid = "")
         Mockito.`when`(sendMessageUseCase.execute(message)).thenReturn(
-            Resource.Error(false, UserException(ExceptionMessages.USER_WAS_NOT_FOUND))
+            Resource.Error(false, UserException(USER_WAS_NOT_FOUND))
         )
         val result = chatInteractor.sendMessage(message)
-        Assertions.assertTrue(result.exception?.message == ExceptionMessages.USER_WAS_NOT_FOUND)
+        Assertions.assertTrue(result.exception?.message == USER_WAS_NOT_FOUND)
     }
 
     @Test
@@ -65,7 +71,7 @@ class ChatInteractorTest {
         Mockito.`when`(getMessagesUseCase.execute()).thenReturn(
             Resource.Success(listOf(MessageCacheModel(message = "Hello World", receiverUid = "", senderUid = "")))
         )
-        val result = chatInteractor.getMessage()
+        val result = chatInteractor.getMessages()
         Assertions.assertTrue(result.data?.isNotEmpty() == true)
     }
 
@@ -74,17 +80,17 @@ class ChatInteractorTest {
         Mockito.`when`(getMessagesUseCase.execute()).thenReturn(
             Resource.Success(emptyList())
         )
-        val result = chatInteractor.getMessage()
+        val result = chatInteractor.getMessages()
         Assertions.assertTrue(result.data?.isEmpty() == true)
     }
 
     @Test
     fun `test failure get messages, internet is not available`() = runBlocking {
         Mockito.`when`(getMessagesUseCase.execute()).thenReturn(
-            Resource.Error(emptyList(), NetworkException(ExceptionMessages.INTERNET_IS_UNAVAILABLE))
+            Resource.Error(emptyList(), NetworkException(INTERNET_IS_UNAVAILABLE))
         )
-        val result = chatInteractor.getMessage()
-        Assertions.assertTrue(result.exception?.message == ExceptionMessages.INTERNET_IS_UNAVAILABLE)
+        val result = chatInteractor.getMessages()
+        Assertions.assertTrue(result.exception?.message == INTERNET_IS_UNAVAILABLE)
     }
 
     @Test
@@ -101,67 +107,67 @@ class ChatInteractorTest {
     fun `test failure delete message, internet is not available`() = runBlocking {
         val message = MessageCacheModel(message = "HelloWorld!", senderUid = "1", receiverUid = "2")
         Mockito.`when`(deleteMessageUseCase.execute(message)).thenReturn(
-            Resource.Error(false, NetworkException(ExceptionMessages.INTERNET_IS_UNAVAILABLE))
+            Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
         )
         val result = chatInteractor.deleteMessage(message)
-        Assertions.assertTrue(result.exception?.message == ExceptionMessages.INTERNET_IS_UNAVAILABLE)
+        Assertions.assertTrue(result.exception?.message == INTERNET_IS_UNAVAILABLE)
     }
 
     @Test
     fun `test failure delete message, message was not found`() = runBlocking {
         val message = MessageCacheModel(message = "HelloWorld!", senderUid = "1", receiverUid = "2")
         Mockito.`when`(deleteMessageUseCase.execute(message)).thenReturn(
-            Resource.Error(false, MessageException(ExceptionMessages.MESSAGE_WAS_NOT_FOUND))
+            Resource.Error(false, MessageException(MESSAGE_WAS_NOT_FOUND))
         )
         val result = chatInteractor.deleteMessage(message)
-        Assertions.assertTrue(result.exception?.message == ExceptionMessages.MESSAGE_WAS_NOT_FOUND)
+        Assertions.assertTrue(result.exception?.message == MESSAGE_WAS_NOT_FOUND)
     }
 
     @Test
     fun `test failure delete message, message is empty`() = runBlocking {
         val message = MessageCacheModel(message = "", senderUid = "1", receiverUid = "2")
         Mockito.`when`(deleteMessageUseCase.execute(message)).thenReturn(
-            Resource.Error(false, MessageException(ExceptionMessages.MESSAGE_IS_EMPTY))
+            Resource.Error(false, MessageException(MESSAGE_IS_EMPTY))
         )
         val result = chatInteractor.deleteMessage(message)
-        Assertions.assertTrue(result.exception?.message == ExceptionMessages.MESSAGE_IS_EMPTY)
+        Assertions.assertTrue(result.exception?.message == MESSAGE_IS_EMPTY)
     }
 
     @Test
     fun `test failure delete message, senderUid is empty`() = runBlocking {
         val message = MessageCacheModel(message = "Hello World", senderUid = "", receiverUid = "2")
         Mockito.`when`(deleteMessageUseCase.execute(message)).thenReturn(
-            Resource.Error(false, UidException(ExceptionMessages.SENDER_UID_IS_EMPTY))
+            Resource.Error(false, UidException(SENDER_UID_IS_EMPTY))
         )
         val result = chatInteractor.deleteMessage(message)
-        Assertions.assertTrue(result.exception?.message == ExceptionMessages.SENDER_UID_IS_EMPTY)
+        Assertions.assertTrue(result.exception?.message == SENDER_UID_IS_EMPTY)
     }
 
     @Test
     fun `test failure delete message, receiverUid is empty`() = runBlocking {
         val message = MessageCacheModel(message = "Hello World", senderUid = "1", receiverUid = "")
         Mockito.`when`(deleteMessageUseCase.execute(message)).thenReturn(
-            Resource.Error(false, UidException(ExceptionMessages.RECEIVER_UID_IS_EMPTY))
+            Resource.Error(false, UidException(RECEIVER_UID_IS_EMPTY))
         )
         val result = chatInteractor.deleteMessage(message)
-        Assertions.assertTrue(result.exception?.message == ExceptionMessages.RECEIVER_UID_IS_EMPTY)
+        Assertions.assertTrue(result.exception?.message == RECEIVER_UID_IS_EMPTY)
     }
 
     @Test
     fun `test successful delete message from firebase`() = runBlocking {
-        Mockito.`when`(deleteFirebaseMessagesUseCase.execute()).thenReturn(
+        Mockito.`when`(deleteFirebaseMessagesUseCase.execute("some_uid")).thenReturn(
             Resource.Success(true)
         )
-        val result = chatInteractor.deleteAllMessagesFromFirebase()
+        val result = chatInteractor.deleteAllMessagesFromFirebase("some_uid")
         Assertions.assertTrue(result.data == true)
     }
 
     @Test
     fun `test failure delete message from firebase, internet is not available`() = runBlocking {
-        Mockito.`when`(deleteFirebaseMessagesUseCase.execute()).thenReturn(
-            Resource.Error(false, NetworkException(ExceptionMessages.INTERNET_IS_UNAVAILABLE))
+        Mockito.`when`(deleteFirebaseMessagesUseCase.execute("some_uid")).thenReturn(
+            Resource.Error(false, NetworkException(INTERNET_IS_UNAVAILABLE))
         )
-        val result = chatInteractor.deleteAllMessagesFromFirebase()
-        Assertions.assertTrue(result.exception?.message == ExceptionMessages.INTERNET_IS_UNAVAILABLE)
+        val result = chatInteractor.deleteAllMessagesFromFirebase("some_uid")
+        Assertions.assertTrue(result.exception?.message == INTERNET_IS_UNAVAILABLE)
     }
 }

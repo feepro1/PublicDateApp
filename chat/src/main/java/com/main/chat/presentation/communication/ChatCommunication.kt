@@ -62,9 +62,7 @@ interface ChatCommunication : ObserveChatCommunication, ValueChatCommunication {
             chatMotionToastCommunication.observe(owner, observer)
         }
 
-        override fun valueUser(): User? {
-            return chatUserCommunication.value()
-        }
+        override fun valueUser() = chatUserCommunication.value()
     }
 }
 
