@@ -41,14 +41,16 @@ class ChatPresentationModule {
         chatMessagesCommunication: ChatMessagesCommunication,
         chatMessagesWithoutClearCommunication: ChatMessagesWithoutClearCommunication,
         chatUserCommunication: ChatUserCommunication,
-        chatMessageCommunication: ChatMessageCommunication
+        chatMessageCommunication: ChatMessageCommunication,
+        chatListenerRegistrationCommunication: ChatListenerRegistrationCommunication
     ): ChatCommunication {
         return ChatCommunication.Base(
             chatMotionToastCommunication = chatMotionToastCommunication,
             chatMessagesCommunication = chatMessagesCommunication,
             chatMessagesWithoutClearCommunication = chatMessagesWithoutClearCommunication,
             chatUserCommunication = chatUserCommunication,
-            chatMessageCommunication = chatMessageCommunication
+            chatMessageCommunication = chatMessageCommunication,
+            chatListenerRegistrationCommunication = chatListenerRegistrationCommunication
         )
     }
 
@@ -75,6 +77,11 @@ class ChatPresentationModule {
     @Provides
     fun provideChatMessagesWithoutClearCommunication(): ChatMessagesWithoutClearCommunication {
         return ChatMessagesWithoutClearCommunication.Base()
+    }
+
+    @Provides
+    fun provideChatListenerRegistrationCommunication(): ChatListenerRegistrationCommunication {
+        return ChatListenerRegistrationCommunication.Base()
     }
 
     @Provides

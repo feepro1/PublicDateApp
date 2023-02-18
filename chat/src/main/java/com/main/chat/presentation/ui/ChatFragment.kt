@@ -86,4 +86,9 @@ class ChatFragment : BaseFragment() {
         Glide.with(requireContext()).load(user?.avatarUrl).into(binding.ivUserAvatar)
         binding.tvUsername.text = "${user?.firstName} ${user?.lastName}"
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        chatViewModel.valueListenerRegistration()?.remove()
+    }
 }

@@ -8,22 +8,23 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.firestore.proto.MaybeDocument.DocumentTypeCase
 import com.google.firebase.ktx.Firebase
+import com.main.chat.data.entities.User
 import com.main.chat.data.storage.local.ChatCacheRepository
 import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.chat.domain.interactor.ChatInteractor
 import com.main.chat.domain.navigation.ChatNavigation
 import com.main.chat.presentation.communication.ChatCommunication
 import com.main.chat.presentation.communication.ObserveChatCommunication
+import com.main.chat.presentation.communication.ValueChatCommunication
 import com.main.core.DispatchersList
 import com.main.core.firebase.FirebaseConstants.REFERENCE_CHATS
 import com.main.core.firebase.FirebaseConstants.REFERENCE_MESSAGES
 import com.main.core.firebase.FirebaseConstants.REFERENCE_MESSENGERS
 import kotlinx.coroutines.launch
-import org.w3c.dom.DocumentType
 
 class ChatViewModel(
     private val chatInteractor: ChatInteractor,
@@ -31,7 +32,7 @@ class ChatViewModel(
     private val chatNavigation: ChatNavigation,
     private val dispatchers: DispatchersList,
     private val chatCacheRepository: ChatCacheRepository
-) : ViewModel(), ObserveChatCommunication, ChatNavigation {
+) : ViewModel(), ObserveChatCommunication, ChatNavigation, ValueChatCommunication {
 
     fun receiveMessages() {
         viewModelScope.launch(dispatchers.io()) {
@@ -70,28 +71,22 @@ class ChatViewModel(
     fun receiveMessageRealtime(interlocutorUid: String) {
         viewModelScope.launch(dispatchers.io()) {
             val uid = Firebase.auth.currentUser?.uid.toString()
-            val messages = mutableSetOf<MessageCacheModel>()
-            //todo make logic, can be problems throws deleteAllMessagesFromFirebase()
+            val messages = mutableListOf<MessageCacheModel>()
             val task = Firebase.firestore.collection(REFERENCE_MESSENGERS).document(uid)
                 .collection(REFERENCE_CHATS).document(interlocutorUid).collection(REFERENCE_MESSAGES)
-            task.addSnapshotListener { value, _ ->
+            val listenerRegistration = task.addSnapshotListener { value, _ ->
                 value?.documentChanges?.forEachIndexed { index, documentChange ->
                     val message = documentChange.document.toObject<MessageCacheModel>()
                     if (documentChange.type == DocumentChange.Type.ADDED) {
-                        Log.d("MyLog", "documentChange | index: $index | message: $message")
                         messages.add(message)
-                    }
-                    if (documentChange.type == DocumentChange.Type.REMOVED) {
-                        Log.d("MyLog", "Removed")
+                        chatCacheRepository.addMessage(message)
                     }
                 }
                 chatCommunication.manageMessagesWithoutClear(messages.toList())
-                messages.forEach { message ->
-                    chatCacheRepository.addMessage(message)
-                }
                 messages.clear()
                 chatInteractor.deleteAllMessagesFromFirebase(interlocutorUid)
             }
+            chatCommunication.manageListenerRegistration(listenerRegistration)
         }
     }
 
@@ -114,4 +109,7 @@ class ChatViewModel(
     override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) {
         chatCommunication.observeMotionToastError(owner, observer)
     }
+
+    override fun valueUser() = chatCommunication.valueUser()
+    override fun valueListenerRegistration() = chatCommunication.valueListenerRegistration()
 }

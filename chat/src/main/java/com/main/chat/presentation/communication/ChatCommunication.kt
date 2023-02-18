@@ -2,6 +2,7 @@ package com.main.chat.presentation.communication
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.google.firebase.firestore.ListenerRegistration
 import com.main.chat.data.entities.User
 import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.core.communication.Communication
@@ -18,12 +19,15 @@ interface ChatCommunication : ObserveChatCommunication, ValueChatCommunication {
 
     fun manageUser(user: User)
 
+    fun manageListenerRegistration(listenerRegistration: ListenerRegistration)
+
     class Base(
         private val chatMotionToastCommunication: ChatMotionToastCommunication,
         private val chatMessagesCommunication: ChatMessagesCommunication,
         private val chatMessagesWithoutClearCommunication: ChatMessagesWithoutClearCommunication,
         private val chatUserCommunication: ChatUserCommunication,
-        private val chatMessageCommunication: ChatMessageCommunication
+        private val chatMessageCommunication: ChatMessageCommunication,
+        private val chatListenerRegistrationCommunication: ChatListenerRegistrationCommunication
     ): ChatCommunication {
 
         override fun manageMotionToastError(error: String) {
@@ -46,6 +50,10 @@ interface ChatCommunication : ObserveChatCommunication, ValueChatCommunication {
             chatUserCommunication.map(user)
         }
 
+        override fun manageListenerRegistration(listenerRegistration: ListenerRegistration) {
+            chatListenerRegistrationCommunication.map(listenerRegistration)
+        }
+
         override fun observeMessages(owner: LifecycleOwner, observer: Observer<List<MessageCacheModel>>) {
             chatMessagesCommunication.observe(owner, observer)
         }
@@ -63,6 +71,7 @@ interface ChatCommunication : ObserveChatCommunication, ValueChatCommunication {
         }
 
         override fun valueUser() = chatUserCommunication.value()
+        override fun valueListenerRegistration() = chatListenerRegistrationCommunication.value()
     }
 }
 
@@ -80,6 +89,8 @@ interface ObserveChatCommunication {
 interface ValueChatCommunication {
 
     fun valueUser(): User?
+
+    fun valueListenerRegistration(): ListenerRegistration?
 }
 
 interface ChatMotionToastCommunication: Communication.Mutable<String> {
@@ -100,4 +111,8 @@ interface ChatUserCommunication: Communication.Mutable<User> {
 
 interface ChatMessageCommunication: Communication.Mutable<MessageCacheModel> {
     class Base: Communication.Post<MessageCacheModel>(), ChatMessageCommunication
+}
+
+interface ChatListenerRegistrationCommunication: Communication.Mutable<ListenerRegistration> {
+    class Base: Communication.Post<ListenerRegistration>(), ChatListenerRegistrationCommunication
 }
