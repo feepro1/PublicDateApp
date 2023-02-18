@@ -1,5 +1,6 @@
 package com.main.chat.data.firebase.repository
 
+import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.main.chat.data.storage.local.MessageCacheModel
@@ -21,6 +22,7 @@ interface SendMessageFirebaseRepository {
     class Base : SendMessageFirebaseRepository {
 
         override suspend fun sendMessage(messageCacheModel: MessageCacheModel): Resource<Boolean> {
+            Log.d("MyLog", "sendMessageFirebase: $messageCacheModel")
             val isBannedTask = Firebase.firestore.collection(REFERENCE_MESSENGERS).document(messageCacheModel.receiverUid)
                 .collection(REFERENCE_CHATS).document(messageCacheModel.senderUid).get()
             isBannedTask.await()
@@ -43,24 +45,25 @@ interface SendMessageFirebaseRepository {
                     .document(messageCacheModel.senderUid).get()
                 val receiverUserTask = Firebase.firestore.collection(REFERENCE_USERS)
                     .document(messageCacheModel.receiverUid).get()
+
                 senderUserTask.await()
                 receiverUserTask.await()
-                //todo correct/check the logic
+
                 val senderUserData = senderUserTask.result.toObject(User::class.java)
                 val receiverUserData = receiverUserTask.result.toObject(User::class.java)
+
                 senderUserData?.userChats?.put(
                     messageCacheModel.receiverUid,
-                    senderUserData.mapToChat().copy(lastMessage = messageCacheModel.message)
+                    receiverUserData?.mapToChat()?.copy(lastMessage = messageCacheModel.message) ?: Chat()
                 )
                 receiverUserData?.userChats?.put(
                     messageCacheModel.senderUid,
-                    receiverUserData.mapToChat().copy(lastMessage = messageCacheModel.message)
+                    senderUserData?.mapToChat()?.copy(lastMessage = messageCacheModel.message) ?: Chat()
                 )
                 if (senderUserData != null && receiverUserData != null) {
                     Firebase.firestore.collection(REFERENCE_USERS).document(messageCacheModel.receiverUid).set(receiverUserData)
                     Firebase.firestore.collection(REFERENCE_USERS).document(messageCacheModel.senderUid).set(senderUserData)
                 }
-
                 if (sendMessageTask.isSuccessful) {
                     Resource.Success(true)
                 } else {

@@ -17,6 +17,7 @@ abstract class BaseChatTest {
         val messages = mutableListOf<List<MessageCacheModel>>()
         val message = mutableListOf<MessageCacheModel>()
         val user = mutableListOf<User>()
+        val messagesWithoutClear = mutableListOf<List<MessageCacheModel>>()
 
         override fun manageMotionToastError(error: String) {
             motionToastError.add(error)
@@ -24,6 +25,10 @@ abstract class BaseChatTest {
 
         override fun manageMessages(messages: List<MessageCacheModel>) {
             this.messages.add(messages)
+        }
+
+        override fun manageMessagesWithoutClear(messages: List<MessageCacheModel>) {
+            messagesWithoutClear.add(messages)
         }
 
         override fun manageMessage(message: MessageCacheModel) {
@@ -35,6 +40,7 @@ abstract class BaseChatTest {
         }
 
         override fun observeMessages(owner: LifecycleOwner, observer: Observer<List<MessageCacheModel>>) = Unit
+        override fun observeMessagesWithoutClear(owner: LifecycleOwner, observer: Observer<List<MessageCacheModel>>) = Unit
         override fun observeMessage(owner: LifecycleOwner, observer: Observer<MessageCacheModel>) = Unit
         override fun observeMotionToastError(owner: LifecycleOwner, observer: Observer<String>) = Unit
         override fun valueUser(): User = this.user.first()

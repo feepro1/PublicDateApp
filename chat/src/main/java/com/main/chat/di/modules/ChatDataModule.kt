@@ -1,5 +1,6 @@
 package com.main.chat.di.modules
 
+import com.main.chat.data.firebase.ManageFirebaseMessagesRepositoryImpl
 import com.main.chat.data.firebase.ManageMessageRepositoryImpl
 import com.main.chat.data.firebase.repository.SendMessageFirebaseRepository
 import com.main.chat.data.repository.DeleteMessageRepository
@@ -12,6 +13,7 @@ import com.main.chat.data.storage.firebase.notification.repository.NotificationR
 import com.main.chat.data.storage.local.ChatCacheRepository
 import com.main.chat.data.storage.local.ChatCacheRepositoryImpl
 import com.main.chat.data.storage.local.ChatDao
+import com.main.chat.domain.firebase.ManageFirebaseMessagesRepository
 import com.main.chat.domain.firebase.ManageMessageRepository
 import dagger.Module
 import dagger.Provides
@@ -34,6 +36,11 @@ class ChatDataModule(
             sendMessageRepository = sendMessageRepository,
             deleteMessageRepository = deleteMessageRepository
         )
+    }
+
+    @Provides
+    fun provideManageFirebaseMessagesRepository(): ManageFirebaseMessagesRepository {
+        return ManageFirebaseMessagesRepositoryImpl()
     }
 
     @Provides

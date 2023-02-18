@@ -1,5 +1,7 @@
 package com.main.chat.di.modules
 
+import com.main.chat.data.storage.local.ChatCacheRepository
+import com.main.chat.domain.interactor.ChatInteractor
 import com.main.chat.domain.navigation.ChatNavigation
 import com.main.chat.domain.usecases.DeleteMessageUseCase
 import com.main.chat.domain.usecases.GetMessagesUseCase
@@ -18,20 +20,18 @@ class ChatPresentationModule {
 
     @Provides
     fun provideChatViewModelFactory(
-        getMessagesUseCase: GetMessagesUseCase,
-        sendMessageUseCase: SendMessageUseCase,
-        deleteMessageUseCase: DeleteMessageUseCase,
+        chatInteractor: ChatInteractor,
         chatCommunication: ChatCommunication,
         chatNavigation: ChatNavigation,
-        dispatchers: DispatchersList
+        dispatchers: DispatchersList,
+        chatCacheRepository: ChatCacheRepository
     ): ChatViewModelFactory {
         return ChatViewModelFactory(
-            getMessagesUseCase = getMessagesUseCase,
-            sendMessageUseCase = sendMessageUseCase,
-            deleteMessageUseCase = deleteMessageUseCase,
+            chatInteractor = chatInteractor,
             chatCommunication = chatCommunication,
             chatNavigation = chatNavigation,
-            dispatchers = dispatchers
+            dispatchers = dispatchers,
+            chatCacheRepository = chatCacheRepository
         )
     }
 
@@ -39,14 +39,18 @@ class ChatPresentationModule {
     fun provideChatCommunication(
         chatMotionToastCommunication: ChatMotionToastCommunication,
         chatMessagesCommunication: ChatMessagesCommunication,
+        chatMessagesWithoutClearCommunication: ChatMessagesWithoutClearCommunication,
         chatUserCommunication: ChatUserCommunication,
-        chatMessageCommunication: ChatMessageCommunication
+        chatMessageCommunication: ChatMessageCommunication,
+        chatListenerRegistrationCommunication: ChatListenerRegistrationCommunication
     ): ChatCommunication {
         return ChatCommunication.Base(
             chatMotionToastCommunication = chatMotionToastCommunication,
             chatMessagesCommunication = chatMessagesCommunication,
+            chatMessagesWithoutClearCommunication = chatMessagesWithoutClearCommunication,
             chatUserCommunication = chatUserCommunication,
-            chatMessageCommunication = chatMessageCommunication
+            chatMessageCommunication = chatMessageCommunication,
+            chatListenerRegistrationCommunication = chatListenerRegistrationCommunication
         )
     }
 
@@ -68,6 +72,16 @@ class ChatPresentationModule {
     @Provides
     fun provideChatMessageCommunication(): ChatMessageCommunication {
         return ChatMessageCommunication.Base()
+    }
+
+    @Provides
+    fun provideChatMessagesWithoutClearCommunication(): ChatMessagesWithoutClearCommunication {
+        return ChatMessagesWithoutClearCommunication.Base()
+    }
+
+    @Provides
+    fun provideChatListenerRegistrationCommunication(): ChatListenerRegistrationCommunication {
+        return ChatListenerRegistrationCommunication.Base()
     }
 
     @Provides

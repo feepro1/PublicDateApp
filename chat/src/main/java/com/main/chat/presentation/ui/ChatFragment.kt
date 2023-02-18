@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.main.chat.data.storage.local.MessageCacheModel
 import com.main.chat.databinding.FragmentChatBinding
@@ -45,8 +46,7 @@ class ChatFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity().applicationContext as ProvideChatComponent)
-            .provideChatComponent().inject(this)
+        (requireActivity().applicationContext as ProvideChatComponent).provideChatComponent().inject(this)
         initDesign()
 
         binding.btnBack.setOnClickListener {
@@ -54,18 +54,6 @@ class ChatFragment : BaseFragment() {
         }
         binding.rvMessages.adapter = messageAdapter
         binding.rvMessages.scrollToPosition(messageAdapter.itemCount - 1)
-
-        chatViewModel.observeMessage(this) { message ->
-            messageAdapter.map(message)
-            binding.rvMessages.scrollToPosition(messageAdapter.itemCount - 1)
-        }
-        chatViewModel.observeMessages(this) { messages ->
-            messageAdapter.mapAll(messages)
-        }
-        chatViewModel.receiveMessages()
-        Log.d("MyLog", "1"+coreViewModel.valueChat()?.uid.toString())
-        Log.d("MyLog", "2"+Firebase.auth.currentUser?.uid.toString())
-        //todo log
         binding.btnSendMessage.setOnClickListener {
             chatViewModel.sendMessage(
                 MessageCacheModel(
@@ -77,15 +65,19 @@ class ChatFragment : BaseFragment() {
             )
             binding.etMessage.text.clear()
         }
-        val uid = Firebase.auth.currentUser?.uid.toString()
-        val interlocutorUid = coreViewModel.valueChat()?.uid.toString()
-        Firebase.firestore.collection(REFERENCE_MESSENGERS).document(uid)
-            .collection(REFERENCE_CHATS).document()
-            .collection(REFERENCE_MESSAGES).document(interlocutorUid)
-            .addSnapshotListener { value, error ->
-                Log.d("MyLog", "ChatFragment, value: ${value.toString()}")
-                //todo add to database, check logic
-            }
+
+        chatViewModel.observeMessage(this) { message ->
+            messageAdapter.map(message)
+            binding.rvMessages.scrollToPosition(messageAdapter.itemCount - 1)
+        }
+        chatViewModel.observeMessages(this) { messages ->
+            messageAdapter.mapAll(messages)
+        }
+        chatViewModel.observeMessagesWithoutClear(this) { messages ->
+            messageAdapter.mapAllWithoutClear(messages)
+        }
+        chatViewModel.receiveMessages()
+        chatViewModel.receiveMessageRealtime(coreViewModel.valueChat()?.uid.toString())
     }
 
     @SuppressLint("SetTextI18n")
@@ -93,5 +85,10 @@ class ChatFragment : BaseFragment() {
         val user = coreViewModel.valueChat()
         Glide.with(requireContext()).load(user?.avatarUrl).into(binding.ivUserAvatar)
         binding.tvUsername.text = "${user?.firstName} ${user?.lastName}"
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        chatViewModel.valueListenerRegistration()?.remove()
     }
 }

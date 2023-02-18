@@ -61,13 +61,13 @@ class Application : Application(), ProvideLoginComponent, ProvideRegisterCompone
     override fun onCreate() {
         super.onCreate()
         //todo test is here bug or no
-//        val chatCacheRepository = ChatCacheRepositoryImpl(DatingDatabase.getInstance(applicationContext).chatDao())
-//        CoroutineScope(Dispatchers.IO).launch {
-//            manageNotificationToken.updateToken()
-//            val messages = manageMessages.receiveMessagesFromFirebase()
-//            manageMessages.deleteMessagesOnFirebase()
-//            manageMessages.addMessagesToLocalDatabase(messages, chatCacheRepository)
-//        }
+        val chatCacheRepository = ChatCacheRepositoryImpl(DatingDatabase.getInstance(applicationContext).chatDao())
+        CoroutineScope(Dispatchers.IO).launch {
+            manageNotificationToken.updateToken()
+            val messages = manageMessages.receiveMessagesFromFirebase()
+            manageMessages.deleteMessagesOnFirebase()
+            manageMessages.addMessagesToLocalDatabase(messages, chatCacheRepository)
+        }
     }
 
     private val loginComponent by lazy {

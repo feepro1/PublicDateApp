@@ -1,23 +1,26 @@
 package com.main.chat.presentation.viewmodel
 
 import com.main.chat.BaseChatTest
+import com.main.chat.data.storage.local.ChatCacheRepository
+import com.main.chat.data.storage.local.ChatCacheRepositoryImpl
+import com.main.chat.data.storage.local.ChatDao
 import com.main.chat.data.storage.local.MessageCacheModel
+import com.main.chat.domain.firebase.ManageFirebaseMessagesRepository
 import com.main.chat.domain.firebase.ManageMessageRepository
+import com.main.chat.domain.interactor.ChatInteractor
 import com.main.chat.domain.navigation.ChatNavigation
+import com.main.chat.domain.usecases.DeleteFirebaseMessagesUseCase
 import com.main.chat.domain.usecases.DeleteMessageUseCase
 import com.main.chat.domain.usecases.GetMessagesUseCase
 import com.main.chat.domain.usecases.SendMessageUseCase
 import com.main.core.Resource
+import com.main.core.exception.*
 import com.main.core.exception.ExceptionMessages.INTERNET_IS_UNAVAILABLE
 import com.main.core.exception.ExceptionMessages.MESSAGE_IS_EMPTY
 import com.main.core.exception.ExceptionMessages.MESSAGE_WAS_NOT_FOUND
 import com.main.core.exception.ExceptionMessages.RECEIVER_UID_IS_EMPTY
 import com.main.core.exception.ExceptionMessages.SENDER_UID_IS_EMPTY
 import com.main.core.exception.ExceptionMessages.USER_WAS_NOT_FOUND
-import com.main.core.exception.MessageException
-import com.main.core.exception.NetworkException
-import com.main.core.exception.UidException
-import com.main.core.exception.UserException
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.jupiter.api.Assertions
@@ -27,17 +30,25 @@ import org.mockito.kotlin.mock
 class ChatViewModelTest : BaseChatTest() {
 
     private val chatCommunication = TestChatCommunication()
+    private val chatCacheRepository = mock<ChatCacheRepository>()
     private val manageMessageRepository = mock<ManageMessageRepository>()
+    private val manageFirebaseMessagesRepository = mock<ManageFirebaseMessagesRepository>()
     private val sendMessageUseCase = SendMessageUseCase(manageMessageRepository)
     private val getMessagesUseCase = GetMessagesUseCase(manageMessageRepository)
     private val deleteMessageUseCase = DeleteMessageUseCase(manageMessageRepository)
-    private val chatViewModel = ChatViewModel(
-        getMessagesUseCase = getMessagesUseCase,
+    private val deleteFirebaseMessagesUseCase = DeleteFirebaseMessagesUseCase(manageFirebaseMessagesRepository)
+    private val chatInteractor = ChatInteractor(
         sendMessageUseCase = sendMessageUseCase,
+        getMessagesUseCase = getMessagesUseCase,
         deleteMessageUseCase = deleteMessageUseCase,
+        deleteFirebaseMessagesUseCase = deleteFirebaseMessagesUseCase
+    )
+    private val chatViewModel = ChatViewModel(
+        chatInteractor = chatInteractor,
         chatCommunication = chatCommunication,
         chatNavigation = ChatNavigation.Base(),
-        dispatchers = TestDispatchersList()
+        dispatchers = TestDispatchersList(),
+        chatCacheRepository = chatCacheRepository
     )
 
     @Test

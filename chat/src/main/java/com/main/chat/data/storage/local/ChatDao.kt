@@ -6,7 +6,7 @@ import androidx.room.*
 @Dao
 interface ChatDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addMessage(messageCacheModel: MessageCacheModel)
 
     @Delete

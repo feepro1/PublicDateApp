@@ -7,4 +7,6 @@ interface ManageChatAdapterData {
     fun mapAll(messages: List<MessageCacheModel>)
 
     fun map(message: MessageCacheModel)
+
+    fun mapAllWithoutClear(messages: List<MessageCacheModel>)
 }
